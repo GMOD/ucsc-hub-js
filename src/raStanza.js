@@ -20,8 +20,8 @@ class RaStanza extends Map {
   /**
    * Create a stanza
    * @param {(string|string[])} [stanza=[]] - An ra file stanza, either as a
-   * string or a list of strings with one line per entry. Supports both LF and
-   * CRLF newlines.
+   * string or a array of strings with one line per entry. Supports both LF and
+   * CRLF line terminators.
    */
   constructor(stanza) {
     super()
