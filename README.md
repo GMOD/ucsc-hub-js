@@ -1,4 +1,5 @@
-# trackDb-js
+# ucsc-hub-js
+read and write UCSC track and assembly hub files in node or the browser
 
 ## API
 
@@ -64,4 +65,4 @@ line.
 
 ## License
 
-MIT © [Garrett Stevens](https://github.com/garrettjstevens)
+MIT © [Generic Model Organism Database Project](http://gmod.org/wiki/Main_Page)
