@@ -13,6 +13,9 @@
       }
     ],
   ],
+  "ignore": [
+    "**/*.test.js"
+  ],
   "retainLines": true,
   "sourceMaps": true,
   "plugins": [
