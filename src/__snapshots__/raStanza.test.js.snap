@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RaStanza reader can create an empty stanza 1`] = `Map {}`;
+
+exports[`RaStanza reader can handle CRLF newlines 1`] = `
+Map {
+  "key1" => "value1",
+  "key2" => "value2",
+}
+`;
+
+exports[`RaStanza reader can handle commented lines 1`] = `
+Map {
+  "key1" => "value1",
+  "key2" => "value2",
+  "key3" => "value3",
+}
+`;
+
+exports[`RaStanza reader can parse a list of strings 1`] = `
+Map {
+  "key1" => "value1",
+  "key2" => "value2",
+}
+`;
+
+exports[`RaStanza reader can parse a multiple line stanza 1`] = `
+Map {
+  "key1" => "value1",
+  "key2" => "value2",
+}
+`;
+
+exports[`RaStanza reader can parse a single line stanza 1`] = `
+Map {
+  "key1" => "value1",
+}
+`;
+
+exports[`RaStanza reader can populate an empty stanza 1`] = `Map {}`;
+
+exports[`RaStanza reader can populate an empty stanza 2`] = `
+Map {
+  "key1" => "value1",
+  "key2" => "value2",
+}
+`;
+
+exports[`RaStanza reader handles continued lines 1`] = `
+Map {
+  "key1" => "value1",
+  "key2" => "a really long value that continues",
+  "key3" => "another really long value that continues a lot",
+  "key4" => "yet another really long value that continues with a comment in it",
+}
+`;
+
+exports[`RaStanza reader handles indented lines 1`] = `
+Map {
+  "key1" => "value1",
+  "key2" => "value",
+}
+`;

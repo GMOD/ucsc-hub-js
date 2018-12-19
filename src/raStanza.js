@@ -1,0 +1,117 @@
+/**
+ * Class representing an ra file stanza. Each stanza line is split into its key
+ * and value and stored as a Map, so the usual Map methods can be used on the
+ * stanza. The exception is `set()`, which takes a single line instead of a key
+ * and a value.
+ * @extends Map
+ * @property {undefined|string} nameKey - The key of the first line of the
+ * stanza (`undefined` if the stanza has no lines yet).
+ * @property {undefined|string} name - The value of the first line of the
+ * stanza, by which it is identified in an ra file  (`undefined` if the stanza
+ * has no lines yet).
+ * @property {undefined|string} indent - The leading indent of the stanza,
+ * which is the same for every line (`undefined` if the stanza has not lines
+ * yet, `''` if there is no indent).
+ * @throws {Error} Throws if the stanza has blank lines, if the first line
+ * doesn't have both a key and a value, if a key in the stanza is
+ * duplicated, or if lines in the stanza have inconsistent indentation.
+ */
+class RaStanza extends Map {
+  /**
+   * Create a stanza
+   * @param {(string|string[])} [stanza=[]] - An ra file stanza, either as a
+   * string or a list of strings with one line per entry. Supports both LF and
+   * CRLF newlines.
+   */
+  constructor(stanza) {
+    super()
+    let stanzaLines
+    if (typeof stanza === 'string') {
+      stanzaLines = stanza.trimEnd().split(/\r?\n/)
+    } else if (!stanza) {
+      stanzaLines = []
+    } else {
+      stanzaLines = stanza
+    }
+    this._keyAndCommentOrder = []
+    stanzaLines.forEach(line => {
+      this.set(line)
+    })
+  }
+
+  /**
+   * Overrides the default map set to take a single value, which is a single
+   * stanza line
+   * @param {string} line A stanza line
+   */
+  set(line) {
+    if (line === '') throw new Error('Invalid stanza, contained blank lines')
+    if (line.trim().startsWith('#')) this._keyAndCommentOrder.push(line.trim())
+    else {
+      if (line.trimEnd().endsWith('\\')) {
+        const trimmedLine = line.trimEnd().slice(0, -1)
+        if (this._continuedLine) this._continuedLine += trimmedLine.trimStart()
+        else this._continuedLine = trimmedLine
+        return
+      }
+      let combinedLine = line
+      if (this._continuedLine) {
+        combinedLine = this._continuedLine + combinedLine.trimStart()
+        this._continuedLine = undefined
+      }
+      const indent = combinedLine.match(/^([ \t]+)/)
+      if (this.indent === undefined) {
+        if (indent) [, this.indent] = indent
+        else this.indent = ''
+      } else if (
+        (this.indent === '' && indent !== null) ||
+        (this.indent && this.indent !== indent[1])
+      ) {
+        throw new Error('Inconsistent indentation of stanza')
+      }
+      const trimmedLine = combinedLine.trim()
+      const sep = trimmedLine.indexOf(' ')
+      if (sep === -1) {
+        if (!this.nameKey)
+          throw new Error(
+            'First line in a stanza must have both a key and a value',
+          )
+        if (this.has(trimmedLine))
+          throw new Error(`Got duplicate key in stanza: ${trimmedLine}`)
+        this._keyAndCommentOrder.push(trimmedLine)
+        super.set(trimmedLine, '')
+      } else {
+        const key = trimmedLine.slice(0, sep)
+        if (this.has(key))
+          throw new Error(`Got duplicate key in stanza: ${key}`)
+        this._keyAndCommentOrder.push(key)
+        super.set(key, trimmedLine.slice(sep + 1))
+        if (!this.nameKey) {
+          this.nameKey = key
+          this.name = trimmedLine.slice(sep + 1)
+        }
+      }
+    }
+  }
+
+  /**
+   * @returns {string} Returns the stanza as a string fit for writing to a ra
+   * file. Original leading indent is preserved. It may not be the same as the
+   * input stanza as lines that were joined with `\` in the input will be output
+   *  as a single line and all comments will have the same indentations as the
+   * rest of the stanza. Comments between joined lines will move before that
+   * line.
+   */
+  toString() {
+    if (this.size === 0) return ''
+    const lines = []
+    this._keyAndCommentOrder.forEach(entry => {
+      if (entry.startsWith('#')) lines.push(`${this.indent}${entry}`)
+      else if (this.has(entry))
+        lines.push(`${this.indent}${entry} ${this.get(entry)}`.trimEnd())
+    })
+    return `${lines.join('\n')}\n`
+  }
+}
+
+module.exports = RaStanza
