@@ -94,6 +94,11 @@ class RaStanza extends Map {
     return super.set(key, trimmedLine.slice(sep + 1))
   }
 
+  /**
+   * Delete a line
+   * @param {string} key The key of the line to delete
+   * @returns {boolean} true if the deleted line existed, false if it did not
+   */
   delete(key) {
     if (key === this.nameKey)
       throw new Error(
@@ -106,6 +111,9 @@ class RaStanza extends Map {
     return super.delete(key)
   }
 
+  /**
+   * Clear all lines and comments
+   */
   clear() {
     this._keyAndCommentOrder.length = 0
     this._continuedLine = undefined

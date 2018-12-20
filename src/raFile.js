@@ -1,22 +1,17 @@
 const RaStanza = require('./raStanza')
 
 /**
- * Class representing an ra file stanza. Each stanza line is split into its key
- * and value and stored as a Map, so the usual Map methods can be used on the
- * stanza. The exception is `set()`, which takes a single line instead of a key
- * and a value.
+ * Class representing an ra file. Each file is composed of multiple stanzas, and
+ * each stanza is separated by one or more blank lines. Each stanza is stored in
+ * a Map with the key being the value of the first key-value pair in the stanza.
+ * The usual Map methods can be used on the stanza, with the exception of
+ * `set()`, which takes a single stanza instead of a key and a value.
  * @extends Map
- * @property {undefined|string} nameKey - The key of the first line of the
- * stanza (`undefined` if the stanza has no lines yet).
- * @property {undefined|string} name - The value of the first line of the
- * stanza, by which it is identified in an ra file  (`undefined` if the stanza
- * has no lines yet).
- * @property {undefined|string} indent - The leading indent of the stanza,
- * which is the same for every line (`undefined` if the stanza has not lines
- * yet, `''` if there is no indent).
- * @throws {Error} Throws if the stanza has blank lines, if the first line
- * doesn't have both a key and a value, if a key in the stanza is
- * duplicated, or if lines in the stanza have inconsistent indentation.
+ * @property {undefined|string} nameKey - The key of the first line of all the
+ * stanzas (`undefined` if the stanza has no lines yet).
+ * @throws {Error} Throws if an empty stanza is added, if the key in the first
+ * key-value pair of each stanze isn't the same, or if two stanzas have the same
+ * value for the key-value pair in their first lines.
  */
 class RaFile extends Map {
   /**
@@ -72,6 +67,12 @@ class RaFile extends Map {
     return super.set(raStanza.name, raStanza)
   }
 
+  /**
+   * Delete a stanza
+   * @param {string} stanza The name of the stanza to delete (the value in its
+   * first key-value pair)
+   * @returns {boolean} true if the deleted stanza existed, false if it did not
+   */
   delete(stanza) {
     if (this._stanzaAndCommentOrder.includes(stanza))
       this._stanzaAndCommentOrder = this._stanzaAndCommentOrder.filter(
@@ -80,6 +81,9 @@ class RaFile extends Map {
     return super.delete(stanza)
   }
 
+  /**
+   * Clear all stanzas and comments
+   */
   clear() {
     this._stanzaAndCommentOrder.length = 0
     this.nameKey = undefined

@@ -14,12 +14,85 @@ read and write UCSC track and assembly hub files in node or the browser
 
 #### Table of Contents
 
--   [RaStanza](#rastanza)
+-   [RaFile](#rafile)
     -   [Parameters](#parameters)
     -   [Properties](#properties)
     -   [set](#set)
         -   [Parameters](#parameters-1)
+    -   [delete](#delete)
+        -   [Parameters](#parameters-2)
+    -   [clear](#clear)
     -   [toString](#tostring)
+-   [RaStanza](#rastanza)
+    -   [Parameters](#parameters-3)
+    -   [Properties](#properties-1)
+    -   [set](#set-1)
+        -   [Parameters](#parameters-4)
+    -   [delete](#delete-1)
+        -   [Parameters](#parameters-5)
+    -   [clear](#clear-1)
+    -   [toString](#tostring-1)
+
+### RaFile
+
+**Extends Map**
+
+Class representing an ra file. Each file is composed of multiple stanzas, and
+each stanza is separated by one or more blank lines. Each stanza is stored in
+a Map with the key being the value of the first key-value pair in the stanza.
+The usual Map methods can be used on the stanza, with the exception of
+`set()`, which takes a single stanza instead of a key and a value.
+
+#### Parameters
+
+-   `raFile` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** An ra file, either as a single
+    string or an array of strings with one stanza per entry. Supports both LF
+    and CRLF line terminators. (optional, default `[]`)
+
+#### Properties
+
+-   `nameKey` **([undefined](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** The key of the first line of all the
+    stanzas (`undefined` if the stanza has no lines yet).
+
+
+-   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** Throws if an empty stanza is added, if the key in the first
+    key-value pair of each stanze isn't the same, or if two stanzas have the same
+    value for the key-value pair in their first lines.
+
+#### set
+
+Overrides the default Map set to take a single value, which is a single
+stanza
+
+##### Parameters
+
+-   `stanza` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** A single stanza
+
+Returns **[RaFile](#rafile)** The RaFile object
+
+#### delete
+
+Delete a stanza
+
+##### Parameters
+
+-   `stanza` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the stanza to delete (the value in its
+    first key-value pair)
+
+Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** true if the deleted stanza existed, false if it did not
+
+#### clear
+
+Clear all stanzas and comments
+
+#### toString
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Returns the stanza as a string fit for writing to a ra
+file. Original leading indent is preserved. It may not be the same as the
+input stanza as lines that were joined with `\` in the input will be output
+ as a single line and all comments will have the same indentations as the
+rest of the stanza. Comments between joined lines will move before that
+line.
 
 ### RaStanza
 
@@ -33,8 +106,8 @@ and a value.
 #### Parameters
 
 -   `stanza` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** An ra file stanza, either as a
-    string or a list of strings with one line per entry. Supports both LF and
-    CRLF newlines. (optional, default `[]`)
+    string or a array of strings with one line per entry. Supports both LF and
+    CRLF line terminators. (optional, default `[]`)
 
 #### Properties
 
@@ -61,12 +134,28 @@ stanza line
 
 -   `line` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** A stanza line
 
+Returns **[RaStanza](#rastanza)** The RaStanza object
+
+#### delete
+
+Delete a line
+
+##### Parameters
+
+-   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The key of the line to delete
+
+Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** true if the deleted line existed, false if it did not
+
+#### clear
+
+Clear all lines and comments
+
 #### toString
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Returns the stanza as a string fit for writing to a ra
 file. Original leading indent is preserved. It may not be the same as the
 input stanza as lines that were joined with `\` in the input will be output
- as a single line and all comments will have the same indentations as the
+as a single line and all comments will have the same indentations as the
 rest of the stanza. Comments between joined lines will move before that
 line.
 
