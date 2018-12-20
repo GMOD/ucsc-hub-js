@@ -3,8 +3,9 @@ node_js:
   - v8
 script:
   - yarn lint
-  - yarn test --coverage
+  - yarn test
+  # - yarn test --coverage
 cache:
   - yarn
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+# after_success:
+#   - bash <(curl -s https://codecov.io/bash)
