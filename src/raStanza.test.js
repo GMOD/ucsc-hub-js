@@ -1,7 +1,7 @@
 const RaStanza = require('./raStanza')
 
 describe('RaStanza reader', () => {
-  it('can create an empty stanza', () => {
+  it('creates an empty stanza', () => {
     const stanza = new RaStanza()
     expect(stanza).toMatchSnapshot()
     expect(stanza._keyAndCommentOrder).toEqual([])
@@ -11,7 +11,7 @@ describe('RaStanza reader', () => {
     expect(stanza.toString()).toEqual('')
   })
 
-  it('can populate an empty stanza', () => {
+  it('populates an empty stanza', () => {
     const stanza = new RaStanza()
     expect(stanza).toMatchSnapshot()
     const input1 = 'key1 value1\n'
@@ -26,7 +26,7 @@ describe('RaStanza reader', () => {
     expect(stanza.toString()).toEqual(`${input1}${input2}`)
   })
 
-  it('can parse a single line stanza', () => {
+  it('parses a single line stanza', () => {
     const input = 'key1 value1'
     const stanza = new RaStanza(input)
     expect(stanza).toMatchSnapshot()
@@ -37,18 +37,18 @@ describe('RaStanza reader', () => {
     expect(stanza.toString()).toEqual(`${input}\n`)
   })
 
-  it('can parse a multiple line stanza', () => {
-    const input = 'key1 value1\nkey2 value2\n'
+  it('parses a multiple line stanza', () => {
+    const input = 'key1 value1\nkey2 value2\nkey3\n'
     const stanza = new RaStanza(input)
     expect(stanza).toMatchSnapshot()
-    expect(stanza._keyAndCommentOrder).toEqual(['key1', 'key2'])
+    expect(stanza._keyAndCommentOrder).toEqual(['key1', 'key2', 'key3'])
     expect(stanza.name).toEqual('value1')
     expect(stanza.nameKey).toEqual('key1')
     expect(stanza.indent).toEqual('')
     expect(stanza.toString()).toEqual(input)
   })
 
-  it('can handle CRLF newlines', () => {
+  it('handles CRLF newlines', () => {
     const input = 'key1 value1\r\nkey2 value2\r\n'
     const stanza = new RaStanza(input)
     expect(stanza).toMatchSnapshot()
@@ -59,7 +59,7 @@ describe('RaStanza reader', () => {
     expect(stanza.toString()).toEqual(input.replace(/\r/g, ''))
   })
 
-  it('can parse a list of strings', () => {
+  it('parses a list of strings', () => {
     const input = ['key1 value1', 'key2 value2']
     const stanza = new RaStanza(input)
     expect(stanza).toMatchSnapshot()
@@ -70,7 +70,7 @@ describe('RaStanza reader', () => {
     expect(stanza.toString()).toEqual(`${input.join('\n')}\n`)
   })
 
-  it('can handle commented lines', () => {
+  it('handles commented lines', () => {
     const input =
       '# A comment\n' +
       'key1 value1\n' +
@@ -127,7 +127,43 @@ describe('RaStanza reader', () => {
     expect(stanza.name).toEqual('value1')
     expect(stanza.nameKey).toEqual('key1')
     expect(stanza.indent).toEqual('  ')
-    // expect(stanza.toString()).toEqual(input)
+    const output =
+      '  key1 value1\n' +
+      '  key2 a really long value that continues\n' +
+      '  key3 another really long value that continues a lot\n' +
+      '  # A comment\n' +
+      '  key4 yet another really long value that continues with a comment in it\n'
+    expect(stanza.toString()).toEqual(output)
+  })
+
+  it('clears', () => {
+    const input = 'key1 value1\nkey2 value2\nkey3\n'
+    const stanza = new RaStanza(input)
+    stanza.clear()
+    expect(stanza).toMatchSnapshot()
+    expect(stanza._keyAndCommentOrder).toEqual([])
+    expect(stanza.name).toBeUndefined()
+    expect(stanza.nameKey).toBeUndefined()
+    expect(stanza.indent).toBeUndefined()
+    expect(stanza.toString()).toEqual('')
+  })
+
+  it('removes a line', () => {
+    const input = 'key1 value1\nkey2 value2\nkey3\n'
+    const stanza = new RaStanza(input)
+    stanza.delete('nonexistent')
+    stanza.delete('key2')
+    expect(stanza).toMatchSnapshot()
+    expect(stanza._keyAndCommentOrder).toEqual(['key1', 'key3'])
+    expect(stanza.name).toEqual('value1')
+    expect(stanza.nameKey).toEqual('key1')
+    expect(stanza.indent).toEqual('')
+    expect(stanza.toString()).toEqual(input.replace('key2 value2\n', ''))
+  })
+
+  it('throws when trying to delete the first line', () => {
+    const stanza = new RaStanza('key1 value1\nkey2 value2\n')
+    expect(() => stanza.delete('key1')).toThrow(/Cannot delete the first line/)
   })
 
   it('throws with duplicate keys', () => {

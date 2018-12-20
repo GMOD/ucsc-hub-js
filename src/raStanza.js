@@ -43,62 +43,83 @@ class RaStanza extends Map {
    * Overrides the default map set to take a single value, which is a single
    * stanza line
    * @param {string} line A stanza line
+   * @returns {RaStanza} The RaStanza object
    */
   set(line) {
     if (line === '') throw new Error('Invalid stanza, contained blank lines')
-    if (line.trim().startsWith('#')) this._keyAndCommentOrder.push(line.trim())
-    else {
-      if (line.trimEnd().endsWith('\\')) {
-        const trimmedLine = line.trimEnd().slice(0, -1)
-        if (this._continuedLine) this._continuedLine += trimmedLine.trimStart()
-        else this._continuedLine = trimmedLine
-        return
-      }
-      let combinedLine = line
-      if (this._continuedLine) {
-        combinedLine = this._continuedLine + combinedLine.trimStart()
-        this._continuedLine = undefined
-      }
-      const indent = combinedLine.match(/^([ \t]+)/)
-      if (this.indent === undefined) {
-        if (indent) [, this.indent] = indent
-        else this.indent = ''
-      } else if (
-        (this.indent === '' && indent !== null) ||
-        (this.indent && this.indent !== indent[1])
-      ) {
-        throw new Error('Inconsistent indentation of stanza')
-      }
-      const trimmedLine = combinedLine.trim()
-      const sep = trimmedLine.indexOf(' ')
-      if (sep === -1) {
-        if (!this.nameKey)
-          throw new Error(
-            'First line in a stanza must have both a key and a value',
-          )
-        if (this.has(trimmedLine))
-          throw new Error(`Got duplicate key in stanza: ${trimmedLine}`)
-        this._keyAndCommentOrder.push(trimmedLine)
-        super.set(trimmedLine, '')
-      } else {
-        const key = trimmedLine.slice(0, sep)
-        if (this.has(key))
-          throw new Error(`Got duplicate key in stanza: ${key}`)
-        this._keyAndCommentOrder.push(key)
-        super.set(key, trimmedLine.slice(sep + 1))
-        if (!this.nameKey) {
-          this.nameKey = key
-          this.name = trimmedLine.slice(sep + 1)
-        }
-      }
+    if (line.trim().startsWith('#')) {
+      this._keyAndCommentOrder.push(line.trim())
+      return this
     }
+    if (line.trimEnd().endsWith('\\')) {
+      const trimmedLine = line.trimEnd().slice(0, -1)
+      if (this._continuedLine) this._continuedLine += trimmedLine.trimStart()
+      else this._continuedLine = trimmedLine
+      return this
+    }
+    let combinedLine = line
+    if (this._continuedLine) {
+      combinedLine = this._continuedLine + combinedLine.trimStart()
+      this._continuedLine = undefined
+    }
+    const indent = combinedLine.match(/^([ \t]+)/)
+    if (this.indent === undefined) {
+      if (indent) [, this.indent] = indent
+      else this.indent = ''
+    } else if (
+      (this.indent === '' && indent !== null) ||
+      (this.indent && this.indent !== indent[1])
+    ) {
+      throw new Error('Inconsistent indentation of stanza')
+    }
+    const trimmedLine = combinedLine.trim()
+    const sep = trimmedLine.indexOf(' ')
+    if (sep === -1) {
+      if (!this.nameKey)
+        throw new Error(
+          'First line in a stanza must have both a key and a value',
+        )
+      if (this.has(trimmedLine))
+        throw new Error(`Got duplicate key in stanza: ${trimmedLine}`)
+      this._keyAndCommentOrder.push(trimmedLine)
+      return super.set(trimmedLine, '')
+    }
+    const key = trimmedLine.slice(0, sep)
+    if (this.has(key)) throw new Error(`Got duplicate key in stanza: ${key}`)
+    this._keyAndCommentOrder.push(key)
+    if (!this.nameKey) {
+      this.nameKey = key
+      this.name = trimmedLine.slice(sep + 1)
+    }
+    return super.set(key, trimmedLine.slice(sep + 1))
+  }
+
+  delete(key) {
+    if (key === this.nameKey)
+      throw new Error(
+        'Cannot delete the first line in a stanza (you can still overwrite it with set()).',
+      )
+    if (this._keyAndCommentOrder.includes(key))
+      this._keyAndCommentOrder = this._keyAndCommentOrder.filter(
+        value => value !== key,
+      )
+    return super.delete(key)
+  }
+
+  clear() {
+    this._keyAndCommentOrder.length = 0
+    this._continuedLine = undefined
+    this.indent = undefined
+    this.name = undefined
+    this.nameKey = undefined
+    super.clear()
   }
 
   /**
    * @returns {string} Returns the stanza as a string fit for writing to a ra
    * file. Original leading indent is preserved. It may not be the same as the
    * input stanza as lines that were joined with `\` in the input will be output
-   *  as a single line and all comments will have the same indentations as the
+   * as a single line and all comments will have the same indentations as the
    * rest of the stanza. Comments between joined lines will move before that
    * line.
    */
@@ -107,8 +128,7 @@ class RaStanza extends Map {
     const lines = []
     this._keyAndCommentOrder.forEach(entry => {
       if (entry.startsWith('#')) lines.push(`${this.indent}${entry}`)
-      else if (this.has(entry))
-        lines.push(`${this.indent}${entry} ${this.get(entry)}`.trimEnd())
+      else lines.push(`${this.indent}${entry} ${this.get(entry)}`.trimEnd())
     })
     return `${lines.join('\n')}\n`
   }
