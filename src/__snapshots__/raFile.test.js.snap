@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RaFile reader adds a stanza 1`] = `
+Map {
+  "valA" => Map {
+    "key1" => "valA",
+    "key2" => "valB",
+    "key3" => "valC",
+  },
+  "valD" => Map {
+    "key1" => "valD",
+    "key2" => "valE",
+    "key3" => "valF",
+  },
+  "valG" => Map {
+    "key1" => "valG",
+    "key2" => "valH",
+    "key3" => "valI",
+  },
+  "valJ" => Map {
+    "key1" => "valJ",
+    "key2" => "valK",
+    "key3" => "valL",
+  },
+}
+`;
+
+exports[`RaFile reader clears 1`] = `Map {}`;
+
+exports[`RaFile reader deletes a stanza 1`] = `
+Map {
+  "valA" => Map {
+    "key1" => "valA",
+    "key2" => "valB",
+    "key3" => "valC",
+  },
+  "valG" => Map {
+    "key1" => "valG",
+    "key2" => "valH",
+    "key3" => "valI",
+  },
+}
+`;
+
+exports[`RaFile reader handles CRLF newlines 1`] = `
+Map {
+  "valueA" => Map {
+    "key1" => "valueA",
+    "key2" => "valueB",
+  },
+  "valueC" => Map {
+    "key1" => "valueC",
+    "key2" => "valueD",
+  },
+}
+`;
+
+exports[`RaFile reader handles indented stanzas 1`] = `
+Map {
+  "valA" => Map {
+    "key1" => "valA",
+    "key2" => "valB",
+    "key3" => "valC",
+  },
+  "valD" => Map {
+    "key1" => "valD",
+    "key2" => "valE",
+    "key3" => "valF",
+  },
+  "valG" => Map {
+    "key1" => "valG",
+    "key2" => "valH",
+    "key3" => "valI",
+  },
+}
+`;
+
+exports[`RaFile reader parses a file with comments 1`] = `
+Map {
+  "valA" => Map {
+    "key1" => "valA",
+    "key2" => "valB",
+    "key3" => "valC",
+  },
+  "valD" => Map {
+    "key1" => "valD",
+    "key2" => "valE",
+    "key3" => "valF",
+  },
+}
+`;
+
+exports[`RaFile reader parses a list of stanzas 1`] = `
+Map {
+  "valueA" => Map {
+    "key1" => "valueA",
+    "key2" => "valueB",
+  },
+  "valueC" => Map {
+    "key1" => "valueC",
+    "key2" => "valueD",
+  },
+}
+`;
+
+exports[`RaFile reader parses a simple three stanza file 1`] = `
+Map {
+  "valA" => Map {
+    "key1" => "valA",
+    "key2" => "valB",
+    "key3" => "valC",
+  },
+  "valD" => Map {
+    "key1" => "valD",
+    "key2" => "valE",
+    "key3" => "valF",
+  },
+  "valG" => Map {
+    "key1" => "valG",
+    "key2" => "valH",
+    "key3" => "valI",
+  },
+}
+`;
+
+exports[`RaFile reader populates an empty ra file 1`] = `
+Map {
+  "valueA" => Map {
+    "key1" => "valueA",
+    "key2" => "valueB",
+  },
+  "valueC" => Map {
+    "key1" => "valueC",
+    "key2" => "valueD",
+  },
+}
+`;
