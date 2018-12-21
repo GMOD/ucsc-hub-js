@@ -1,3 +1,5 @@
+require('./trimStartEndPolyfills')
+
 /**
  * Class representing an ra file stanza. Each stanza line is split into its key
  * and value and stored as a Map, so the usual Map methods can be used on the

@@ -1,5 +1,6 @@
 const fs = require('fs')
 const RaFile = require('./raFile')
+require('./trimStartEndPolyfills')
 
 describe('RaFile reader', () => {
   it('creates an empty ra file', () => {
