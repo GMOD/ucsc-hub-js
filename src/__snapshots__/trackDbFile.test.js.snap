@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TrackDbFile gets settings 1`] = `
+Map {
+  "track" => "myFirstTrack",
+  "superTrack" => "on show",
+  "group" => "regulation",
+  "shortLabel" => "My Folder",
+  "longLabel" => "My folder keeps my tracks together",
+  "parent" => "myFolder",
+  "visibility" => "dense",
+}
+`;

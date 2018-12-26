@@ -1,0 +1,13 @@
+track myFolder
+superTrack on show
+group regulation
+shortLabel My Folder
+longLabel My folder keeps my tracks together
+
+    track myFirstTrack
+    parent myFolder
+    visibility dense
+
+    track mySecondTrack
+    parent myFolder
+    visibility hide

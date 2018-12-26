@@ -10,6 +10,23 @@ class TrackDbFile extends RaFile {
         }" instead of "track" as the first line in each track`,
       )
   }
+
+  settings(track) {
+    const parentTracks = [track]
+    let currTrack = track
+    do {
+      currTrack = this.get(currTrack).get('parent')
+      if (currTrack) parentTracks.push(currTrack)
+    } while (currTrack)
+    const settings = new Map()
+    parentTracks.reverse()
+    parentTracks.forEach(parentTrack => {
+      this.get(parentTrack).forEach((value, key) => {
+        settings.set(key, value)
+      })
+    })
+    return settings
+  }
 }
 
 module.exports = TrackDbFile
