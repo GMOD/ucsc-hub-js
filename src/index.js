@@ -1,4 +1,4 @@
-const RaFile = './raFile'
-const RaStanza = './raStanza'
+const RaFile = require('./raFile')
+const RaStanza = require('./raStanza')
 
 module.exports = { RaFile, RaStanza }
