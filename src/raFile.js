@@ -5,7 +5,9 @@ const RaStanza = require('./raStanza')
  * each stanza is separated by one or more blank lines. Each stanza is stored in
  * a Map with the key being the value of the first key-value pair in the stanza.
  * The usual Map methods can be used on the stanza, with the exception of
- * `set()`, which takes a single stanza instead of a key and a value.
+ * `set()`, which takes a single stanza instead of a key and a value. `update()`
+ * has also been added to address situations where behavior like the native
+ * `Map`'s `set()` is desired.
  * @extends Map
  * @property {undefined|string} nameKey - The key of the first line of all the
  * stanzas (`undefined` if the stanza has no lines yet).
@@ -34,6 +36,20 @@ class RaFile extends Map {
     stanzas.forEach(stanza => {
       this.set(stanza)
     })
+  }
+
+  /**
+   * Provides a way to access the original `Map`'s `set()` method. This can be
+   * used to update a stanza without first deleting it, since `RaFile`'s `set()`
+   * will throw an exception if a key already exists. The key and value must
+   * already be parsed and checked, since no additional checks are done here.
+   * @param {string} key The key of the RaFile stanza
+   * @param {RaStanza} value The RaFile stanza used to replace the prior one
+   */
+  update(key, value) {
+    if (!(value instanceof RaStanza))
+      throw new Error(`Value of ${key} is not an RaStanza`)
+    super.set(key, value)
   }
 
   /**

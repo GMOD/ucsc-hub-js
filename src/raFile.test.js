@@ -132,6 +132,23 @@ describe('RaFile reader', () => {
     expect(raFile.toString()).toEqual('')
   })
 
+  it('updates a stanza', () => {
+    const input = fs.readFileSync('test/basic.ra', 'utf8')
+    const raFile = new RaFile(input)
+    const updatedStanza = raFile.get('valD')
+    updatedStanza.indent = '    '
+    raFile.update('valD', updatedStanza)
+    expect(raFile).toMatchSnapshot()
+    expect(raFile._stanzaAndCommentOrder).toEqual(['valA', 'valD', 'valG'])
+    expect(raFile.nameKey).toEqual('key1')
+    expect(raFile.toString()).toEqual(
+      input
+        .replace('key1 valD', '    key1 valD')
+        .replace('key2 valE', '    key2 valE')
+        .replace('key3 valF', '    key3 valF'),
+    )
+  })
+
   it('throws on an empty stanza', () => {
     expect(() => new RaFile('')).toThrow(/Invalid stanza, was empty/)
     const raFile = new RaFile()

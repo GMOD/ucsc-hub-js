@@ -161,6 +161,22 @@ describe('RaStanza reader', () => {
     expect(stanza.toString()).toEqual(input.replace('key2 value2\n', ''))
   })
 
+  it('updates a line', () => {
+    const input = 'key1 value1\nkey2 value2\nkey3\n'
+    const stanza = new RaStanza(input)
+    let updatedValue = stanza.get('key2')
+    updatedValue += '_new'
+    stanza.update('key2', updatedValue)
+    expect(stanza).toMatchSnapshot()
+    expect(stanza._keyAndCommentOrder).toEqual(['key1', 'key2', 'key3'])
+    expect(stanza.name).toEqual('value1')
+    expect(stanza.nameKey).toEqual('key1')
+    expect(stanza.indent).toEqual('')
+    expect(stanza.toString()).toEqual(
+      input.replace('key2 value2\n', 'key2 value2_new\n'),
+    )
+  })
+
   it('throws when trying to delete the first line', () => {
     const stanza = new RaStanza('key1 value1\nkey2 value2\n')
     expect(() => stanza.delete('key1')).toThrow(/Cannot delete the first line/)

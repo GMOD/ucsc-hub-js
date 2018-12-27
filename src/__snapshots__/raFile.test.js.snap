@@ -135,3 +135,23 @@ Map {
   },
 }
 `;
+
+exports[`RaFile reader updates a stanza 1`] = `
+Map {
+  "valA" => Map {
+    "key1" => "valA",
+    "key2" => "valB",
+    "key3" => "valC",
+  },
+  "valD" => Map {
+    "key1" => "valD",
+    "key2" => "valE",
+    "key3" => "valF",
+  },
+  "valG" => Map {
+    "key1" => "valG",
+    "key2" => "valH",
+    "key3" => "valI",
+  },
+}
+`;

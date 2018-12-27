@@ -71,3 +71,11 @@ Map {
   "key3" => "",
 }
 `;
+
+exports[`RaStanza reader updates a line 1`] = `
+Map {
+  "key1" => "value1",
+  "key2" => "value2_new",
+  "key3" => "",
+}
+`;
