@@ -1,9 +1,9 @@
 {
-  "name": "@gmod/trackdb",
+  "name": "@gmod/ucsc-hub",
   "version": "0.0.1",
-  "description": "UCSC trackDB parser",
+  "description": "Read and write UCSC track and assembly hub files in node or the browser",
   "license": "MIT",
-  "repository": "github:GMOD/trackDb-js",
+  "repository": "github:GMOD/ucsc-hub-js",
   "main": "dist/index.js",
   "author": {
     "name": "Garrett Stevens",
