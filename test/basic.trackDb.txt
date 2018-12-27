@@ -1,0 +1,11 @@
+track dnaseSignal
+bigDataUrl dnaseSignal.bigWig
+shortLabel DNAse Signal
+longLabel Depth of alignments of DNAse reads
+type bigWig
+
+track dnaseReads
+bigDataUrl dnaseReads.bam
+shortLabel DNAse Reads
+longLabel DNAse reads mapped with MAQ
+type bam

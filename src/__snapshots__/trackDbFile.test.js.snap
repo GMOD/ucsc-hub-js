@@ -5,9 +5,30 @@ Map {
   "track" => "myFirstTrack",
   "superTrack" => "on show",
   "group" => "regulation",
-  "shortLabel" => "My Folder",
-  "longLabel" => "My folder keeps my tracks together",
+  "shortLabel" => "My first track",
+  "longLabel" => "The first track in my subtrack",
+  "type" => "bigBed 3",
+  "bigDataUrl" => "data/first.bb",
   "parent" => "myFolder",
   "visibility" => "dense",
+}
+`;
+
+exports[`TrackDbFile reads a basic trackDb.txt file 1`] = `
+Map {
+  "dnaseSignal" => Map {
+    "track" => "dnaseSignal",
+    "bigDataUrl" => "dnaseSignal.bigWig",
+    "shortLabel" => "DNAse Signal",
+    "longLabel" => "Depth of alignments of DNAse reads",
+    "type" => "bigWig",
+  },
+  "dnaseReads" => Map {
+    "track" => "dnaseReads",
+    "bigDataUrl" => "dnaseReads.bam",
+    "shortLabel" => "DNAse Reads",
+    "longLabel" => "DNAse reads mapped with MAQ",
+    "type" => "bam",
+  },
 }
 `;

@@ -5,9 +5,17 @@ shortLabel My Folder
 longLabel My folder keeps my tracks together
 
     track myFirstTrack
+    shortLabel My first track
+    longLabel The first track in my subtrack
+    type bigBed 3
+    bigDataUrl data/first.bb
     parent myFolder
     visibility dense
 
     track mySecondTrack
+    shortLabel My second track
+    longLabel The second track in my subtrack
+    type bigBed 3
+    bigDataUrl data/second.bb
     parent myFolder
     visibility hide
