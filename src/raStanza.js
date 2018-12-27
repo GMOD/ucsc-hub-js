@@ -3,9 +3,10 @@ require('./trimStartEndPolyfills')
 /**
  * Class representing an ra file stanza. Each stanza line is split into its key
  * and value and stored as a Map, so the usual Map methods can be used on the
- * stanza. The exception is `set()`, which takes a single line instead of a key
- * and a value. `update()` has also been added to address situations where
- * behavior like the native `Map`'s `set()` is desired.
+ * stanza. An additional method `add()` is available to take a raw line of text
+ * and break it up into a key and value and add them to the class. This should
+ * be favored over `set()` when possible, as it performs more validity checks
+ * than using `set()`.
  * @extends Map
  * @property {undefined|string} nameKey - The key of the first line of the
  * stanza (`undefined` if the stanza has no lines yet).
@@ -38,31 +39,16 @@ class RaStanza extends Map {
     }
     this._keyAndCommentOrder = []
     stanzaLines.forEach(line => {
-      this.set(line)
+      this.add(line)
     })
   }
 
   /**
-   * Provides a way to access the original `Map`'s `set()` method. This can be
-   * used to update a line without first deleting it, since `RaStanza`'s `set()`
-   * will throw an exception if a key already exists. The key and value must
-   * already be parsed and checked, since no additional checks are done here.
-   * @param {string} key The key of the stanza line
-   * @param {string} value The value of the stanza line
-   */
-  update(key, value) {
-    if (!(typeof value === 'string'))
-      throw new Error(`Value of ${key} must be a string, got ${typeof value}`)
-    super.set(key, value)
-  }
-
-  /**
-   * Overrides the default map set to take a single value, which is a single
-   * stanza line
+   * Add a single line to the stanza
    * @param {string} line A stanza line
    * @returns {RaStanza} The RaStanza object
    */
-  set(line) {
+  add(line) {
     if (line === '') throw new Error('Invalid stanza, contained blank lines')
     if (line.trim().startsWith('#')) {
       this._keyAndCommentOrder.push(line.trim())
@@ -109,6 +95,19 @@ class RaStanza extends Map {
       this.name = trimmedLine.slice(sep + 1)
     }
     return super.set(key, trimmedLine.slice(sep + 1))
+  }
+
+  /**
+   * Use `add()` if possible instead of this method. If using this, be aware
+   * that no checks are made for comments, indentation, duplicate keys, etc.
+   * @param {string} key The key of the stanza line
+   * @param {string} value The value of the stanza line
+   * @returns {RaStanza} The RaStanza object
+   */
+  set(key, value) {
+    if (!(typeof value === 'string'))
+      throw new Error(`Value of ${key} must be a string, got ${typeof value}`)
+    return super.set(key, value)
   }
 
   /**

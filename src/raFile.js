@@ -4,10 +4,10 @@ const RaStanza = require('./raStanza')
  * Class representing an ra file. Each file is composed of multiple stanzas, and
  * each stanza is separated by one or more blank lines. Each stanza is stored in
  * a Map with the key being the value of the first key-value pair in the stanza.
- * The usual Map methods can be used on the stanza, with the exception of
- * `set()`, which takes a single stanza instead of a key and a value. `update()`
- * has also been added to address situations where behavior like the native
- * `Map`'s `set()` is desired.
+ * The usual Map methods can be used on the file. An additional method `add()`
+ * is available to take a raw line of text and break it up into a key and value
+ * and add them to the class. This should be favored over `set()` when possible,
+ * as it performs more validity checks than using `set()`.
  * @extends Map
  * @property {undefined|string} nameKey - The key of the first line of all the
  * stanzas (`undefined` if the stanza has no lines yet).
@@ -34,31 +34,16 @@ class RaFile extends Map {
     }
     this._stanzaAndCommentOrder = []
     stanzas.forEach(stanza => {
-      this.set(stanza)
+      this.add(stanza)
     })
   }
 
   /**
-   * Provides a way to access the original `Map`'s `set()` method. This can be
-   * used to update a stanza without first deleting it, since `RaFile`'s `set()`
-   * will throw an exception if a key already exists. The key and value must
-   * already be parsed and checked, since no additional checks are done here.
-   * @param {string} key The key of the RaFile stanza
-   * @param {RaStanza} value The RaFile stanza used to replace the prior one
-   */
-  update(key, value) {
-    if (!(value instanceof RaStanza))
-      throw new Error(`Value of ${key} is not an RaStanza`)
-    super.set(key, value)
-  }
-
-  /**
-   * Overrides the default Map set to take a single value, which is a single
-   * stanza
+   * Add a single stanza to the file
    * @param {string} stanza A single stanza
    * @returns {RaFile} The RaFile object
    */
-  set(stanza) {
+  add(stanza) {
     if (stanza === '') throw new Error('Invalid stanza, was empty')
     if (stanza.trim().startsWith('#')) {
       const stanzaLines = stanza
@@ -81,6 +66,18 @@ class RaFile extends Map {
       throw new Error(`Got duplicate stanza name: ${raStanza.name}`)
     this._stanzaAndCommentOrder.push(raStanza.name)
     return super.set(raStanza.name, raStanza)
+  }
+
+  /**
+   * Use `add()` if possible instead of this method. If using this, be aware
+   * that no checks are made for comments, empty stanzas, duplicate keys, etc.
+   * @param {string} key The key of the RaFile stanza
+   * @param {RaStanza} value The RaFile stanza used to replace the prior one
+   */
+  update(key, value) {
+    if (!(value instanceof RaStanza))
+      throw new Error(`Value of ${key} is not an RaStanza`)
+    super.set(key, value)
   }
 
   /**

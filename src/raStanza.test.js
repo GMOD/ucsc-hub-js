@@ -16,8 +16,8 @@ describe('RaStanza reader', () => {
     expect(stanza).toMatchSnapshot()
     const input1 = 'key1 value1\n'
     const input2 = 'key2 value2\n'
-    stanza.set(input1)
-    stanza.set(input2)
+    stanza.add(input1)
+    stanza.add(input2)
     expect(stanza).toMatchSnapshot()
     expect(stanza._keyAndCommentOrder).toEqual(['key1', 'key2'])
     expect(stanza.name).toEqual('value1')
@@ -166,7 +166,7 @@ describe('RaStanza reader', () => {
     const stanza = new RaStanza(input)
     let updatedValue = stanza.get('key2')
     updatedValue += '_new'
-    stanza.update('key2', updatedValue)
+    stanza.set('key2', updatedValue)
     expect(stanza).toMatchSnapshot()
     expect(stanza._keyAndCommentOrder).toEqual(['key1', 'key2', 'key3'])
     expect(stanza.name).toEqual('value1')

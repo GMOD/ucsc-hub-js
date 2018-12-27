@@ -17,9 +17,9 @@ read and write UCSC track and assembly hub files in node or the browser
 -   [RaFile](#rafile)
     -   [Parameters](#parameters)
     -   [Properties](#properties)
-    -   [update](#update)
+    -   [add](#add)
         -   [Parameters](#parameters-1)
-    -   [set](#set)
+    -   [update](#update)
         -   [Parameters](#parameters-2)
     -   [delete](#delete)
         -   [Parameters](#parameters-3)
@@ -28,9 +28,9 @@ read and write UCSC track and assembly hub files in node or the browser
 -   [RaStanza](#rastanza)
     -   [Parameters](#parameters-4)
     -   [Properties](#properties-1)
-    -   [update](#update-1)
+    -   [add](#add-1)
         -   [Parameters](#parameters-5)
-    -   [set](#set-1)
+    -   [set](#set)
         -   [Parameters](#parameters-6)
     -   [delete](#delete-1)
         -   [Parameters](#parameters-7)
@@ -44,10 +44,10 @@ read and write UCSC track and assembly hub files in node or the browser
 Class representing an ra file. Each file is composed of multiple stanzas, and
 each stanza is separated by one or more blank lines. Each stanza is stored in
 a Map with the key being the value of the first key-value pair in the stanza.
-The usual Map methods can be used on the stanza, with the exception of
-`set()`, which takes a single stanza instead of a key and a value. `update()`
-has also been added to address situations where behavior like the native
-`Map`'s `set()` is desired.
+The usual Map methods can be used on the file. An additional method `add()`
+is available to take a raw line of text and break it up into a key and value
+and add them to the class. This should be favored over `set()` when possible,
+as it performs more validity checks than using `set()`.
 
 #### Parameters
 
@@ -65,28 +65,25 @@ has also been added to address situations where behavior like the native
     key-value pair of each stanze isn't the same, or if two stanzas have the same
     value for the key-value pair in their first lines.
 
-#### update
+#### add
 
-Provides a way to access the original `Map`'s `set()` method. This can be
-used to update a stanza without first deleting it, since `RaFile`'s `set()`
-will throw an exception if a key already exists. The key and value must
-already be parsed and checked, since no additional checks are done here.
-
-##### Parameters
-
--   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The key of the RaFile stanza
--   `value` **[RaStanza](#rastanza)** The RaFile stanza used to replace the prior one
-
-#### set
-
-Overrides the default Map set to take a single value, which is a single
-stanza
+Add a single stanza to the file
 
 ##### Parameters
 
 -   `stanza` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** A single stanza
 
 Returns **[RaFile](#rafile)** The RaFile object
+
+#### update
+
+Use `add()` if possible instead of this method. If using this, be aware
+that no checks are made for comments, empty stanzas, duplicate keys, etc.
+
+##### Parameters
+
+-   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The key of the RaFile stanza
+-   `value` **[RaStanza](#rastanza)** The RaFile stanza used to replace the prior one
 
 #### delete
 
@@ -118,9 +115,10 @@ line.
 
 Class representing an ra file stanza. Each stanza line is split into its key
 and value and stored as a Map, so the usual Map methods can be used on the
-stanza. The exception is `set()`, which takes a single line instead of a key
-and a value. `update()` has also been added to address situations where
-behavior like the native `Map`'s `set()` is desired.
+stanza. An additional method `add()` is available to take a raw line of text
+and break it up into a key and value and add them to the class. This should
+be favored over `set()` when possible, as it performs more validity checks
+than using `set()`.
 
 #### Parameters
 
@@ -144,26 +142,25 @@ behavior like the native `Map`'s `set()` is desired.
     doesn't have both a key and a value, if a key in the stanza is
     duplicated, or if lines in the stanza have inconsistent indentation.
 
-#### update
+#### add
 
-Provides a way to access the original `Map`'s `set()` method. This can be
-used to update a line without first deleting it, since `RaStanza`'s `set()`
-will throw an exception if a key already exists. The key and value must
-already be parsed and checked, since no additional checks are done here.
+Add a single line to the stanza
+
+##### Parameters
+
+-   `line` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** A stanza line
+
+Returns **[RaStanza](#rastanza)** The RaStanza object
+
+#### set
+
+Use `add()` if possible instead of this method. If using this, be aware
+that no checks are made for comments, indentation, duplicate keys, etc.
 
 ##### Parameters
 
 -   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The key of the stanza line
 -   `value` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The value of the stanza line
-
-#### set
-
-Overrides the default map set to take a single value, which is a single
-stanza line
-
-##### Parameters
-
--   `line` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** A stanza line
 
 Returns **[RaStanza](#rastanza)** The RaStanza object
 

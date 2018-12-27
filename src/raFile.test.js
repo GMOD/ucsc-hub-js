@@ -16,9 +16,9 @@ describe('RaFile reader', () => {
     const input1 = 'key1 valueA\nkey2 valueB\n'
     const comment = '# A comment\n'
     const input2 = 'key1 valueC\nkey2 valueD\n'
-    raFile.set(input1)
-    raFile.set(comment)
-    raFile.set(input2)
+    raFile.add(input1)
+    raFile.add(comment)
+    raFile.add(input2)
     expect(raFile).toMatchSnapshot()
     expect(raFile._stanzaAndCommentOrder).toEqual([
       'valueA',
@@ -97,7 +97,7 @@ describe('RaFile reader', () => {
 
   it('adds a stanza', () => {
     const raFile = new RaFile(fs.readFileSync('test/basic.ra', 'utf8'))
-    raFile.set('key1 valJ\nkey2 valK\nkey3 valL\n')
+    raFile.add('key1 valJ\nkey2 valK\nkey3 valL\n')
     expect(raFile).toMatchSnapshot()
     expect(raFile._stanzaAndCommentOrder).toEqual([
       'valA',
@@ -137,7 +137,7 @@ describe('RaFile reader', () => {
     const raFile = new RaFile(input)
     const updatedStanza = raFile.get('valD')
     updatedStanza.indent = '    '
-    raFile.update('valD', updatedStanza)
+    raFile.set('valD', updatedStanza)
     expect(raFile).toMatchSnapshot()
     expect(raFile._stanzaAndCommentOrder).toEqual(['valA', 'valD', 'valG'])
     expect(raFile.nameKey).toEqual('key1')
@@ -152,7 +152,7 @@ describe('RaFile reader', () => {
   it('throws on an empty stanza', () => {
     expect(() => new RaFile('')).toThrow(/Invalid stanza, was empty/)
     const raFile = new RaFile()
-    expect(() => raFile.set('')).toThrow(/Invalid stanza, was empty/)
+    expect(() => raFile.add('')).toThrow(/Invalid stanza, was empty/)
   })
 
   it('throws if stanzas have mismatched keys', () =>
