@@ -1,8 +1,15 @@
 const RaFile = require('./raFile')
 
+/**
+ * Class representing a genomes.txt file.
+ * @extends RaFile
+ * @param {(string|string[])} [trackDbFile=[]] - A trackDb.txt file as a string
+ * @throws {Error} Throws if "track" is not the first key in each track or if a
+ * track is missing required keys
+ */
 class TrackDbFile extends RaFile {
   constructor(trackDbFile) {
-    super(trackDbFile)
+    super(trackDbFile, { checkIndent: false })
     if (this.nameKey !== 'track')
       throw new Error(
         `trackDb has "${
@@ -10,11 +17,11 @@ class TrackDbFile extends RaFile {
         }" instead of "track" as the first line in each track`,
       )
     this.forEach((track, trackName) => {
-      const stanzaKeys = Array.from(track.keys())
+      const trackKeys = Array.from(track.keys())
       const missingKeys = []
       const requiredKeys = ['track', 'shortLabel', 'longLabel']
       requiredKeys.forEach(key => {
-        if (!stanzaKeys.includes(key)) missingKeys.push(key)
+        if (!trackKeys.includes(key)) missingKeys.push(key)
       })
       if (missingKeys.length > 0)
         throw new Error(
@@ -23,12 +30,12 @@ class TrackDbFile extends RaFile {
           )}`,
         )
       const parentTrackKeys = ['superTrack', 'compositeTrack', 'container']
-      if (!stanzaKeys.some(key => parentTrackKeys.includes(key))) {
-        if (!stanzaKeys.includes('bigDataUrl'))
+      if (!trackKeys.some(key => parentTrackKeys.includes(key))) {
+        if (!trackKeys.includes('bigDataUrl'))
           throw new Error(
             `Track ${trackName} is missing required key "bigDataUrl"`,
           )
-        if (!stanzaKeys.includes('type')) {
+        if (!trackKeys.includes('type')) {
           const settings = this.settings(trackName)
           const settingsKeys = Array.from(settings.keys())
           if (!settingsKeys.includes('type'))
@@ -41,7 +48,10 @@ class TrackDbFile extends RaFile {
       let currentTrackName = trackName
       do {
         currentTrackName = this.get(currentTrackName).get('parent')
-        if (currentTrackName) indent += '    '
+        if (currentTrackName) {
+          ;[currentTrackName] = currentTrackName.split(' ')
+          indent += '    '
+        }
       } while (currentTrackName)
       const currentTrack = this.get(trackName)
       currentTrack.indent = indent
@@ -49,9 +59,15 @@ class TrackDbFile extends RaFile {
     })
   }
 
+  /**
+   * Gets all track entries including those of parent tracks, with closer
+   * entries overriding more distant ones
+   * @param {string} trackName The name of a track
+   * @throws {Error} Throws if track name does not exist in the trackDb
+   */
   settings(trackName) {
     if (!this.has(trackName))
-      throw new Error(`Track ${trackName}does not exist`)
+      throw new Error(`Track ${trackName} does not exist`)
     const parentTracks = [trackName]
     let currentTrackName = trackName
     do {
