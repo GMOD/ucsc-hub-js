@@ -1,0 +1,24 @@
+const fs = require('fs')
+const GenomesFile = require('./genomesFile')
+
+describe('GenomesFile', () => {
+  it('reads a basic genomes.txt file', () => {
+    const input = fs.readFileSync('test/basic.genomes.txt', 'utf8')
+    const trackDb = new GenomesFile(input)
+    expect(trackDb).toMatchSnapshot()
+    expect(trackDb.toString()).toEqual(input)
+  })
+
+  it("throws if the file doesn't start with a genomes entry", () =>
+    expect(
+      () => new GenomesFile('assembly hg19\ntrackDb hg19/trackDb.txt'),
+    ).toThrow(/file must begin with a line like/))
+
+  it('throws if a genome entry is missing a required field', () =>
+    expect(
+      () =>
+        new GenomesFile(
+          'genome hg19\ntrackDb hg19/trackDb.txt\n\ngenome hg38\norganism Homo sapiens',
+        ),
+    ).toThrow(/file entry .* is missing required entry:/))
+})

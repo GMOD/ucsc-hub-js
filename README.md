@@ -14,28 +14,52 @@ read and write UCSC track and assembly hub files in node or the browser
 
 #### Table of Contents
 
--   [RaFile](#rafile)
+-   [GenomesFile](#genomesfile)
     -   [Parameters](#parameters)
+-   [HubFile](#hubfile)
+    -   [Parameters](#parameters-1)
+-   [RaFile](#rafile)
+    -   [Parameters](#parameters-2)
     -   [Properties](#properties)
     -   [add](#add)
-        -   [Parameters](#parameters-1)
-    -   [update](#update)
-        -   [Parameters](#parameters-2)
-    -   [delete](#delete)
         -   [Parameters](#parameters-3)
+    -   [update](#update)
+        -   [Parameters](#parameters-4)
+    -   [delete](#delete)
+        -   [Parameters](#parameters-5)
     -   [clear](#clear)
     -   [toString](#tostring)
 -   [RaStanza](#rastanza)
-    -   [Parameters](#parameters-4)
+    -   [Parameters](#parameters-6)
     -   [Properties](#properties-1)
     -   [add](#add-1)
-        -   [Parameters](#parameters-5)
-    -   [set](#set)
-        -   [Parameters](#parameters-6)
-    -   [delete](#delete-1)
         -   [Parameters](#parameters-7)
+    -   [set](#set)
+        -   [Parameters](#parameters-8)
+    -   [delete](#delete-1)
+        -   [Parameters](#parameters-9)
     -   [clear](#clear-1)
     -   [toString](#tostring-1)
+
+### GenomesFile
+
+**Extends RaFile**
+
+Class representing a genomes.txt file.
+
+#### Parameters
+
+-   `genomesFile` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** A genomes.txt file as a string (optional, default `[]`)
+
+### HubFile
+
+**Extends RaStanza**
+
+Class representing a hub.txt file.
+
+#### Parameters
+
+-   `hubFile` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** A hub.txt file as a string (optional, default `[]`)
 
 ### RaFile
 
