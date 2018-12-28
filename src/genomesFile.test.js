@@ -4,9 +4,9 @@ const GenomesFile = require('./genomesFile')
 describe('GenomesFile', () => {
   it('reads a basic genomes.txt file', () => {
     const input = fs.readFileSync('test/basic.genomes.txt', 'utf8')
-    const trackDb = new GenomesFile(input)
-    expect(trackDb).toMatchSnapshot()
-    expect(trackDb.toString()).toEqual(input)
+    const genomesFile = new GenomesFile(input)
+    expect(genomesFile).toMatchSnapshot()
+    expect(genomesFile.toString()).toEqual(input)
   })
 
   it("throws if the file doesn't start with a genomes entry", () =>

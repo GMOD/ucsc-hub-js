@@ -4,9 +4,9 @@ const HubFile = require('./hubFile')
 describe('HubFile', () => {
   it('reads a basic hub.txt file', () => {
     const input = fs.readFileSync('test/basic.hub.txt', 'utf8')
-    const trackDb = new HubFile(input)
-    expect(trackDb).toMatchSnapshot()
-    expect(trackDb.toString()).toEqual(input)
+    const hubFile = new HubFile(input)
+    expect(hubFile).toMatchSnapshot()
+    expect(hubFile.toString()).toEqual(input)
   })
 
   it("throws if the file doesn't start with a hub entry", () =>
