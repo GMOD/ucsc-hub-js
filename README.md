@@ -5,8 +5,86 @@ read and write UCSC track and assembly hub files in node or the browser
 ## Status
 
 [![Build Status](https://img.shields.io/travis/com/GMOD/ucsc-hub-js/master.svg?logo=travis&style=flat-square)](https://travis-ci.com/GMOD/ucsc-hub-js)
-[![Coverage Status](https://img.shields.io/codecov/c/github/GMOD/ucsc-hub-js/master.svg?logo=codecov&style=flat-square)](https://codecov.io/gh/GMOD/ucsc-hub-js/branch/master)
 [![NPM version](https://img.shields.io/npm/v/@gmod/ucsc-hub.svg?logo=npm&style=flat-square)](https://npmjs.org/package/@gmod/ucsc-hub)
+
+<!-- [![Coverage Status](https://img.shields.io/codecov/c/github/GMOD/ucsc-hub-js/master.svg?logo=codecov&style=flat-square)](https://codecov.io/gh/GMOD/ucsc-hub-js/branch/master) -->
+
+## Usage
+
+Read about hub.txt, genomes.txt, and trackDb.txt files here: <https://genome.ucsc.edu/goldenpath/help/hgTrackHubHelp.html>
+
+Files are essentially JavaScript `Map`s. A hub.txt file is a map with th keys as the first word in each line and the value as the rest of the line, like this:
+
+    Map {
+      "hub" => "UCSCHub",
+      "shortLabel" => "UCSC Hub",
+      "longLabel" => "UCSC Genome Informatics Hub for human DNase and RNAseq data",
+      "genomesFile" => "genomes.txt",
+      "email" => "genome@soe.ucsc.edu",
+      "descriptionUrl" => "ucscHub.html",
+    }
+
+genomes.txt and trackDb.txt files are two-deep `Map`s where the keys are the
+values of the first line of each section and the value is a `Map` of the lines in that whole section, like this:
+
+    Map {
+      "hg18" => Map {
+        "genome" => "hg18",
+        "trackDb" => "hg18/trackDb.txt",
+      },
+      "hg19" => Map {
+        "genome" => "hg19",
+        "trackDb" => "hg19/trackDb.txt",
+      },
+      "newOrg1" => Map {
+        "genome" => "newOrg1",
+        "trackDb" => "newOrg1/trackDb.txt",
+        "twoBitPath" => "newOrg1/newOrg1.2bit",
+        "groups" => "newOrg1/groups.txt",
+        "description" => "Big Foot V4",
+        "organism" => "BigFoot",
+        "defaultPos" => "chr21:33031596-33033258",
+        "orderKey" => "4800",
+        "scientificName" => "Biggus Footus",
+        "htmlPath" => "newOrg1/description.html",
+      },
+    }
+
+    Map {
+      "dnaseSignal" => Map {
+        "track" => "dnaseSignal",
+        "bigDataUrl" => "dnaseSignal.bigWig",
+        "shortLabel" => "DNAse Signal",
+        "longLabel" => "Depth of alignments of DNAse reads",
+        "type" => "bigWig",
+      },
+      "dnaseReads" => Map {
+        "track" => "dnaseReads",
+        "bigDataUrl" => "dnaseReads.bam",
+        "shortLabel" => "DNAse Reads",
+        "longLabel" => "DNAse reads mapped with MAQ",
+        "type" => "bam",
+      },
+    }
+
+Example usage:
+
+```javascript
+const fs = require('fs')
+const { HubFile, GenomesFile, TrackDbFile } = require('@gmod/ucsc-hub')
+
+const hubFile = new HubFile(fs.readFileSync('hub.txt', 'utf8'))
+console.log(hubFile.get('genomesFile'))
+// ↳ genomes.txt
+
+const genomesFile = new GenomesFile(fs.readFileSync('genomes.txt', 'utf8'))
+console.log(genomesFile.get('hg19').get('trackDb'))
+// ↳ hg19/trackDb.txt
+
+const trackDbFile = new TrackDbFile(fs.readFileSync('hg19/trackDb.txt', 'utf8'))
+console.log(trackDbFile.get('dnaseSignal').get('shortLabel'))
+// ↳ DNAse Signal
+```
 
 ## API
 
@@ -40,6 +118,10 @@ read and write UCSC track and assembly hub files in node or the browser
         -   [Parameters](#parameters-9)
     -   [clear](#clear-1)
     -   [toString](#tostring-1)
+-   [TrackDbFile](#trackdbfile)
+    -   [Parameters](#parameters-10)
+    -   [settings](#settings)
+        -   [Parameters](#parameters-11)
 
 ### GenomesFile
 
@@ -51,6 +133,10 @@ Class representing a genomes.txt file.
 
 -   `genomesFile` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** A genomes.txt file as a string (optional, default `[]`)
 
+
+-   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** Throws if the first line of the hub.txt file doesn't start
+    with "genome &lt;genome_name>" or if it has invalid entries
+
 ### HubFile
 
 **Extends RaStanza**
@@ -60,6 +146,11 @@ Class representing a hub.txt file.
 #### Parameters
 
 -   `hubFile` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** A hub.txt file as a string (optional, default `[]`)
+
+
+-   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** Throws if the first line of the hub.txt file doesn't start
+    with "hub &lt;hub_name>", if it has invalid entries, or is missing required
+    entries
 
 ### RaFile
 
@@ -217,6 +308,32 @@ input stanza as lines that were joined with `\` in the input will be output
 as a single line and all comments will have the same indentations as the
 rest of the stanza. Comments between joined lines will move before that
 line.
+
+### TrackDbFile
+
+**Extends RaFile**
+
+Class representing a genomes.txt file.
+
+#### Parameters
+
+-   `trackDbFile` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** A trackDb.txt file as a string (optional, default `[]`)
+
+
+-   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** Throws if "track" is not the first key in each track or if a
+    track is missing required keys
+
+#### settings
+
+Gets all track entries including those of parent tracks, with closer
+entries overriding more distant ones
+
+##### Parameters
+
+-   `trackName` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of a track
+
+
+-   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** Throws if track name does not exist in the trackDb
 
 ## License
 
