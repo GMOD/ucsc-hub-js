@@ -54,6 +54,9 @@ as it performs more validity checks than using `set()`.
 -   `raFile` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** An ra file, either as a single
     string or an array of strings with one stanza per entry. Supports both LF
     and CRLF line terminators. (optional, default `[]`)
+-   `options` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{checkIndent:true}`)
+    -   `options.checkIndent` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** [true] - Check if a the stanzas within
+        the file are indented consistently and keep track of the indentation
 
 #### Properties
 
@@ -125,6 +128,9 @@ than using `set()`.
 -   `stanza` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** An ra file stanza, either as a
     string or a array of strings with one line per entry. Supports both LF and
     CRLF line terminators. (optional, default `[]`)
+-   `options` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{checkIndent:true}`)
+    -   `options.checkIndent` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** [true] - Check if a stanza is indented
+        consistently and keep track of the indentation
 
 #### Properties
 
@@ -134,7 +140,7 @@ than using `set()`.
     stanza, by which it is identified in an ra file  (`undefined` if the stanza
     has no lines yet).
 -   `indent` **([undefined](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** The leading indent of the stanza,
-    which is the same for every line (`undefined` if the stanza has not lines
+    which is the same for every line (`undefined` if the stanza has no lines
     yet, `''` if there is no indent).
 
 
@@ -144,7 +150,8 @@ than using `set()`.
 
 #### add
 
-Add a single line to the stanza
+Add a single line to the stanza. If the exact line already exists, does
+nothing.
 
 ##### Parameters
 

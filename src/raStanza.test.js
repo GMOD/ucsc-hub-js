@@ -103,6 +103,19 @@ describe('RaStanza reader', () => {
     expect(stanza.toString()).toEqual(input)
   })
 
+  it('ignores indentation with checkIndent false', () => {
+    const input = '    key1 value1\n\tkey2 value\n'
+    const stanza = new RaStanza(input, { checkIndent: false })
+    expect(stanza).toMatchSnapshot()
+    expect(stanza._keyAndCommentOrder).toEqual(['key1', 'key2'])
+    expect(stanza.name).toEqual('value1')
+    expect(stanza.nameKey).toEqual('key1')
+    expect(stanza.indent).toEqual('')
+    expect(stanza.toString()).toEqual(
+      input.replace('    ', '').replace('\t', ''),
+    )
+  })
+
   it('handles continued lines', () => {
     const input =
       '  key1 value1\n' +
@@ -182,13 +195,11 @@ describe('RaStanza reader', () => {
     expect(() => stanza.delete('key1')).toThrow(/Cannot delete the first line/)
   })
 
-  it('throws with duplicate keys', () => {
+  it('throws with duplicate keys and different values', () => {
     expect(() => new RaStanza('key1 value1\nkey1 value2\n')).toThrow(
-      /duplicate key in stanza/,
+      /duplicate key with a different value/,
     )
-    expect(() => new RaStanza('key1 value1\nkey1\n')).toThrow(
-      /duplicate key in stanza/,
-    )
+    expect(() => new RaStanza('key1 value1\nkey1 value1\n')).not.toThrow()
   })
 
   it('throws on encountering blank lines', () =>
@@ -201,8 +212,15 @@ describe('RaStanza reader', () => {
       /must have both a key and a value/,
     ))
 
-  it('throws on inconsistent indentation', () =>
+  it('throws on inconsistent indentation', () => {
     expect(() => new RaStanza('    key1 value1\n  key2 value2\n')).toThrow(
       /Inconsistent indentation of stanza/,
-    ))
+    )
+    expect(
+      () =>
+        new RaStanza('    key1 value1\n  key2 value2\n', {
+          checkIndent: false,
+        }),
+    ).not.toThrow()
+  })
 })

@@ -14,21 +14,23 @@ require('./trimStartEndPolyfills')
  * stanza, by which it is identified in an ra file  (`undefined` if the stanza
  * has no lines yet).
  * @property {undefined|string} indent - The leading indent of the stanza,
- * which is the same for every line (`undefined` if the stanza has not lines
+ * which is the same for every line (`undefined` if the stanza has no lines
  * yet, `''` if there is no indent).
  * @throws {Error} Throws if the stanza has blank lines, if the first line
  * doesn't have both a key and a value, if a key in the stanza is
  * duplicated, or if lines in the stanza have inconsistent indentation.
+ * @param {(string|string[])} [stanza=[]] - An ra file stanza, either as a
+ * string or a array of strings with one line per entry. Supports both LF and
+ * CRLF line terminators.
+ * @param {object} options
+ * @param {boolean} options.checkIndent [true] - Check if a stanza is indented
+ * consistently and keep track of the indentation
  */
 class RaStanza extends Map {
-  /**
-   * Create a stanza
-   * @param {(string|string[])} [stanza=[]] - An ra file stanza, either as a
-   * string or a array of strings with one line per entry. Supports both LF and
-   * CRLF line terminators.
-   */
-  constructor(stanza) {
+  constructor(stanza, options = { checkIndent: true }) {
     super()
+    const { checkIndent } = options
+    this._checkIndent = checkIndent
     let stanzaLines
     if (typeof stanza === 'string') {
       stanzaLines = stanza.trimEnd().split(/\r?\n/)
@@ -44,7 +46,8 @@ class RaStanza extends Map {
   }
 
   /**
-   * Add a single line to the stanza
+   * Add a single line to the stanza. If the exact line already exists, does
+   * nothing.
    * @param {string} line A stanza line
    * @returns {RaStanza} The RaStanza object
    */
@@ -65,15 +68,19 @@ class RaStanza extends Map {
       combinedLine = this._continuedLine + combinedLine.trimStart()
       this._continuedLine = undefined
     }
-    const indent = combinedLine.match(/^([ \t]+)/)
-    if (this.indent === undefined) {
-      if (indent) [, this.indent] = indent
-      else this.indent = ''
-    } else if (
-      (this.indent === '' && indent !== null) ||
-      (this.indent && this.indent !== indent[1])
-    ) {
-      throw new Error('Inconsistent indentation of stanza')
+    if (this.indent || this._checkIndent) {
+      const indent = combinedLine.match(/^([ \t]+)/)
+      if (this.indent === undefined) {
+        if (indent) [, this.indent] = indent
+        else this.indent = ''
+      } else if (
+        (this.indent === '' && indent !== null) ||
+        (this.indent && this.indent !== indent[1])
+      ) {
+        throw new Error('Inconsistent indentation of stanza')
+      }
+    } else {
+      this.indent = ''
     }
     const trimmedLine = combinedLine.trim()
     const sep = trimmedLine.indexOf(' ')
@@ -82,19 +89,24 @@ class RaStanza extends Map {
         throw new Error(
           'First line in a stanza must have both a key and a value',
         )
-      if (this.has(trimmedLine))
-        throw new Error(`Got duplicate key in stanza: ${trimmedLine}`)
+      // Adding a key that already exists and has no value is a no-op
+      if (this.has(trimmedLine)) return this
       this._keyAndCommentOrder.push(trimmedLine)
       return super.set(trimmedLine, '')
     }
     const key = trimmedLine.slice(0, sep)
-    if (this.has(key)) throw new Error(`Got duplicate key in stanza: ${key}`)
+    const value = trimmedLine.slice(sep + 1)
+    if (this.has(key) && value !== this.get(key))
+      throw new Error(
+        'Got duplicate key with a different value in stanza: ' +
+          `${key} has both ${this.get(key)} and ${value}`,
+      )
     this._keyAndCommentOrder.push(key)
     if (!this.nameKey) {
       this.nameKey = key
       this.name = trimmedLine.slice(sep + 1)
     }
-    return super.set(key, trimmedLine.slice(sep + 1))
+    return super.set(key, value)
   }
 
   /**

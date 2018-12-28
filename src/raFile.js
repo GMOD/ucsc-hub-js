@@ -14,16 +14,18 @@ const RaStanza = require('./raStanza')
  * @throws {Error} Throws if an empty stanza is added, if the key in the first
  * key-value pair of each stanze isn't the same, or if two stanzas have the same
  * value for the key-value pair in their first lines.
+ * @param {(string|string[])} [raFile=[]] - An ra file, either as a single
+ * string or an array of strings with one stanza per entry. Supports both LF
+ * and CRLF line terminators.
+ * @param {object} options
+ * @param {boolean} options.checkIndent [true] - Check if a the stanzas within
+ * the file are indented consistently and keep track of the indentation
  */
 class RaFile extends Map {
-  /**
-   * Create a stanza
-   * @param {(string|string[])} [raFile=[]] - An ra file, either as a single
-   * string or an array of strings with one stanza per entry. Supports both LF
-   * and CRLF line terminators.
-   */
-  constructor(raFile) {
+  constructor(raFile, options = { checkIndent: true }) {
     super()
+    const { checkIndent } = options
+    this._checkIndent = checkIndent
     let stanzas
     if (typeof raFile === 'string') {
       stanzas = raFile.trimEnd().split(/(?:\r?\n){2,}/)
@@ -55,7 +57,7 @@ class RaFile extends Map {
         return this
       }
     }
-    const raStanza = new RaStanza(stanza)
+    const raStanza = new RaStanza(stanza, { checkIndent: this._checkIndent })
     if (!this.nameKey) this.nameKey = raStanza.nameKey
     else if (raStanza.nameKey !== this.nameKey)
       throw new Error(

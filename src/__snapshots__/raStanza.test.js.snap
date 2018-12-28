@@ -35,6 +35,13 @@ Map {
 }
 `;
 
+exports[`RaStanza reader ignores indentation with checkIndent false 1`] = `
+Map {
+  "key1" => "value1",
+  "key2" => "value",
+}
+`;
+
 exports[`RaStanza reader parses a list of strings 1`] = `
 Map {
   "key1" => "value1",
