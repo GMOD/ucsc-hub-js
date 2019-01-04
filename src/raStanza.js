@@ -99,7 +99,7 @@ class RaStanza extends Map {
     if (this.has(key) && value !== this.get(key))
       throw new Error(
         'Got duplicate key with a different value in stanza: ' +
-          `${key} has both ${this.get(key)} and ${value}`,
+          `"${key}" key has both ${this.get(key)} and ${value}`,
       )
     this._keyAndCommentOrder.push(key)
     if (!this.nameKey) {

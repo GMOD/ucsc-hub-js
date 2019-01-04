@@ -29,7 +29,12 @@ class TrackDbFile extends RaFile {
             ', ',
           )}`,
         )
-      const parentTrackKeys = ['superTrack', 'compositeTrack', 'container']
+      const parentTrackKeys = [
+        'superTrack',
+        'compositeTrack',
+        'container',
+        'view',
+      ]
       if (!trackKeys.some(key => parentTrackKeys.includes(key))) {
         if (!trackKeys.includes('bigDataUrl'))
           throw new Error(

@@ -28,7 +28,7 @@ class RaFile extends Map {
     this._checkIndent = checkIndent
     let stanzas
     if (typeof raFile === 'string') {
-      stanzas = raFile.trimEnd().split(/(?:\r?\n){2,}/)
+      stanzas = raFile.trimEnd().split(/(?:[\t ]*\r?\n){2,}/)
     } else if (!raFile) {
       stanzas = []
     } else {
