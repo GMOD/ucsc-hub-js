@@ -53,7 +53,7 @@
     "@babel/runtime": "^7.3.1",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.0.0",
-    "documentation": "^9.0.0-alpha.0",
+    "documentation": "^10.0.0",
     "eslint": "^5.10.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^3.1.0",
