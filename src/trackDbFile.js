@@ -12,14 +12,12 @@ class TrackDbFile extends RaFile {
     super(trackDbFile, { checkIndent: false })
     if (this.nameKey !== 'track')
       throw new Error(
-        `trackDb has "${
-          this.nameKey
-        }" instead of "track" as the first line in each track`,
+        `trackDb has "${this.nameKey}" instead of "track" as the first line in each track`,
       )
     this.forEach((track, trackName) => {
       const trackKeys = Array.from(track.keys())
       const missingKeys = []
-      const requiredKeys = ['track', 'shortLabel', 'longLabel']
+      const requiredKeys = ['track', 'shortLabel']
       requiredKeys.forEach(key => {
         if (!trackKeys.includes(key)) missingKeys.push(key)
       })
