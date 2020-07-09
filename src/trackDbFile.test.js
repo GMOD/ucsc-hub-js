@@ -23,11 +23,6 @@ describe('TrackDbFile', () => {
     expect(trackDb.settings('26_plus')).toMatchSnapshot()
   })
 
-  it('parses an blueprint trackDb.txt file', () => {
-    const input = fs.readFileSync('test/blueprint.trackDb.txt', 'utf8')
-    const trackDb = new TrackDbFile(input)
-    expect(trackDb).toMatchSnapshot()
-  })
   it("throws if each track doesn't start with track", () =>
     expect(
       () =>
