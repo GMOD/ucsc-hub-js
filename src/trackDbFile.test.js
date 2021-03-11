@@ -33,7 +33,7 @@ describe('TrackDbFile', () => {
     expect(
       () =>
         new TrackDbFile('track dnaseSignal\nbigDataUrl dnaseSignal.bigWig\n'),
-    ).toThrow(/Track .* is missing required key\(s\):/))
+    ).toThrow(/Neither/))
 
   it("throws if each track isn't a parent track and doesn't have bigDataUrl", () =>
     expect(

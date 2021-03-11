@@ -17,7 +17,7 @@ class TrackDbFile extends RaFile {
     this.forEach((track, trackName) => {
       const trackKeys = Array.from(track.keys())
       const missingKeys = []
-      const requiredKeys = ['track', 'shortLabel']
+      const requiredKeys = ['track']
       requiredKeys.forEach(key => {
         if (!trackKeys.includes(key)) missingKeys.push(key)
       })
