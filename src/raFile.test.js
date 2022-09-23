@@ -1,6 +1,5 @@
-const fs = require('fs')
-const RaFile = require('./raFile')
-require('./trimStartEndPolyfills')
+import fs from 'fs'
+import RaFile from './raFile'
 
 describe('RaFile reader', () => {
   it('creates an empty ra file', () => {

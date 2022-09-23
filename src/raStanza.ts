@@ -1,5 +1,3 @@
-require('./trimStartEndPolyfills')
-
 /**
  * Class representing an ra file stanza. Each stanza line is split into its key
  * and value and stored as a Map, so the usual Map methods can be used on the
@@ -7,31 +5,44 @@ require('./trimStartEndPolyfills')
  * and break it up into a key and value and add them to the class. This should
  * be favored over `set()` when possible, as it performs more validity checks
  * than using `set()`.
+ *
  * @extends Map
  * @property {undefined|string} nameKey - The key of the first line of the
  * stanza (`undefined` if the stanza has no lines yet).
+ *
  * @property {undefined|string} name - The value of the first line of the
  * stanza, by which it is identified in an ra file  (`undefined` if the stanza
  * has no lines yet).
+ *
  * @property {undefined|string} indent - The leading indent of the stanza,
  * which is the same for every line (`undefined` if the stanza has no lines
  * yet, `''` if there is no indent).
+ *
  * @throws {Error} Throws if the stanza has blank lines, if the first line
  * doesn't have both a key and a value, if a key in the stanza is
  * duplicated, or if lines in the stanza have inconsistent indentation.
  * @param {(string|string[])} [stanza=[]] - An ra file stanza, either as a
  * string or a array of strings with one line per entry. Supports both LF and
  * CRLF line terminators.
+ *
  * @param {object} options
+ *
  * @param {boolean} options.checkIndent [true] - Check if a stanza is indented
  * consistently and keep track of the indentation
  */
-class RaStanza extends Map {
-  constructor(stanza, options = { checkIndent: true }) {
+export default class RaStanza extends Map<string, string> {
+  _checkIndent: boolean
+  _keyAndCommentOrder: string[]
+  _continuedLine?: string
+  indent?: string
+  name?: string
+  nameKey?: string
+
+  constructor(stanza: string | string[], options = { checkIndent: true }) {
     super()
     const { checkIndent } = options
     this._checkIndent = checkIndent
-    let stanzaLines
+    let stanzaLines: string[]
     if (typeof stanza === 'string') {
       stanzaLines = stanza.trimEnd().split(/\r?\n/)
     } else if (!stanza) {
@@ -51,16 +62,21 @@ class RaStanza extends Map {
    * @param {string} line A stanza line
    * @returns {RaStanza} The RaStanza object
    */
-  add(line) {
-    if (line === '') throw new Error('Invalid stanza, contained blank lines')
+  add(line: string) {
+    if (line === '') {
+      throw new Error('Invalid stanza, contained blank lines')
+    }
     if (line.trim().startsWith('#')) {
       this._keyAndCommentOrder.push(line.trim())
       return this
     }
     if (line.trimEnd().endsWith('\\')) {
       const trimmedLine = line.trimEnd().slice(0, -1)
-      if (this._continuedLine) this._continuedLine += trimmedLine.trimStart()
-      else this._continuedLine = trimmedLine
+      if (this._continuedLine) {
+        this._continuedLine += trimmedLine.trimStart()
+      } else {
+        this._continuedLine = trimmedLine
+      }
       return this
     }
     let combinedLine = line
@@ -71,11 +87,14 @@ class RaStanza extends Map {
     if (this.indent || this._checkIndent) {
       const indent = combinedLine.match(/^([ \t]+)/)
       if (this.indent === undefined) {
-        if (indent) [, this.indent] = indent
-        else this.indent = ''
+        if (indent) {
+          ;[, this.indent] = indent
+        } else {
+          this.indent = ''
+        }
       } else if (
         (this.indent === '' && indent !== null) ||
-        (this.indent && this.indent !== indent[1])
+        (this.indent && indent && this.indent !== indent[1])
       ) {
         throw new Error('Inconsistent indentation of stanza')
       }
@@ -85,22 +104,26 @@ class RaStanza extends Map {
     const trimmedLine = combinedLine.trim()
     const sep = trimmedLine.indexOf(' ')
     if (sep === -1) {
-      if (!this.nameKey)
+      if (!this.nameKey) {
         throw new Error(
           'First line in a stanza must have both a key and a value',
         )
+      }
       // Adding a key that already exists and has no value is a no-op
-      if (this.has(trimmedLine)) return this
+      if (this.has(trimmedLine)) {
+        return this
+      }
       this._keyAndCommentOrder.push(trimmedLine)
       return super.set(trimmedLine, '')
     }
     const key = trimmedLine.slice(0, sep)
     const value = trimmedLine.slice(sep + 1)
-    if (this.has(key) && value !== this.get(key))
+    if (this.has(key) && value !== this.get(key)) {
       throw new Error(
         'Got duplicate key with a different value in stanza: ' +
           `"${key}" key has both ${this.get(key)} and ${value}`,
       )
+    }
     this._keyAndCommentOrder.push(key)
     if (!this.nameKey) {
       this.nameKey = key
@@ -116,9 +139,10 @@ class RaStanza extends Map {
    * @param {string} value The value of the stanza line
    * @returns {RaStanza} The RaStanza object
    */
-  set(key, value) {
-    if (!(typeof value === 'string'))
+  set(key: string, value: string) {
+    if (!(typeof value === 'string')) {
       throw new Error(`Value of ${key} must be a string, got ${typeof value}`)
+    }
     return super.set(key, value)
   }
 
@@ -127,15 +151,17 @@ class RaStanza extends Map {
    * @param {string} key The key of the line to delete
    * @returns {boolean} true if the deleted line existed, false if it did not
    */
-  delete(key) {
-    if (key === this.nameKey)
+  delete(key: string) {
+    if (key === this.nameKey) {
       throw new Error(
         'Cannot delete the first line in a stanza (you can still overwrite it with set()).',
       )
-    if (this._keyAndCommentOrder.includes(key))
+    }
+    if (this._keyAndCommentOrder.includes(key)) {
       this._keyAndCommentOrder = this._keyAndCommentOrder.filter(
         value => value !== key,
       )
+    }
     return super.delete(key)
   }
 
@@ -160,14 +186,17 @@ class RaStanza extends Map {
    * line.
    */
   toString() {
-    if (this.size === 0) return ''
-    const lines = []
+    if (this.size === 0) {
+      return ''
+    }
+    const lines = [] as string[]
     this._keyAndCommentOrder.forEach(entry => {
-      if (entry.startsWith('#')) lines.push(`${this.indent}${entry}`)
-      else lines.push(`${this.indent}${entry} ${this.get(entry)}`.trimEnd())
+      if (entry.startsWith('#')) {
+        lines.push(`${this.indent}${entry}`)
+      } else {
+        lines.push(`${this.indent}${entry} ${this.get(entry)}`.trimEnd())
+      }
     })
     return `${lines.join('\n')}\n`
   }
 }
-
-module.exports = RaStanza

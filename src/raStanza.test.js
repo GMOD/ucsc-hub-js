@@ -1,4 +1,4 @@
-const RaStanza = require('./raStanza')
+import RaStanza from './raStanza'
 
 describe('RaStanza reader', () => {
   it('creates an empty stanza', () => {
