@@ -32,10 +32,15 @@
  */
 export default class RaStanza extends Map<string, string> {
   _checkIndent: boolean
+
   _keyAndCommentOrder: string[]
+
   _continuedLine?: string
+
   indent?: string
+
   name?: string
+
   nameKey?: string
 
   constructor(stanza: string | string[], options = { checkIndent: true }) {

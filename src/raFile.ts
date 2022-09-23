@@ -23,7 +23,9 @@ import RaStanza from './raStanza'
  */
 export default class RaFile extends Map<string, RaStanza> {
   _checkIndent: boolean
+
   _stanzaAndCommentOrder: string[]
+
   nameKey?: string
 
   constructor(raFile: string, options = { checkIndent: true }) {

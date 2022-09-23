@@ -1,3 +1,4 @@
+// @ts-nocheck
 import RaStanza from './raStanza'
 
 describe('RaStanza reader', () => {

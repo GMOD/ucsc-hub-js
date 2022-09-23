@@ -1,10 +1,11 @@
+// @ts-nocheck
 import fs from 'fs'
 import RaFile from './raFile'
 
 describe('RaFile reader', () => {
   it('creates an empty ra file', () => {
     const raFile = new RaFile()
-    expect(raFile).toMatchInlineSnapshot(`Map {}`)
+    expect(raFile).toMatchInlineSnapshot('Map {}')
     expect(raFile._stanzaAndCommentOrder).toEqual([])
     expect(raFile.nameKey).toBeUndefined()
     expect(raFile.toString()).toEqual('')
