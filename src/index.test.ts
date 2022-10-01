@@ -1,4 +1,5 @@
-const { RaFile, RaStanza } = require('.')
+// @ts-nocheck
+import { RaFile, RaStanza } from './index'
 
 describe('ucsc-hub-js', () => {
   it('imports modules', () => {

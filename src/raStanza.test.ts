@@ -1,4 +1,5 @@
-const RaStanza = require('./raStanza')
+// @ts-nocheck
+import RaStanza from './raStanza'
 
 describe('RaStanza reader', () => {
   it('creates an empty stanza', () => {

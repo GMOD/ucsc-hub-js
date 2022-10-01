@@ -1,5 +1,6 @@
-const fs = require('fs')
-const TrackDbFile = require('./trackDbFile')
+// @ts-nocheck
+import fs from 'fs'
+import TrackDbFile from './trackDbFile'
 
 describe('TrackDbFile', () => {
   it('reads a basic trackDb.txt file', () => {

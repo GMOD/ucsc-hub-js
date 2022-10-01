@@ -1,4 +1,4 @@
-const RaStanza = require('./raStanza')
+import RaStanza from './raStanza'
 
 /**
  * Class representing an ra file. Each file is composed of multiple stanzas, and
@@ -21,12 +21,18 @@ const RaStanza = require('./raStanza')
  * @param {boolean} options.checkIndent [true] - Check if a the stanzas within
  * the file are indented consistently and keep track of the indentation
  */
-class RaFile extends Map {
-  constructor(raFile, options = { checkIndent: true }) {
+export default class RaFile extends Map<string, RaStanza> {
+  _checkIndent: boolean
+
+  _stanzaAndCommentOrder: string[]
+
+  nameKey?: string
+
+  constructor(raFile: string, options = { checkIndent: true }) {
     super()
     const { checkIndent } = options
     this._checkIndent = checkIndent
-    let stanzas
+    let stanzas: string[]
     if (typeof raFile === 'string') {
       stanzas = raFile.trimEnd().split(/(?:[\t ]*\r?\n){2,}/)
     } else if (!raFile) {
@@ -45,8 +51,10 @@ class RaFile extends Map {
    * @param {string} stanza A single stanza
    * @returns {RaFile} The RaFile object
    */
-  add(stanza) {
-    if (stanza === '') throw new Error('Invalid stanza, was empty')
+  add(stanza: string) {
+    if (stanza === '') {
+      throw new Error('Invalid stanza, was empty')
+    }
     if (stanza.trim().startsWith('#')) {
       const stanzaLines = stanza
         .trimEnd()
@@ -58,14 +66,21 @@ class RaFile extends Map {
       }
     }
     const raStanza = new RaStanza(stanza, { checkIndent: this._checkIndent })
-    if (!this.nameKey) this.nameKey = raStanza.nameKey
-    else if (raStanza.nameKey !== this.nameKey)
+    if (!this.nameKey) {
+      this.nameKey = raStanza.nameKey
+    } else if (raStanza.nameKey !== this.nameKey) {
       throw new Error(
         'The first line in each stanza must have the same key. ' +
           `Saw both ${this.nameKey} and ${raStanza.nameKey}`,
       )
-    if (this.has(raStanza.name))
+    }
+    if (!raStanza.name) {
+      throw new Error(`No stanza name: ${raStanza.name}`)
+    }
+    if (this.has(raStanza.name)) {
       throw new Error(`Got duplicate stanza name: ${raStanza.name}`)
+    }
+
     this._stanzaAndCommentOrder.push(raStanza.name)
     return super.set(raStanza.name, raStanza)
   }
@@ -76,9 +91,10 @@ class RaFile extends Map {
    * @param {string} key The key of the RaFile stanza
    * @param {RaStanza} value The RaFile stanza used to replace the prior one
    */
-  update(key, value) {
-    if (!(value instanceof RaStanza))
+  update(key: string, value: RaStanza) {
+    if (!(value instanceof RaStanza)) {
       throw new Error(`Value of ${key} is not an RaStanza`)
+    }
     super.set(key, value)
   }
 
@@ -88,11 +104,12 @@ class RaFile extends Map {
    * first key-value pair)
    * @returns {boolean} true if the deleted stanza existed, false if it did not
    */
-  delete(stanza) {
-    if (this._stanzaAndCommentOrder.includes(stanza))
+  delete(stanza: string) {
+    if (this._stanzaAndCommentOrder.includes(stanza)) {
       this._stanzaAndCommentOrder = this._stanzaAndCommentOrder.filter(
         value => value !== stanza,
       )
+    }
     return super.delete(stanza)
   }
 
@@ -114,14 +131,20 @@ class RaFile extends Map {
    * line.
    */
   toString() {
-    if (this.size === 0) return ''
-    const stanzas = []
+    if (this.size === 0) {
+      return ''
+    }
+    const stanzas = [] as string[]
     this._stanzaAndCommentOrder.forEach(entry => {
-      if (entry.startsWith('#')) stanzas.push(`${entry}\n`)
-      else stanzas.push(this.get(entry).toString())
+      if (entry.startsWith('#')) {
+        stanzas.push(`${entry}\n`)
+      } else {
+        const e = this.get(entry)
+        if (e) {
+          stanzas.push(e.toString())
+        }
+      }
     })
     return stanzas.join('\n')
   }
 }
-
-module.exports = RaFile

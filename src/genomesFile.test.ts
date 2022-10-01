@@ -1,5 +1,6 @@
-const fs = require('fs')
-const GenomesFile = require('./genomesFile')
+// @ts-nocheck
+import fs from 'fs'
+import GenomesFile from './genomesFile'
 
 describe('GenomesFile', () => {
   it('reads a basic genomes.txt file', () => {

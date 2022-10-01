@@ -1,4 +1,4 @@
-const RaStanza = require('./raStanza')
+import RaStanza from './raStanza'
 
 /**
  * Class representing a hub.txt file.
@@ -8,11 +8,12 @@ const RaStanza = require('./raStanza')
  * with "hub <hub_name>", if it has invalid entries, or is missing required
  * entries
  */
-class HubFile extends RaStanza {
-  constructor(hubFile) {
+export default class HubFile extends RaStanza {
+  constructor(hubFile: string) {
     super(hubFile)
-    if (this.nameKey !== 'hub')
+    if (this.nameKey !== 'hub') {
       throw new Error('Hub file must begin with a line like "hub <hub_name>"')
+    }
     const hubTxtFields = [
       'hub',
       'shortLabel',
@@ -21,28 +22,31 @@ class HubFile extends RaStanza {
       'email',
       'descriptionUrl',
     ]
-    const extraFields = []
-    this.forEach((value, key) => {
-      if (!hubTxtFields.includes(key)) extraFields.push(key)
+    const extraFields = [] as string[]
+    this.forEach((_value, key) => {
+      if (!hubTxtFields.includes(key)) {
+        extraFields.push(key)
+      }
     })
-    if (extraFields.length > 0)
+    if (extraFields.length > 0) {
       throw new Error(
         `Hub file has invalid entr${
           extraFields.length === 1 ? 'y' : 'ies'
         }: ${extraFields.join(', ')}`,
       )
-    const missingFields = []
+    }
+    const missingFields = [] as string[]
     hubTxtFields.forEach(field => {
-      if (field !== 'descriptionUrl' && !this.get(field))
+      if (field !== 'descriptionUrl' && !this.get(field)) {
         missingFields.push(field)
+      }
     })
-    if (missingFields.length > 0)
+    if (missingFields.length > 0) {
       throw new Error(
         `Hub file is missing required entr${
           missingFields.length === 1 ? 'y' : 'ies'
         }: ${missingFields.join(', ')}`,
       )
+    }
   }
 }
-
-module.exports = HubFile

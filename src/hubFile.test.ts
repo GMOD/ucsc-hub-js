@@ -1,5 +1,6 @@
-const fs = require('fs')
-const HubFile = require('./hubFile')
+// @ts-nocheck
+import fs from 'fs'
+import HubFile from './hubFile'
 
 describe('HubFile', () => {
   it('reads a basic hub.txt file', () => {
