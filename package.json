@@ -1,6 +1,6 @@
 {
   "name": "@gmod/ucsc-hub",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Read and write UCSC track and assembly hub files in node or the browser",
   "license": "MIT",
   "repository": "github:GMOD/ucsc-hub-js",
