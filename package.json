@@ -5,6 +5,7 @@
   "license": "MIT",
   "repository": "github:GMOD/ucsc-hub-js",
   "main": "dist/index.js",
+  "module": "esm/index.js",
   "author": {
     "name": "Garrett Stevens",
     "email": "stevens.garrett.j@gmail.com",
@@ -28,7 +29,7 @@
     "build:es5": "tsc --target es2015 --module commonjs --outDir dist",
     "build": "npm run build:esm && npm run build:es5",
     "preversion": "npm run lint && npm test && npm run build",
-    "postversion": "git push origin master --follow-tags",
+    "postversion": "git push --follow-tags",
     "prepare": "husky install"
   },
   "keywords": [
