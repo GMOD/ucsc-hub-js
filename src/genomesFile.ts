@@ -8,12 +8,7 @@ import RaFile from './raFile'
  * with "genome <genome_name>" or if it has invalid entries
  */
 export default class GenomesFile extends RaFile {
-  constructor(genomesFile: string) {
-    super(genomesFile)
-    this.validate()
-  }
-
-  protected validate() {
+  public validate() {
     if (this.nameKey !== 'genome') {
       throw new Error(
         'Genomes file must begin with a line like "genome <genome_name>"',

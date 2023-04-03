@@ -9,16 +9,9 @@ import RaStanza from './raStanza'
  * entries
  */
 export default class HubFile extends RaStanza {
-  constructor(hubFile: string) {
-    super(hubFile)
-    this.validate()
-  }
-
   protected validate() {
-    if (this.nameKey !== 'hub') {
-      throw new Error('Hub file must begin with a line like "hub <hub_name>"')
-    }
-    const hubTxtFields = [
+    const missingFields = [] as string[]
+    const requiredFields = [
       'hub',
       'shortLabel',
       'longLabel',
@@ -26,22 +19,9 @@ export default class HubFile extends RaStanza {
       'email',
       'descriptionUrl',
     ]
-    const extraFields = [] as string[]
-    this.forEach((_value, key) => {
-      if (!hubTxtFields.includes(key)) {
-        extraFields.push(key)
-      }
-    })
-    if (extraFields.length > 0) {
-      throw new Error(
-        `Hub file has invalid entr${
-          extraFields.length === 1 ? 'y' : 'ies'
-        }: ${extraFields.join(', ')}`,
-      )
-    }
-    const missingFields = [] as string[]
-    hubTxtFields.forEach(field => {
-      if (field !== 'descriptionUrl' && !this.get(field)) {
+
+    requiredFields.forEach(field => {
+      if (!this.get(field)) {
         missingFields.push(field)
       }
     })

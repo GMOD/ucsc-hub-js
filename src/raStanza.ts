@@ -43,10 +43,16 @@ export default class RaStanza extends Map<string, string> {
 
   nameKey?: string
 
-  constructor(stanza: string | string[] = [], options = { checkIndent: true }) {
+  constructor(
+    stanza: string | string[] = [],
+    options: { checkIndent?: boolean; skipValidation?: boolean } = {
+      checkIndent: true,
+      skipValidation: false,
+    },
+  ) {
     super()
     const { checkIndent } = options
-    this._checkIndent = checkIndent
+    this._checkIndent = !!checkIndent
     let stanzaLines: string[]
     if (typeof stanza === 'string') {
       stanzaLines = stanza.trimEnd().split(/\r?\n/)
@@ -59,7 +65,13 @@ export default class RaStanza extends Map<string, string> {
     stanzaLines.forEach(line => {
       this.add(line)
     })
+
+    if (!options.skipValidation) {
+      this.validate()
+    }
   }
+
+  protected validate() {}
 
   /**
    * Add a single line to the stanza. If the exact line already exists, does

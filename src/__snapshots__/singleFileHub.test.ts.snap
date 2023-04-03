@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`singleFileHub reads a basic singleFileAssemblyHub.txt file 1`] = `
+Map {
+  "hub" => "GCF_000002985.6 genome assembly",
+  "shortLabel" => "roundworm",
+  "longLabel" => "roundworm/Caenorhabditis elegans/GCF_000002985.6_WBcel235 genome assembly",
+  "useOneFile" => "on",
+  "email" => "hclawson@ucsc.edu",
+  "descriptionUrl" => "html/GCF_000002985.6_WBcel235.description.html",
+}
+`;

@@ -10,7 +10,6 @@ import RaFile from './raFile'
 export default class TrackDbFile extends RaFile {
   constructor(trackDbFile: string) {
     super(trackDbFile, { checkIndent: false })
-    this.validate()
   }
 
   protected validate() {
