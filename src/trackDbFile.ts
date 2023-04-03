@@ -8,8 +8,11 @@ import RaFile from './raFile'
  * track is missing required keys
  */
 export default class TrackDbFile extends RaFile {
-  constructor(trackDbFile: string) {
-    super(trackDbFile, { checkIndent: false })
+  constructor(
+    trackDbFile: string,
+    options?: ConstructorParameters<typeof RaFile>[1],
+  ) {
+    super(trackDbFile, { ...options, checkIndent: false })
   }
 
   protected validate() {
