@@ -28,7 +28,7 @@ export default class RaFile extends Map<string, RaStanza> {
 
   nameKey?: string
 
-  constructor(raFile: string, options = { checkIndent: true }) {
+  constructor(raFile: string | string[] = [], options = { checkIndent: true }) {
     super()
     const { checkIndent } = options
     this._checkIndent = checkIndent

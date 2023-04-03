@@ -1,4 +1,4 @@
-// @ts-nocheck
+import assert from 'assert'
 import RaStanza from './raStanza'
 
 describe('RaStanza reader', () => {
@@ -179,6 +179,7 @@ describe('RaStanza reader', () => {
     const input = 'key1 value1\nkey2 value2\nkey3\n'
     const stanza = new RaStanza(input)
     let updatedValue = stanza.get('key2')
+    assert(updatedValue)
     updatedValue += '_new'
     stanza.set('key2', updatedValue)
     expect(stanza).toMatchSnapshot()

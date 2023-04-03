@@ -10,6 +10,10 @@ import RaFile from './raFile'
 export default class TrackDbFile extends RaFile {
   constructor(trackDbFile: string) {
     super(trackDbFile, { checkIndent: false })
+    this.validate()
+  }
+
+  protected validate() {
     if (this.nameKey !== 'track') {
       throw new Error(
         `trackDb has "${this.nameKey}" instead of "track" as the first line in each track`,

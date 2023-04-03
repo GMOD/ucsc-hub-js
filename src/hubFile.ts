@@ -11,6 +11,10 @@ import RaStanza from './raStanza'
 export default class HubFile extends RaStanza {
   constructor(hubFile: string) {
     super(hubFile)
+    this.validate()
+  }
+
+  protected validate() {
     if (this.nameKey !== 'hub') {
       throw new Error('Hub file must begin with a line like "hub <hub_name>"')
     }

@@ -1,6 +1,6 @@
-// @ts-nocheck
 import fs from 'fs'
 import RaFile from './raFile'
+import assert from 'assert'
 
 describe('RaFile reader', () => {
   it('creates an empty ra file', () => {
@@ -136,6 +136,7 @@ describe('RaFile reader', () => {
     const input = fs.readFileSync('test/basic.ra', 'utf8')
     const raFile = new RaFile(input)
     const updatedStanza = raFile.get('valD')
+    assert(updatedStanza)
     updatedStanza.indent = '    '
     raFile.set('valD', updatedStanza)
     expect(raFile).toMatchSnapshot()

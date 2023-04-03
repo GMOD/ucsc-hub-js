@@ -10,6 +10,10 @@ import RaFile from './raFile'
 export default class GenomesFile extends RaFile {
   constructor(genomesFile: string) {
     super(genomesFile)
+    this.validate()
+  }
+
+  protected validate() {
     if (this.nameKey !== 'genome') {
       throw new Error(
         'Genomes file must begin with a line like "genome <genome_name>"',

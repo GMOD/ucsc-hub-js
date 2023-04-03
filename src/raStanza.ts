@@ -43,7 +43,7 @@ export default class RaStanza extends Map<string, string> {
 
   nameKey?: string
 
-  constructor(stanza: string | string[], options = { checkIndent: true }) {
+  constructor(stanza: string | string[] = [], options = { checkIndent: true }) {
     super()
     const { checkIndent } = options
     this._checkIndent = checkIndent

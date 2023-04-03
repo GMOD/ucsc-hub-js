@@ -12,7 +12,7 @@ read and write UCSC track and assembly hub files in node or the browser
 
 Read about hub.txt, genomes.txt, and trackDb.txt files here: <https://genome.ucsc.edu/goldenpath/help/hgTrackHubHelp.html>
 
-Files are essentially JavaScript `Map`s. A hub.txt file is a map with th keys as the first word in each line and the value as the rest of the line, like this:
+Files are essentially JavaScript `Map`s. A hub.txt file is a map with keys as the first word in each line and the value as the rest of the line, like this:
 
     Map {
       "hub" => "UCSCHub",
