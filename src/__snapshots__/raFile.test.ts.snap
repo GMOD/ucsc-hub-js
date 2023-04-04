@@ -72,6 +72,11 @@ Map {
     "key2" => "valH",
     "key3" => "valI",
   },
+  "Foot" => Map {
+    "key1" => "Foot",
+    "key2" => "Ankle",
+    "key3" => "Knee",
+  },
 }
 `;
 

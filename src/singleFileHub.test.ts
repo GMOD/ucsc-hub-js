@@ -3,7 +3,9 @@ import SingleFileHub from './singleFileHub'
 
 // test that singleFileHub can parse singleFileAssemblyHub.txt
 describe('singleFileHub', () => {
-  it('reads a basic singleFileAssemblyHub.txt file', () => {
+  it('roundtrips a full single-file hub', () => {
+    // NOTE: this file was slightly modified from the
+    // original to fix inconsistent indentation
     const input = fs.readFileSync(
       'test/singleFileAssemblyHub.GCF_000002985.6.hub.txt',
       'utf8',
@@ -12,5 +14,7 @@ describe('singleFileHub', () => {
     expect(singleFileHub).toMatchSnapshot()
     expect(singleFileHub.genome).toMatchSnapshot()
     expect(singleFileHub.tracks).toMatchSnapshot()
+
+    expect(singleFileHub.toString()).toEqual(input)
   })
 })

@@ -111,72 +111,72 @@ dataVersion WormBase WS277 (2020-05-29)
 html html/GCF_000002985.6_WBcel235.refSeqComposite
 priority 2
 
-        track ncbiRefSeq
-        parent refSeqComposite on
-        color 12,12,120
-        altColor 120,12,12
-        shortLabel RefSeq All
-        type bigGenePred
-        labelFields name,geneName,geneName2
-        defaultLabelFields geneName2
-        searchIndex name
-        searchTrix ixIxx/GCF_000002985.6_WBcel235.ncbiRefSeq.ix
-        bigDataUrl bbi/GCF_000002985.6_WBcel235.ncbiRefSeq.bb
-        longLabel NCBI RefSeq genes, curated and predicted sets (NM_*, XM_*, NR_*, XR_*, NP_* or YP_*)
-        idXref ncbiRefSeqLink mrnaAcc name
-        baseColorUseCds given
-        baseColorDefault genomicCodons
-        priority 1
+    track ncbiRefSeq
+    parent refSeqComposite on
+    color 12,12,120
+    altColor 120,12,12
+    shortLabel RefSeq All
+    type bigGenePred
+    labelFields name,geneName,geneName2
+    defaultLabelFields geneName2
+    searchIndex name
+    searchTrix ixIxx/GCF_000002985.6_WBcel235.ncbiRefSeq.ix
+    bigDataUrl bbi/GCF_000002985.6_WBcel235.ncbiRefSeq.bb
+    longLabel NCBI RefSeq genes, curated and predicted sets (NM_*, XM_*, NR_*, XR_*, NP_* or YP_*)
+    idXref ncbiRefSeqLink mrnaAcc name
+    baseColorUseCds given
+    baseColorDefault genomicCodons
+    priority 1
 
-        track ncbiRefSeqCurated
-        color 12,12,120
-        parent refSeqComposite on
-        shortLabel RefSeq Curated
-        longLabel NCBI RefSeq genes, curated subset (NM_*, NR_*, NP_* or YP_*)
-        type bigGenePred
-        labelFields name,geneName,geneName2
-        defaultLabelFields geneName2
-        searchIndex name
-        searchTrix ixIxx/GCF_000002985.6_WBcel235.ncbiRefSeqCurated.ix
-        idXref ncbiRefSeqLink mrnaAcc name
-        bigDataUrl bbi/GCF_000002985.6_WBcel235.ncbiRefSeqCurated.bb
-        baseColorUseCds given
-        baseColorDefault genomicCodons
-        priority 2
+    track ncbiRefSeqCurated
+    color 12,12,120
+    parent refSeqComposite on
+    shortLabel RefSeq Curated
+    longLabel NCBI RefSeq genes, curated subset (NM_*, NR_*, NP_* or YP_*)
+    type bigGenePred
+    labelFields name,geneName,geneName2
+    defaultLabelFields geneName2
+    searchIndex name
+    searchTrix ixIxx/GCF_000002985.6_WBcel235.ncbiRefSeqCurated.ix
+    idXref ncbiRefSeqLink mrnaAcc name
+    bigDataUrl bbi/GCF_000002985.6_WBcel235.ncbiRefSeqCurated.bb
+    baseColorUseCds given
+    baseColorDefault genomicCodons
+    priority 2
 
-        track ncbiRefSeqOther
-        color 32,32,32
-        parent refSeqComposite on
-        shortLabel RefSeq Other
-        longLabel NCBI RefSeq other annotations (not NM_*, NR_*, XM_*, XR_*, NP_* or YP_*)
-        priority 4
-        searchIndex name
-        searchTrix ixIxx/GCF_000002985.6_WBcel235.ncbiRefSeqOther.ix
-        bigDataUrl bbi/GCF_000002985.6_WBcel235.ncbiRefSeqOther.bb
-        type bigBed 12 +
-        labelFields name
-        skipEmptyFields on
-        urls GeneID="https://www.ncbi.nlm.nih.gov/gene/$$" MIM="https://www.ncbi.nlm.nih.gov/omim/$$" HGNC="http://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id=$$" FlyBase="http://flybase.org/reports/$$" WormBase="http://www.wormbase.org/db/gene/gene?name=$$" RGD="https://rgd.mcw.edu/rgdweb/search/search.html?term=$$" SGD="https://www.yeastgenome.org/locus/$$" miRBase="http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc=$$" ZFIN="https://zfin.org/$$" MGI="http://www.informatics.jax.org/marker/$$"
+    track ncbiRefSeqOther
+    color 32,32,32
+    parent refSeqComposite on
+    shortLabel RefSeq Other
+    longLabel NCBI RefSeq other annotations (not NM_*, NR_*, XM_*, XR_*, NP_* or YP_*)
+    priority 4
+    searchIndex name
+    searchTrix ixIxx/GCF_000002985.6_WBcel235.ncbiRefSeqOther.ix
+    bigDataUrl bbi/GCF_000002985.6_WBcel235.ncbiRefSeqOther.bb
+    type bigBed 12 +
+    labelFields name
+    skipEmptyFields on
+    urls GeneID="https://www.ncbi.nlm.nih.gov/gene/$$" MIM="https://www.ncbi.nlm.nih.gov/omim/$$" HGNC="http://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id=$$" FlyBase="http://flybase.org/reports/$$" WormBase="http://www.wormbase.org/db/gene/gene?name=$$" RGD="https://rgd.mcw.edu/rgdweb/search/search.html?term=$$" SGD="https://www.yeastgenome.org/locus/$$" miRBase="http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc=$$" ZFIN="https://zfin.org/$$" MGI="http://www.informatics.jax.org/marker/$$"
 
-        track ncbiRefSeqPsl
-        priority 5
-        parent refSeqComposite off
-        shortLabel RefSeq Alignments
-        longLabel RefSeq Alignments of RNAs
-        type bigPsl
-        searchIndex name
-        bigDataUrl bbi/GCF_000002985.6_WBcel235.bigPsl.bb
-        indelDoubleInsert on
-        indelQueryInsert on
-        showDiffBasesAllScales .
-        showDiffBasesMaxZoom 10000.0
-        showCdsMaxZoom 10000.0
-        showCdsAllScales .
-        baseColorDefault diffCodons
-        pslSequence no
-        baseColorUseSequence lfExtra
-        baseColorUseCds table given
-        color 0,0,0
+    track ncbiRefSeqPsl
+    priority 5
+    parent refSeqComposite off
+    shortLabel RefSeq Alignments
+    longLabel RefSeq Alignments of RNAs
+    type bigPsl
+    searchIndex name
+    bigDataUrl bbi/GCF_000002985.6_WBcel235.bigPsl.bb
+    indelDoubleInsert on
+    indelQueryInsert on
+    showDiffBasesAllScales .
+    showDiffBasesMaxZoom 10000.0
+    showCdsMaxZoom 10000.0
+    showCdsAllScales .
+    baseColorDefault diffCodons
+    pslSequence no
+    baseColorUseSequence lfExtra
+    baseColorUseCds table given
+    color 0,0,0
 
 track cpgIslands
 compositeTrack on
@@ -250,4 +250,3 @@ bigDataUrl bbi/GCF_000002985.6_WBcel235.ensGene.bb
 searchIndex name
 searchTrix ixIxx/GCF_000002985.6_WBcel235.ensGene.ix
 html html/GCF_000002985.6_WBcel235.ensGene
-
