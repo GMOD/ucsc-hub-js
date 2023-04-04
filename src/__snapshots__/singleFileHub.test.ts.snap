@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`singleFileHub losslessly roundtrips a full single-file hub 1`] = `
+exports[`singleFileHub roundtrips a full single-file hub 1`] = `
 Map {
   "hub" => "GCF_000002985.6 genome assembly",
   "shortLabel" => "roundworm",
@@ -11,7 +11,7 @@ Map {
 }
 `;
 
-exports[`singleFileHub losslessly roundtrips a full single-file hub 2`] = `
+exports[`singleFileHub roundtrips a full single-file hub 2`] = `
 Map {
   "GCF_000002985.6" => Map {
     "genome" => "GCF_000002985.6",
@@ -34,7 +34,7 @@ Map {
 }
 `;
 
-exports[`singleFileHub losslessly roundtrips a full single-file hub 3`] = `
+exports[`singleFileHub roundtrips a full single-file hub 3`] = `
 [
   Map {
     "assembly" => Map {

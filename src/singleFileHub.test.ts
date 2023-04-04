@@ -13,7 +13,7 @@ describe('singleFileHub', () => {
     const singleFileHub = new SingleFileHub(input)
     expect(singleFileHub).toMatchSnapshot()
     expect(singleFileHub.genome).toMatchSnapshot()
-    expect(singleFileHub.tracks).toMatchSnapshot()
+    expect(singleFileHub.trackDbs).toMatchSnapshot()
 
     expect(singleFileHub.toString()).toEqual(input)
   })

@@ -6,7 +6,7 @@ import { validateRequiredFieldsArePresent } from './util'
 export default class SingleFileHub extends HubFile {
   public genome: GenomesFile
 
-  public tracks: TrackDbFile[]
+  public trackDbs: TrackDbFile[]
 
   constructor(singleFileHub: string) {
     const [hubSection, genomeSection, ...trackSections] = singleFileHub
@@ -18,7 +18,7 @@ export default class SingleFileHub extends HubFile {
     this.genome = new GenomesFile(genomeSection, { skipValidation: true })
     this.validateGenomeSection()
 
-    this.tracks = trackSections.map(
+    this.trackDbs = trackSections.map(
       trackSection => new TrackDbFile(trackSection, { skipValidation: false }),
     )
   }
@@ -49,7 +49,7 @@ export default class SingleFileHub extends HubFile {
     return [
       super.toString(),
       this.genome.toString(),
-      ...this.tracks.map(track => track.toString()),
+      ...this.trackDbs.map(track => track.toString()),
     ].join('\n')
   }
 }
