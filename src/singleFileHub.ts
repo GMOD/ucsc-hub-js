@@ -3,13 +3,23 @@ import HubFile from './hubFile'
 import TrackDbFile from './trackDbFile'
 import { validateRequiredFieldsArePresent } from './util'
 
+/**
+ * Class representing a "single-file" hub.txt file that contains all the sections
+ * of a hub in a single file.
+ * @extends RaFile
+ * @param {(string|string[])} [hubText=[]] - A hub.txt file as a string
+ * @throws {Error} Throws if the first line of the hub.txt file doesn't start
+ * with "genome <genome_name>" or if it has invalid entries
+ */
 export default class SingleFileHub extends HubFile {
-  public genome: GenomesFile
+  /** a GenomesFile object for the hub's genome section */
+  public readonly genome: GenomesFile
 
-  public trackDbs: TrackDbFile[]
+  /** an array of TrackDbFile objects for the hub's trackDb sections */
+  public readonly trackDbs: TrackDbFile[]
 
-  constructor(singleFileHub: string) {
-    const [hubSection, genomeSection, ...trackSections] = singleFileHub
+  constructor(hubText: string) {
+    const [hubSection, genomeSection, ...trackSections] = hubText
       .trimEnd()
       .split(/(?:[\t ]*\r?\n){2,}/)
     super(hubSection, { skipValidation: true })
