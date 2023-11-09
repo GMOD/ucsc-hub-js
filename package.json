@@ -27,8 +27,7 @@
     "build:es5": "tsc --target es2018 --module commonjs --outDir dist",
     "build": "npm run build:esm && npm run build:es5",
     "preversion": "npm run lint && npm test && npm run build",
-    "postversion": "git push --follow-tags",
-    "prepare": "husky install"
+    "postversion": "git push --follow-tags"
   },
   "keywords": [
     "trackDb",
@@ -43,12 +42,10 @@
     "@typescript-eslint/parser": "^6.7.3",
     "documentation": "^14.0.1",
     "eslint": "^8.30.0",
-    "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-unicorn": "^49.0.0",
-    "husky": "^8.0.2",
     "jest": "^29.3.1",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.5",

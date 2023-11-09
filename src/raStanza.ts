@@ -48,20 +48,20 @@ export default class RaStanza extends Map<string, string> {
     options?: { checkIndent?: boolean; skipValidation?: boolean },
   ) {
     super()
-    const { checkIndent = true, skipValidation = false } = options || {}
+    const { checkIndent = true, skipValidation = false } = options ?? {}
     this._checkIndent = !!checkIndent
     let stanzaLines: string[]
     if (typeof stanza === 'string') {
       stanzaLines = stanza.trimEnd().split(/\r?\n/)
-    } else if (!stanza) {
-      stanzaLines = []
-    } else {
+    } else if (stanza) {
       stanzaLines = stanza
+    } else {
+      stanzaLines = []
     }
     this._keyAndCommentOrder = []
-    stanzaLines.forEach(line => {
+    for (const line of stanzaLines) {
       this.add(line)
-    })
+    }
 
     if (!skipValidation) {
       this.validate()
@@ -98,7 +98,7 @@ export default class RaStanza extends Map<string, string> {
       combinedLine = this._continuedLine + combinedLine.trimStart()
       this._continuedLine = undefined
     }
-    if (this.indent || this._checkIndent) {
+    if (this.indent ?? this._checkIndent) {
       const indent = combinedLine.match(/^([ \t]+)/)
       if (this.indent === undefined) {
         if (indent) {
@@ -155,7 +155,9 @@ export default class RaStanza extends Map<string, string> {
    */
   set(key: string, value: string) {
     if (!(typeof value === 'string')) {
-      throw new Error(`Value of ${key} must be a string, got ${typeof value}`)
+      throw new TypeError(
+        `Value of ${key} must be a string, got ${typeof value}`,
+      )
     }
     return super.set(key, value)
   }
@@ -204,13 +206,13 @@ export default class RaStanza extends Map<string, string> {
       return ''
     }
     const lines = [] as string[]
-    this._keyAndCommentOrder.forEach(entry => {
+    for (const entry of this._keyAndCommentOrder) {
       if (entry.startsWith('#')) {
         lines.push(`${this.indent}${entry}`)
       } else {
         lines.push(`${this.indent}${entry} ${this.get(entry)}`.trimEnd())
       }
-    })
+    }
     return `${lines.join('\n')}\n`
   }
 }

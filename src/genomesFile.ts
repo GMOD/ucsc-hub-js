@@ -18,12 +18,12 @@ export default class GenomesFile extends RaFile {
       )
     }
 
-    this.forEach((genome, genomeName) => {
+    for (const [genomeName, genome] of this.entries()) {
       validateRequiredFieldsArePresent(
         genome,
         requiredFields,
         `genome ${genomeName}`,
       )
-    })
+    }
   }
 }

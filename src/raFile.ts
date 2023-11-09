@@ -33,20 +33,20 @@ export default class RaFile extends Map<string, RaStanza> {
     options?: { checkIndent?: boolean; skipValidation?: boolean },
   ) {
     super()
-    const { checkIndent = true, skipValidation = false } = options || {}
+    const { checkIndent = true, skipValidation = false } = options ?? {}
     this._checkIndent = !!checkIndent
     let stanzas: string[]
     if (typeof raFile === 'string') {
       stanzas = raFile.trimEnd().split(/(?:[\t ]*\r?\n){2,}/)
-    } else if (!raFile) {
-      stanzas = []
-    } else {
+    } else if (raFile) {
       stanzas = raFile
+    } else {
+      stanzas = []
     }
     this._stanzaAndCommentOrder = []
-    stanzas.forEach(stanza => {
+    for (const stanza of stanzas) {
       this.add(stanza)
-    })
+    }
 
     if (!skipValidation) {
       this.validate()
@@ -102,7 +102,7 @@ export default class RaFile extends Map<string, RaStanza> {
    */
   update(key: string, value: RaStanza) {
     if (!(value instanceof RaStanza)) {
-      throw new Error(`Value of ${key} is not an RaStanza`)
+      throw new TypeError(`Value of ${key} is not an RaStanza`)
     }
     super.set(key, value)
   }
@@ -144,7 +144,7 @@ export default class RaFile extends Map<string, RaStanza> {
       return ''
     }
     const stanzas = [] as string[]
-    this._stanzaAndCommentOrder.forEach(entry => {
+    for (const entry of this._stanzaAndCommentOrder) {
       if (entry.startsWith('#')) {
         stanzas.push(`${entry}\n`)
       } else {
@@ -153,7 +153,7 @@ export default class RaFile extends Map<string, RaStanza> {
           stanzas.push(e.toString())
         }
       }
-    })
+    }
     return stanzas.join('\n')
   }
 }
