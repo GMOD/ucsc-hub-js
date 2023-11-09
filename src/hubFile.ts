@@ -20,11 +20,11 @@ export default class HubFile extends RaStanza {
       'descriptionUrl',
     ]
 
-    requiredFields.forEach(field => {
+    for (const field of requiredFields) {
       if (!this.get(field)) {
         missingFields.push(field)
       }
-    })
+    }
     if (missingFields.length > 0) {
       throw new Error(
         `Hub file is missing required entr${

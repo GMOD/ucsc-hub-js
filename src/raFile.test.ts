@@ -66,7 +66,7 @@ describe('RaFile reader', () => {
       'valueC',
     ])
     expect(raFile.nameKey).toEqual('key1')
-    expect(raFile.toString()).toEqual(input.replace(/\r/g, ''))
+    expect(raFile.toString()).toEqual(input.replaceAll('\r', ''))
   })
 
   it('parses a list of stanzas', () => {

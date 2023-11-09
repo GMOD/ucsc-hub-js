@@ -57,7 +57,7 @@ describe('RaStanza reader', () => {
     expect(stanza.name).toEqual('value1')
     expect(stanza.nameKey).toEqual('key1')
     expect(stanza.indent).toEqual('')
-    expect(stanza.toString()).toEqual(input.replace(/\r/g, ''))
+    expect(stanza.toString()).toEqual(input.replaceAll('\r', ''))
   })
 
   it('parses a list of strings', () => {
@@ -90,7 +90,7 @@ describe('RaStanza reader', () => {
     expect(stanza.name).toEqual('value1')
     expect(stanza.nameKey).toEqual('key1')
     expect(stanza.indent).toEqual('')
-    expect(stanza.toString()).toEqual(input.replace(/^\s*/gm, ''))
+    expect(stanza.toString()).toEqual(input.replaceAll(/^\s*/gm, ''))
   })
 
   it('handles indented lines', () => {

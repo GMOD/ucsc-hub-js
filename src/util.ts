@@ -7,11 +7,11 @@ export function validateRequiredFieldsArePresent(
   description = '',
 ) {
   const missingFields: string[] = []
-  requiredFields.forEach(field => {
+  for (const field of requiredFields) {
     if (!map.get(field)) {
       missingFields.push(field)
     }
-  })
+  }
   if (missingFields.length > 0) {
     throw new Error(
       `${description} is missing required entr${

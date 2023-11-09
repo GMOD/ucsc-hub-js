@@ -21,15 +21,15 @@ export default class TrackDbFile extends RaFile {
         `trackDb has "${this.nameKey}" instead of "track" as the first line in each track`,
       )
     }
-    this.forEach((track, trackName) => {
-      const trackKeys = Array.from(track.keys())
+    for (const [trackName, track] of this.entries()) {
+      const trackKeys = [...track.keys()]
       const missingKeys = [] as string[]
       const requiredKeys = ['track', 'shortLabel']
-      requiredKeys.forEach(key => {
+      for (const key of requiredKeys) {
         if (!trackKeys.includes(key)) {
           missingKeys.push(key)
         }
-      })
+      }
       if (missingKeys.length > 0) {
         throw new Error(
           `Track ${trackName} is missing required key(s): ${missingKeys.join(
@@ -37,13 +37,13 @@ export default class TrackDbFile extends RaFile {
           )}`,
         )
       }
-      const parentTrackKeys = [
+      const parentTrackKeys = new Set([
         'superTrack',
         'compositeTrack',
         'container',
         'view',
-      ]
-      if (!trackKeys.some(key => parentTrackKeys.includes(key))) {
+      ])
+      if (!trackKeys.some(key => parentTrackKeys.has(key))) {
         if (!trackKeys.includes('bigDataUrl')) {
           throw new Error(
             `Track ${trackName} is missing required key "bigDataUrl"`,
@@ -51,7 +51,7 @@ export default class TrackDbFile extends RaFile {
         }
         if (!trackKeys.includes('type')) {
           const settings = this.settings(trackName)
-          const settingsKeys = Array.from(settings.keys())
+          const settingsKeys = [...settings.keys()]
           if (!settingsKeys.includes('type')) {
             throw new Error(
               `Neither track ${trackName} nor any of its parent tracks have the required key "type"`,
@@ -73,7 +73,7 @@ export default class TrackDbFile extends RaFile {
         currentTrack.indent = indent
         this.set(trackName, currentTrack)
       }
-    })
+    }
   }
 
   /**
@@ -96,11 +96,14 @@ export default class TrackDbFile extends RaFile {
     } while (currentTrackName)
     const settings = new Map()
     parentTracks.reverse()
-    parentTracks.forEach(parentTrack => {
-      this.get(parentTrack)?.forEach((value, key) => {
-        settings.set(key, value)
-      })
-    })
+    for (const parentTrack of parentTracks) {
+      const ret = this.get(parentTrack)
+      if (ret) {
+        for (const [value, key] of ret) {
+          settings.set(key, value)
+        }
+      }
+    }
     return settings
   }
 }
