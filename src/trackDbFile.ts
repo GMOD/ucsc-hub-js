@@ -99,7 +99,7 @@ export default class TrackDbFile extends RaFile {
     for (const parentTrack of parentTracks) {
       const ret = this.get(parentTrack)
       if (ret) {
-        for (const [value, key] of ret) {
+        for (const [key, value] of ret) {
           settings.set(key, value)
         }
       }
