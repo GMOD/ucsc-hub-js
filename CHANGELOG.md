@@ -1,5 +1,7 @@
+# 0.2.0
+
+- Initial support for singleFile hubs
+
 # 0.1.7
 
 - Add ESM module build
-
-
