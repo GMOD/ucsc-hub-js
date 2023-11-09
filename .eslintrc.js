@@ -9,7 +9,6 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-type-checked',
     'plugin:@typescript-eslint/stylistic-type-checked',
     'plugin:prettier/recommended',
-    'plugin:import/recommended',
     'plugin:unicorn/recommended',
   ],
   env: {
@@ -27,6 +26,5 @@ module.exports = {
     'unicorn/filename-case': 0,
     'unicorn/better-regex': 0,
     '@typescript-eslint/no-empty-function': 0,
-    'import/no-unresolved': 0,
   },
 }
