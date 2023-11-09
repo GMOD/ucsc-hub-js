@@ -12,7 +12,7 @@ read and write UCSC track and assembly hub files in node or the browser
 
 Read about hub.txt, genomes.txt, and trackDb.txt files here: <https://genome.ucsc.edu/goldenpath/help/hgTrackHubHelp.html>
 
-Files are essentially JavaScript `Map`s. A hub.txt file is a map with th keys as the first word in each line and the value as the rest of the line, like this:
+Files are essentially JavaScript `Map`s. A hub.txt file is a map with keys as the first word in each line and the value as the rest of the line, like this:
 
     Map {
       "hub" => "UCSCHub",
@@ -66,7 +66,7 @@ values of the first line of each section and the value is a `Map` of the lines i
       },
     }
 
-Example usage:
+Example usage for a "standard" multi-file hub:
 
 ```javascript
 const fs = require('fs')
@@ -83,6 +83,24 @@ console.log(genomesFile.get('hg19').get('trackDb'))
 const trackDbFile = new TrackDbFile(fs.readFileSync('hg19/trackDb.txt', 'utf8'))
 console.log(trackDbFile.get('dnaseSignal').get('shortLabel'))
 // ↳ DNAse Signal
+```
+
+Example usage for a single-file hub:
+
+```javascript
+const fs = require('fs')
+const { SingleFileHub } = require('@gmod/ucsc-hub')
+
+const hubFile = new HubFile(fs.readFileSync('hub.txt', 'utf8'))
+console.log(hubFile.get('genomesFile'))
+// ↳ genomes.txt
+
+const genomesFile = new GenomesFile(fs.readFileSync('genomes.txt', 'utf8'))
+console.log(genomesFile.get('hg19').get('trackDb'))
+// ↳ hg19/trackDb.txt
+
+const trackDbFile = new TrackDbFile(fs.readFileSync('hg19/trackDb.txt', 'utf8'))
+console.log(trackDbFile.get('dnaseSignal').get('shortLabel'))
 ```
 
 ## API
@@ -117,10 +135,14 @@ console.log(trackDbFile.get('dnaseSignal').get('shortLabel'))
         *   [Parameters](#parameters-9)
     *   [clear](#clear-1)
     *   [toString](#tostring-1)
-*   [TrackDbFile](#trackdbfile)
+*   [SingleFileHub](#singlefilehub)
     *   [Parameters](#parameters-10)
+    *   [genome](#genome)
+    *   [trackDbs](#trackdbs)
+*   [TrackDbFile](#trackdbfile)
+    *   [Parameters](#parameters-11)
     *   [settings](#settings)
-        *   [Parameters](#parameters-11)
+        *   [Parameters](#parameters-12)
 
 ### GenomesFile
 
@@ -170,7 +192,7 @@ as it performs more validity checks than using `set()`.
 *   `raFile` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** An ra file, either as a single
     string or an array of strings with one stanza per entry. Supports both LF
     and CRLF line terminators. (optional, default `[]`)
-*   `options` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{checkIndent:true}`)
+*   `options` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**&#x20;
 
     *   `options.checkIndent` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** \[true] - Check if a the stanzas within
         the file are indented consistently and keep track of the indentation
@@ -246,7 +268,7 @@ than using `set()`.
 *   `stanza` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** An ra file stanza, either as a
     string or a array of strings with one line per entry. Supports both LF and
     CRLF line terminators. (optional, default `[]`)
-*   `options` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{checkIndent:true}`)
+*   `options` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**&#x20;
 
     *   `options.checkIndent` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** \[true] - Check if a stanza is indented
         consistently and keep track of the indentation
@@ -314,6 +336,34 @@ as a single line and all comments will have the same indentations as the
 rest of the stanza. Comments between joined lines will move before that
 line.
 
+### SingleFileHub
+
+**Extends RaFile**
+
+Class representing a "single-file" hub.txt file that contains all the sections
+of a hub in a single file.
+
+#### Parameters
+
+*   `hubText` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** A hub.txt file as a string (optional, default `[]`)
+
+<!---->
+
+*   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** Throws if the first line of the hub.txt file doesn't start
+    with "genome \<genome\_name>" or if it has invalid entries
+
+#### genome
+
+a GenomesFile object for the hub's genome section
+
+Type: [GenomesFile](#genomesfile)
+
+#### trackDbs
+
+an array of TrackDbFile objects for the hub's trackDb sections
+
+Type: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[TrackDbFile](#trackdbfile)>
+
 ### TrackDbFile
 
 **Extends RaFile**
@@ -323,6 +373,7 @@ Class representing a genomes.txt file.
 #### Parameters
 
 *   `trackDbFile` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** A trackDb.txt file as a string (optional, default `[]`)
+*   `options` **any?**&#x20;
 
 <!---->
 

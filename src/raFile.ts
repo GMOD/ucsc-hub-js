@@ -28,10 +28,13 @@ export default class RaFile extends Map<string, RaStanza> {
 
   nameKey?: string
 
-  constructor(raFile: string, options = { checkIndent: true }) {
+  constructor(
+    raFile: string | string[] = [],
+    options?: { checkIndent?: boolean; skipValidation?: boolean },
+  ) {
     super()
-    const { checkIndent } = options
-    this._checkIndent = checkIndent
+    const { checkIndent = true, skipValidation = false } = options || {}
+    this._checkIndent = !!checkIndent
     let stanzas: string[]
     if (typeof raFile === 'string') {
       stanzas = raFile.trimEnd().split(/(?:[\t ]*\r?\n){2,}/)
@@ -44,7 +47,13 @@ export default class RaFile extends Map<string, RaStanza> {
     stanzas.forEach(stanza => {
       this.add(stanza)
     })
+
+    if (!skipValidation) {
+      this.validate()
+    }
   }
+
+  protected validate() {}
 
   /**
    * Add a single stanza to the file

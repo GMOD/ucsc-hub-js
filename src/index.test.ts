@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { RaFile, RaStanza } from './index'
 
 describe('ucsc-hub-js', () => {

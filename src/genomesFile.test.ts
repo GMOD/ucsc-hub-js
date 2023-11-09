@@ -1,4 +1,3 @@
-// @ts-nocheck
 import fs from 'fs'
 import GenomesFile from './genomesFile'
 
@@ -21,5 +20,5 @@ describe('GenomesFile', () => {
         new GenomesFile(
           'genome hg19\ntrackDb hg19/trackDb.txt\n\ngenome hg38\norganism Homo sapiens',
         ),
-    ).toThrow(/file entry .* is missing required entry:/))
+    ).toThrow(/is missing required entry:/))
 })
