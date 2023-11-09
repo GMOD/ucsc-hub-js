@@ -30,13 +30,10 @@ export default class RaFile extends Map<string, RaStanza> {
 
   constructor(
     raFile: string | string[] = [],
-    options: { checkIndent?: boolean; skipValidation?: boolean } = {
-      checkIndent: true,
-      skipValidation: false,
-    },
+    options?: { checkIndent?: boolean; skipValidation?: boolean },
   ) {
     super()
-    const { checkIndent } = options
+    const { checkIndent = true, skipValidation = false } = options || {}
     this._checkIndent = !!checkIndent
     let stanzas: string[]
     if (typeof raFile === 'string') {
@@ -51,7 +48,7 @@ export default class RaFile extends Map<string, RaStanza> {
       this.add(stanza)
     })
 
-    if (!options.skipValidation) {
+    if (!skipValidation) {
       this.validate()
     }
   }

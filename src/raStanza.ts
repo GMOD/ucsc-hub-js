@@ -45,13 +45,10 @@ export default class RaStanza extends Map<string, string> {
 
   constructor(
     stanza: string | string[] = [],
-    options: { checkIndent?: boolean; skipValidation?: boolean } = {
-      checkIndent: true,
-      skipValidation: false,
-    },
+    options?: { checkIndent?: boolean; skipValidation?: boolean },
   ) {
     super()
-    const { checkIndent } = options
+    const { checkIndent = true, skipValidation = false } = options || {}
     this._checkIndent = !!checkIndent
     let stanzaLines: string[]
     if (typeof stanza === 'string') {
@@ -66,7 +63,7 @@ export default class RaStanza extends Map<string, string> {
       this.add(line)
     })
 
-    if (!options.skipValidation) {
+    if (!skipValidation) {
       this.validate()
     }
   }
