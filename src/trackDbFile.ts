@@ -24,7 +24,7 @@ export default class TrackDbFile extends RaFile {
     for (const [trackName, track] of this.entries()) {
       const trackKeys = [...track.keys()]
       const missingKeys = [] as string[]
-      const requiredKeys = ['track', 'shortLabel']
+      const requiredKeys = ['track']
       for (const key of requiredKeys) {
         if (!trackKeys.includes(key)) {
           missingKeys.push(key)
