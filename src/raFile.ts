@@ -21,8 +21,8 @@ import RaStanza from './raStanza'
  * @param {boolean} options.checkIndent [true] - Check if a the stanzas within
  * the file are indented consistently and keep track of the indentation
  */
-export default class RaFile extends Map<string, RaStanza> {
-  _checkIndent: boolean
+export default class RaFile {
+  data: Record<string, RaStanza | undefined> = {}
 
   nameKey?: string
 
@@ -30,9 +30,7 @@ export default class RaFile extends Map<string, RaStanza> {
     raFile: string | string[] = [],
     options?: { checkIndent?: boolean; skipValidation?: boolean },
   ) {
-    super()
     const { checkIndent = true, skipValidation = false } = options ?? {}
-    this._checkIndent = !!checkIndent
     let stanzas: string[]
     if (typeof raFile === 'string') {
       stanzas = raFile.trimEnd().split(/(?:[\t ]*\r?\n){2,}/)
@@ -54,7 +52,7 @@ export default class RaFile extends Map<string, RaStanza> {
           continue
         }
       }
-      const raStanza = new RaStanza(stanza, { checkIndent: this._checkIndent })
+      const raStanza = new RaStanza(stanza, { checkIndent })
       if (!this.nameKey) {
         this.nameKey = raStanza.nameKey
       } else if (raStanza.nameKey !== this.nameKey) {
@@ -66,11 +64,11 @@ export default class RaFile extends Map<string, RaStanza> {
       if (!raStanza.name) {
         throw new Error(`No stanza name: ${raStanza.name}`)
       }
-      if (this.has(raStanza.name)) {
+      if (this.data[raStanza.name]) {
         throw new Error(`Got duplicate stanza name: ${raStanza.name}`)
       }
 
-      super.set(raStanza.name, raStanza)
+      this.data[raStanza.name] = raStanza
     }
 
     if (!skipValidation) {

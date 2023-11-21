@@ -21,8 +21,8 @@ export default class TrackDbFile extends RaFile {
         `trackDb has "${this.nameKey}" instead of "track" as the first line in each track`,
       )
     }
-    for (const [trackName, track] of this.entries()) {
-      const trackKeys = [...track.keys()]
+    for (const [trackName, track] of Object.entries(this.data)) {
+      const trackKeys = [...track!.keys()]
       const missingKeys = [] as string[]
       const requiredKeys = ['track', 'shortLabel']
       for (const key of requiredKeys) {
@@ -62,16 +62,19 @@ export default class TrackDbFile extends RaFile {
       let indent = ''
       let currentTrackName: string | undefined = trackName
       do {
-        currentTrackName = this.get(currentTrackName)?.get('parent')
+        // @ts-expect-error
+        currentTrackName = this.data[currentTrackName]?.parent as
+          | string
+          | undefined
         if (currentTrackName) {
           ;[currentTrackName] = currentTrackName.split(' ')
           indent += '    '
         }
       } while (currentTrackName)
-      const currentTrack = this.get(trackName)
+      const currentTrack = this.data[trackName]
       if (currentTrack) {
         currentTrack.indent = indent
-        this.set(trackName, currentTrack)
+        this.data[trackName] = currentTrack
       }
     }
   }
@@ -83,13 +86,16 @@ export default class TrackDbFile extends RaFile {
    * @throws {Error} Throws if track name does not exist in the trackDb
    */
   settings(trackName: string) {
-    if (!this.has(trackName)) {
+    if (!this.data[trackName]) {
       throw new Error(`Track ${trackName} does not exist`)
     }
     const parentTracks = [trackName]
     let currentTrackName: string | undefined = trackName
     do {
-      currentTrackName = this.get(currentTrackName)?.get('parent')
+      // @ts-expect-error
+      currentTrackName = this.data[currentTrackName]?.parent as
+        | string
+        | undefined
       if (currentTrackName) {
         parentTracks.push(currentTrackName)
       }
@@ -97,7 +103,7 @@ export default class TrackDbFile extends RaFile {
     const settings = new Map()
     parentTracks.reverse()
     for (const parentTrack of parentTracks) {
-      const ret = this.get(parentTrack)
+      const ret = this.data[parentTrack]
       if (ret) {
         for (const [key, value] of ret) {
           settings.set(key, value)

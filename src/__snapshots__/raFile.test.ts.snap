@@ -1,87 +1,102 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`handles CRLF newlines 1`] = `
-Map {
-  "valueA" => Map {
-    "key1" => "valueA",
-    "key2" => "valueB",
+RaFile {
+  "data": {
+    "valueA": Map {
+      "key1" => "valueA",
+      "key2" => "valueB",
+    },
+    "valueC": Map {
+      "key1" => "valueC",
+      "key2" => "valueD",
+    },
   },
-  "valueC" => Map {
-    "key1" => "valueC",
-    "key2" => "valueD",
-  },
+  "nameKey": "key1",
 }
 `;
 
 exports[`handles indented stanzas 1`] = `
-Map {
-  "valA" => Map {
-    "key1" => "valA",
-    "key2" => "valB",
-    "key3" => "valC",
+RaFile {
+  "data": {
+    "Foot": Map {
+      "key1" => "Foot",
+      "key2" => "Ankle",
+      "key3" => "Knee",
+    },
+    "valA": Map {
+      "key1" => "valA",
+      "key2" => "valB",
+      "key3" => "valC",
+    },
+    "valD": Map {
+      "key1" => "valD",
+      "key2" => "valE",
+      "key3" => "valF",
+    },
+    "valG": Map {
+      "key1" => "valG",
+      "key2" => "valH",
+      "key3" => "valI",
+    },
   },
-  "valD" => Map {
-    "key1" => "valD",
-    "key2" => "valE",
-    "key3" => "valF",
-  },
-  "valG" => Map {
-    "key1" => "valG",
-    "key2" => "valH",
-    "key3" => "valI",
-  },
-  "Foot" => Map {
-    "key1" => "Foot",
-    "key2" => "Ankle",
-    "key3" => "Knee",
-  },
+  "nameKey": "key1",
 }
 `;
 
 exports[`parses a file with comments 1`] = `
-Map {
-  "valA" => Map {
-    "key1" => "valA",
-    "key2" => "valB",
-    "key3" => "valC",
+RaFile {
+  "data": {
+    "valA": Map {
+      "key1" => "valA",
+      "key2" => "valB",
+      "key3" => "valC",
+    },
+    "valD": Map {
+      "key1" => "valD",
+      "key2" => "valE",
+      "key3" => "valF",
+    },
   },
-  "valD" => Map {
-    "key1" => "valD",
-    "key2" => "valE",
-    "key3" => "valF",
-  },
+  "nameKey": "key1",
 }
 `;
 
 exports[`parses a list of stanzas 1`] = `
-Map {
-  "valueA" => Map {
-    "key1" => "valueA",
-    "key2" => "valueB",
+RaFile {
+  "data": {
+    "valueA": Map {
+      "key1" => "valueA",
+      "key2" => "valueB",
+    },
+    "valueC": Map {
+      "key1" => "valueC",
+      "key2" => "valueD",
+    },
   },
-  "valueC" => Map {
-    "key1" => "valueC",
-    "key2" => "valueD",
-  },
+  "nameKey": "key1",
 }
 `;
 
 exports[`parses a simple three stanza file 1`] = `
-Map {
-  "valA" => Map {
-    "key1" => "valA",
-    "key2" => "valB",
-    "key3" => "valC",
+RaFile {
+  "data": {
+    "valA": Map {
+      "key1" => "valA",
+      "key2" => "valB",
+      "key3" => "valC",
+    },
+    "valD": Map {
+      "key1" => "valD",
+      "key2" => "valE",
+      "key3" => "valF",
+    },
+    "valG": Map {
+      "key1" => "valG",
+      "key2" => "valH",
+      "key3" => "valI",
+    },
   },
-  "valD" => Map {
-    "key1" => "valD",
-    "key2" => "valE",
-    "key3" => "valF",
-  },
-  "valG" => Map {
-    "key1" => "valG",
-    "key2" => "valH",
-    "key3" => "valI",
-  },
+  "nameKey": "key1",
 }
 `;

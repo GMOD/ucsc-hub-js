@@ -1,26 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`GenomesFile reads a basic genomes.txt file 1`] = `
-Map {
-  "hg18" => Map {
-    "genome" => "hg18",
-    "trackDb" => "hg18/trackDb.txt",
+GenomesFile {
+  "data": {
+    "hg18": Map {
+      "genome" => "hg18",
+      "trackDb" => "hg18/trackDb.txt",
+    },
+    "hg19": Map {
+      "genome" => "hg19",
+      "trackDb" => "hg19/trackDb.txt",
+    },
+    "newOrg1": Map {
+      "genome" => "newOrg1",
+      "trackDb" => "newOrg1/trackDb.txt",
+      "twoBitPath" => "newOrg1/newOrg1.2bit",
+      "groups" => "newOrg1/groups.txt",
+      "description" => "Big Foot V4",
+      "organism" => "BigFoot",
+      "defaultPos" => "chr21:33031596-33033258",
+      "orderKey" => "4800",
+      "scientificName" => "Biggus Footus",
+      "htmlPath" => "newOrg1/description.html",
+    },
   },
-  "hg19" => Map {
-    "genome" => "hg19",
-    "trackDb" => "hg19/trackDb.txt",
-  },
-  "newOrg1" => Map {
-    "genome" => "newOrg1",
-    "trackDb" => "newOrg1/trackDb.txt",
-    "twoBitPath" => "newOrg1/newOrg1.2bit",
-    "groups" => "newOrg1/groups.txt",
-    "description" => "Big Foot V4",
-    "organism" => "BigFoot",
-    "defaultPos" => "chr21:33031596-33033258",
-    "orderKey" => "4800",
-    "scientificName" => "Biggus Footus",
-    "htmlPath" => "newOrg1/description.html",
-  },
+  "nameKey": "genome",
 }
 `;
