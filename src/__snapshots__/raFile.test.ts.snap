@@ -3,13 +3,23 @@
 exports[`handles CRLF newlines 1`] = `
 RaFile {
   "data": {
-    "valueA": Map {
-      "key1" => "valueA",
-      "key2" => "valueB",
+    "valueA": RaStanza {
+      "data": {
+        "key1": "valueA",
+        "key2": "valueB",
+      },
+      "indent": "",
+      "name": "valueA",
+      "nameKey": "key1",
     },
-    "valueC": Map {
-      "key1" => "valueC",
-      "key2" => "valueD",
+    "valueC": RaStanza {
+      "data": {
+        "key1": "valueC",
+        "key2": "valueD",
+      },
+      "indent": "",
+      "name": "valueC",
+      "nameKey": "key1",
     },
   },
   "nameKey": "key1",
@@ -19,25 +29,45 @@ RaFile {
 exports[`handles indented stanzas 1`] = `
 RaFile {
   "data": {
-    "Foot": Map {
-      "key1" => "Foot",
-      "key2" => "Ankle",
-      "key3" => "Knee",
+    "Foot": RaStanza {
+      "data": {
+        "key1": "Foot",
+        "key2": "Ankle",
+        "key3": "Knee",
+      },
+      "indent": "        ",
+      "name": "Foot",
+      "nameKey": "key1",
     },
-    "valA": Map {
-      "key1" => "valA",
-      "key2" => "valB",
-      "key3" => "valC",
+    "valA": RaStanza {
+      "data": {
+        "key1": "valA",
+        "key2": "valB",
+        "key3": "valC",
+      },
+      "indent": "",
+      "name": "valA",
+      "nameKey": "key1",
     },
-    "valD": Map {
-      "key1" => "valD",
-      "key2" => "valE",
-      "key3" => "valF",
+    "valD": RaStanza {
+      "data": {
+        "key1": "valD",
+        "key2": "valE",
+        "key3": "valF",
+      },
+      "indent": "    ",
+      "name": "valD",
+      "nameKey": "key1",
     },
-    "valG": Map {
-      "key1" => "valG",
-      "key2" => "valH",
-      "key3" => "valI",
+    "valG": RaStanza {
+      "data": {
+        "key1": "valG",
+        "key2": "valH",
+        "key3": "valI",
+      },
+      "indent": "",
+      "name": "valG",
+      "nameKey": "key1",
     },
   },
   "nameKey": "key1",
@@ -47,15 +77,25 @@ RaFile {
 exports[`parses a file with comments 1`] = `
 RaFile {
   "data": {
-    "valA": Map {
-      "key1" => "valA",
-      "key2" => "valB",
-      "key3" => "valC",
+    "valA": RaStanza {
+      "data": {
+        "key1": "valA",
+        "key2": "valB",
+        "key3": "valC",
+      },
+      "indent": "",
+      "name": "valA",
+      "nameKey": "key1",
     },
-    "valD": Map {
-      "key1" => "valD",
-      "key2" => "valE",
-      "key3" => "valF",
+    "valD": RaStanza {
+      "data": {
+        "key1": "valD",
+        "key2": "valE",
+        "key3": "valF",
+      },
+      "indent": "",
+      "name": "valD",
+      "nameKey": "key1",
     },
   },
   "nameKey": "key1",
@@ -65,13 +105,23 @@ RaFile {
 exports[`parses a list of stanzas 1`] = `
 RaFile {
   "data": {
-    "valueA": Map {
-      "key1" => "valueA",
-      "key2" => "valueB",
+    "valueA": RaStanza {
+      "data": {
+        "key1": "valueA",
+        "key2": "valueB",
+      },
+      "indent": "",
+      "name": "valueA",
+      "nameKey": "key1",
     },
-    "valueC": Map {
-      "key1" => "valueC",
-      "key2" => "valueD",
+    "valueC": RaStanza {
+      "data": {
+        "key1": "valueC",
+        "key2": "valueD",
+      },
+      "indent": "",
+      "name": "valueC",
+      "nameKey": "key1",
     },
   },
   "nameKey": "key1",
@@ -81,20 +131,35 @@ RaFile {
 exports[`parses a simple three stanza file 1`] = `
 RaFile {
   "data": {
-    "valA": Map {
-      "key1" => "valA",
-      "key2" => "valB",
-      "key3" => "valC",
+    "valA": RaStanza {
+      "data": {
+        "key1": "valA",
+        "key2": "valB",
+        "key3": "valC",
+      },
+      "indent": "",
+      "name": "valA",
+      "nameKey": "key1",
     },
-    "valD": Map {
-      "key1" => "valD",
-      "key2" => "valE",
-      "key3" => "valF",
+    "valD": RaStanza {
+      "data": {
+        "key1": "valD",
+        "key2": "valE",
+        "key3": "valF",
+      },
+      "indent": "",
+      "name": "valD",
+      "nameKey": "key1",
     },
-    "valG": Map {
-      "key1" => "valG",
-      "key2" => "valH",
-      "key3" => "valI",
+    "valG": RaStanza {
+      "data": {
+        "key1": "valG",
+        "key2": "valH",
+        "key3": "valI",
+      },
+      "indent": "",
+      "name": "valG",
+      "nameKey": "key1",
     },
   },
   "nameKey": "key1",

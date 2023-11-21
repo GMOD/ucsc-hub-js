@@ -1,12 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HubFile reads a basic hub.txt file 1`] = `
-Map {
-  "hub" => "UCSCHub",
-  "shortLabel" => "UCSC Hub",
-  "longLabel" => "UCSC Genome Informatics Hub for human DNase and RNAseq data",
-  "genomesFile" => "genomes.txt",
-  "email" => "genome@soe.ucsc.edu",
-  "descriptionUrl" => "ucscHub.html",
+HubFile {
+  "data": {
+    "descriptionUrl": "ucscHub.html",
+    "email": "genome@soe.ucsc.edu",
+    "genomesFile": "genomes.txt",
+    "hub": "UCSCHub",
+    "longLabel": "UCSC Genome Informatics Hub for human DNase and RNAseq data",
+    "shortLabel": "UCSC Hub",
+  },
+  "indent": "",
+  "name": "UCSCHub",
+  "nameKey": "hub",
 }
 `;

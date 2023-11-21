@@ -21,7 +21,7 @@ export default class HubFile extends RaStanza {
     ]
 
     for (const field of requiredFields) {
-      if (!this.get(field)) {
+      if (!this.data[field]) {
         missingFields.push(field)
       }
     }

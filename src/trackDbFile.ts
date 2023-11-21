@@ -22,7 +22,7 @@ export default class TrackDbFile extends RaFile {
       )
     }
     for (const [trackName, track] of Object.entries(this.data)) {
-      const trackKeys = [...track!.keys()]
+      const trackKeys = Object.keys(track!)
       const missingKeys = [] as string[]
       const requiredKeys = ['track', 'shortLabel']
       for (const key of requiredKeys) {
@@ -105,7 +105,7 @@ export default class TrackDbFile extends RaFile {
     for (const parentTrack of parentTracks) {
       const ret = this.data[parentTrack]
       if (ret) {
-        for (const [key, value] of ret) {
+        for (const [key, value] of Object.entries(ret)) {
           settings.set(key, value)
         }
       }

@@ -1,88 +1,119 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RaStanza reader clears 1`] = `Map {}`;
-
-exports[`RaStanza reader creates an empty stanza 1`] = `Map {}`;
+exports[`RaStanza reader creates an empty stanza 1`] = `
+RaStanza {
+  "data": {},
+}
+`;
 
 exports[`RaStanza reader handles CRLF newlines 1`] = `
-Map {
-  "key1" => "value1",
-  "key2" => "value2",
+RaStanza {
+  "data": {
+    "key1": "value1",
+    "key2": "value2",
+  },
+  "indent": "",
+  "name": "value1",
+  "nameKey": "key1",
 }
 `;
 
 exports[`RaStanza reader handles commented lines 1`] = `
-Map {
-  "key1" => "value1",
-  "key2" => "value2",
-  "key3" => "value3",
+RaStanza {
+  "data": {
+    "key1": "value1",
+    "key2": "value2",
+    "key3": "value3",
+  },
+  "indent": "",
+  "name": "value1",
+  "nameKey": "key1",
 }
 `;
 
 exports[`RaStanza reader handles continued lines 1`] = `
-Map {
-  "key1" => "value1",
-  "key2" => "a really long value that continues",
-  "key3" => "another really long value that continues a lot",
-  "key4" => "yet another really long value that continues with a comment in it",
+RaStanza {
+  "_continuedLine": undefined,
+  "data": {
+    "key1": "value1",
+    "key2": "a really long value that continues",
+    "key3": "another really long value that continues a lot",
+    "key4": "yet another really long value that continues with a comment in it",
+  },
+  "indent": "  ",
+  "name": "value1",
+  "nameKey": "key1",
 }
 `;
 
 exports[`RaStanza reader handles indented lines 1`] = `
-Map {
-  "key1" => "value1",
-  "key2" => "value",
+RaStanza {
+  "data": {
+    "key1": "value1",
+    "key2": "value",
+  },
+  "indent": "    ",
+  "name": "value1",
+  "nameKey": "key1",
 }
 `;
 
 exports[`RaStanza reader ignores indentation with checkIndent false 1`] = `
-Map {
-  "key1" => "value1",
-  "key2" => "value",
+RaStanza {
+  "data": {
+    "key1": "value1",
+    "key2": "value",
+  },
+  "indent": "",
+  "name": "value1",
+  "nameKey": "key1",
 }
 `;
 
 exports[`RaStanza reader parses a list of strings 1`] = `
-Map {
-  "key1" => "value1",
-  "key2" => "value2",
+RaStanza {
+  "data": {
+    "key1": "value1",
+    "key2": "value2",
+  },
+  "indent": "",
+  "name": "value1",
+  "nameKey": "key1",
 }
 `;
 
 exports[`RaStanza reader parses a multiple line stanza 1`] = `
-Map {
-  "key1" => "value1",
-  "key2" => "value2",
-  "key3" => "",
+RaStanza {
+  "data": {
+    "key1": "value1",
+    "key2": "value2",
+    "key3": "",
+  },
+  "indent": "",
+  "name": "value1",
+  "nameKey": "key1",
 }
 `;
 
 exports[`RaStanza reader parses a single line stanza 1`] = `
-Map {
-  "key1" => "value1",
+RaStanza {
+  "data": {
+    "key1": "value1",
+  },
+  "indent": "",
+  "name": "value1",
+  "nameKey": "key1",
 }
 `;
 
-exports[`RaStanza reader populates an empty stanza 1`] = `Map {}`;
-
-exports[`RaStanza reader populates an empty stanza 2`] = `
-Map {
-  "key1" => "value1",
-  "key2" => "value2",
-}
-`;
-
-exports[`RaStanza reader removes a line 1`] = `
-Map {
-  "key1" => "value1",
-  "key3" => "",
-}
-`;
-
-exports[`RaStanza reader updates a line 1`] = `
-Map {
-  "key1" => "value1",
-  "key2" => "value2_new",
-  "key3" => "",
+exports[`RaStanza reader populates an empty stanza 1`] = `
+RaStanza {
+  "data": {
+    "key1": "value1",
+    "key2": "value2",
+  },
+  "indent": "",
+  "name": "value1",
+  "nameKey": "key1",
 }
 `;

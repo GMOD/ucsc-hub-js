@@ -3,25 +3,40 @@
 exports[`GenomesFile reads a basic genomes.txt file 1`] = `
 GenomesFile {
   "data": {
-    "hg18": Map {
-      "genome" => "hg18",
-      "trackDb" => "hg18/trackDb.txt",
+    "hg18": RaStanza {
+      "data": {
+        "genome": "hg18",
+        "trackDb": "hg18/trackDb.txt",
+      },
+      "indent": "",
+      "name": "hg18",
+      "nameKey": "genome",
     },
-    "hg19": Map {
-      "genome" => "hg19",
-      "trackDb" => "hg19/trackDb.txt",
+    "hg19": RaStanza {
+      "data": {
+        "genome": "hg19",
+        "trackDb": "hg19/trackDb.txt",
+      },
+      "indent": "",
+      "name": "hg19",
+      "nameKey": "genome",
     },
-    "newOrg1": Map {
-      "genome" => "newOrg1",
-      "trackDb" => "newOrg1/trackDb.txt",
-      "twoBitPath" => "newOrg1/newOrg1.2bit",
-      "groups" => "newOrg1/groups.txt",
-      "description" => "Big Foot V4",
-      "organism" => "BigFoot",
-      "defaultPos" => "chr21:33031596-33033258",
-      "orderKey" => "4800",
-      "scientificName" => "Biggus Footus",
-      "htmlPath" => "newOrg1/description.html",
+    "newOrg1": RaStanza {
+      "data": {
+        "defaultPos": "chr21:33031596-33033258",
+        "description": "Big Foot V4",
+        "genome": "newOrg1",
+        "groups": "newOrg1/groups.txt",
+        "htmlPath": "newOrg1/description.html",
+        "orderKey": "4800",
+        "organism": "BigFoot",
+        "scientificName": "Biggus Footus",
+        "trackDb": "newOrg1/trackDb.txt",
+        "twoBitPath": "newOrg1/newOrg1.2bit",
+      },
+      "indent": "",
+      "name": "newOrg1",
+      "nameKey": "genome",
     },
   },
   "nameKey": "genome",

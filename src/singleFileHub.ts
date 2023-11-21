@@ -54,12 +54,4 @@ export default class SingleFileHub extends HubFile {
       )
     }
   }
-
-  public toString() {
-    return [
-      super.toString(),
-      this.genome.toString(),
-      ...this.trackDbs.map(track => track.toString()),
-    ].join('\n')
-  }
 }

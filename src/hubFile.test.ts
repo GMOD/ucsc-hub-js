@@ -6,7 +6,6 @@ describe('HubFile', () => {
     const input = fs.readFileSync('test/basic.hub.txt', 'utf8')
     const hubFile = new HubFile(input)
     expect(hubFile).toMatchSnapshot()
-    expect(hubFile.toString()).toEqual(input)
   })
 
   it("throws if the file doesn't start with a hub entry", () =>
