@@ -12,5 +12,5 @@ test('single-file hub', () => {
   const singleFileHub = new SingleFileHub(input)
   expect(singleFileHub).toMatchSnapshot()
   expect(singleFileHub.genome).toMatchSnapshot()
-  expect(singleFileHub.trackDbs).toMatchSnapshot()
+  expect(singleFileHub.tracks).toMatchSnapshot()
 })

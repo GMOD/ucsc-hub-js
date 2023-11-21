@@ -1,4 +1,5 @@
 import RaStanza from './raStanza'
+import { validateRequiredFieldsArePresent } from './util'
 
 /**
  * Class representing a hub.txt file.
@@ -10,27 +11,10 @@ import RaStanza from './raStanza'
  */
 export default class HubFile extends RaStanza {
   protected validate() {
-    const missingFields = [] as string[]
-    const requiredFields = [
-      'hub',
-      'shortLabel',
-      'longLabel',
-      'genomesFile',
-      'email',
-      'descriptionUrl',
-    ]
-
-    for (const field of requiredFields) {
-      if (!this.data[field]) {
-        missingFields.push(field)
-      }
-    }
-    if (missingFields.length > 0) {
-      throw new Error(
-        `Hub file is missing required entr${
-          missingFields.length === 1 ? 'y' : 'ies'
-        }: ${missingFields.join(', ')}`,
-      )
-    }
+    validateRequiredFieldsArePresent(
+      this,
+      ['hub', 'shortLabel', 'longLabel', 'genomesFile', 'email'],
+      'Hub file',
+    )
   }
 }

@@ -1,40 +1,39 @@
-import GenomesFile from './genomesFile'
-import HubFile from './hubFile'
+import RaStanza from './raStanza'
 import TrackDbFile from './trackDbFile'
 import { validateRequiredFieldsArePresent } from './util'
 
 /**
- * Class representing a "single-file" hub.txt file that contains all the sections
- * of a hub in a single file.
+ * Class representing a "single-file" hub.txt file that contains all the
+ * sections of a hub in a single file.
  */
-export default class SingleFileHub extends HubFile {
-  /** a GenomesFile object for the hub's genome section */
-  public readonly genome: GenomesFile
+export default class SingleFileHub {
+  public genome: RaStanza
 
-  /** an array of TrackDbFile objects for the hub's trackDb sections */
-  public readonly trackDbs: TrackDbFile[]
+  public tracks: TrackDbFile
+
+  public hubData: RaStanza
 
   constructor(hubText: string) {
     const [hubSection, genomeSection, ...trackSections] = hubText
       .trimEnd()
       .split(/(?:[\t ]*\r?\n){2,}/)
-    super(hubSection, { skipValidation: true })
+    this.hubData = new RaStanza(hubSection, { skipValidation: true })
     this.validateHub()
 
-    this.genome = new GenomesFile(genomeSection, { skipValidation: true })
+    this.genome = new RaStanza(genomeSection, { skipValidation: true })
     this.validateGenomeSection()
 
-    this.trackDbs = trackSections.map(
-      trackSection => new TrackDbFile(trackSection, { skipValidation: false }),
-    )
+    this.tracks = new TrackDbFile(trackSections.join('\n\n'), {
+      skipValidation: false,
+    })
   }
 
   protected validateHub() {
-    if (this.nameKey !== 'hub') {
+    if (this.hubData.nameKey !== 'hub') {
       throw new Error('Hub file must begin with a line like "hub <hub_name>"')
     }
 
-    validateRequiredFieldsArePresent(this, [
+    validateRequiredFieldsArePresent(this.hubData, [
       'hub',
       'shortLabel',
       'longLabel',
