@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RaFile reader adds a stanza 1`] = `
+exports[`adds a stanza 1`] = `
 Map {
   "valA" => Map {
     "key1" => "valA",
@@ -25,9 +25,9 @@ Map {
 }
 `;
 
-exports[`RaFile reader clears 1`] = `Map {}`;
+exports[`clears 1`] = `Map {}`;
 
-exports[`RaFile reader deletes a stanza 1`] = `
+exports[`deletes a stanza 1`] = `
 Map {
   "valA" => Map {
     "key1" => "valA",
@@ -42,7 +42,7 @@ Map {
 }
 `;
 
-exports[`RaFile reader handles CRLF newlines 1`] = `
+exports[`handles CRLF newlines 1`] = `
 Map {
   "valueA" => Map {
     "key1" => "valueA",
@@ -55,7 +55,7 @@ Map {
 }
 `;
 
-exports[`RaFile reader handles indented stanzas 1`] = `
+exports[`handles indented stanzas 1`] = `
 Map {
   "valA" => Map {
     "key1" => "valA",
@@ -80,7 +80,7 @@ Map {
 }
 `;
 
-exports[`RaFile reader parses a file with comments 1`] = `
+exports[`parses a file with comments 1`] = `
 Map {
   "valA" => Map {
     "key1" => "valA",
@@ -95,7 +95,7 @@ Map {
 }
 `;
 
-exports[`RaFile reader parses a list of stanzas 1`] = `
+exports[`parses a list of stanzas 1`] = `
 Map {
   "valueA" => Map {
     "key1" => "valueA",
@@ -108,7 +108,7 @@ Map {
 }
 `;
 
-exports[`RaFile reader parses a simple three stanza file 1`] = `
+exports[`parses a simple three stanza file 1`] = `
 Map {
   "valA" => Map {
     "key1" => "valA",
@@ -128,7 +128,7 @@ Map {
 }
 `;
 
-exports[`RaFile reader populates an empty ra file 1`] = `
+exports[`populates an empty ra file 1`] = `
 Map {
   "valueA" => Map {
     "key1" => "valueA",
@@ -141,7 +141,7 @@ Map {
 }
 `;
 
-exports[`RaFile reader updates a stanza 1`] = `
+exports[`updates a stanza 1`] = `
 Map {
   "valA" => Map {
     "key1" => "valA",
