@@ -43,8 +43,7 @@ export default class TrackDbFile extends RaFile {
           )
         }
         if (!trackKeys.includes('type')) {
-          const settings = this.settings(trackName)
-          const settingsKeys = [...settings.keys()]
+          const settingsKeys = Object.keys(this.settings(trackName))
           if (!settingsKeys.includes('type')) {
             throw new Error(
               `Neither track ${trackName} nor any of its parent tracks have the required key "type"`,
@@ -90,13 +89,13 @@ export default class TrackDbFile extends RaFile {
         parentTracks.push(currentTrackName)
       }
     } while (currentTrackName)
-    const settings = new Map()
+    const settings = {} as Record<string, unknown>
     parentTracks.reverse()
     for (const parentTrack of parentTracks) {
       const ret = this.data[parentTrack]
       if (ret) {
         for (const [key, value] of Object.entries(ret)) {
-          settings.set(key, value)
+          settings[key] = value
         }
       }
     }

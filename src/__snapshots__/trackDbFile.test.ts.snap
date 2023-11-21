@@ -46,8 +46,8 @@ TrackDbFile {
 `;
 
 exports[`gets settings 2`] = `
-Map {
-  "data" => {
+{
+  "data": {
     "bigDataUrl": "data/first.bb",
     "longLabel": "The first track in my subtrack",
     "parent": "myFolder",
@@ -56,8 +56,8 @@ Map {
     "type": "bigBed 3",
     "visibility": "dense",
   },
-  "nameKey" => "track",
-  "name" => "myFirstTrack",
+  "name": "myFirstTrack",
+  "nameKey": "track",
 }
 `;
 
@@ -1267,8 +1267,8 @@ TrackDbFile {
 `;
 
 exports[`parses an extended trackDB.txt file 2`] = `
-Map {
-  "data" => {
+{
+  "data": {
     "bigDataUrl": "PRRSv/26_plus.bigwig",
     "color": "0,0,255",
     "longLabel": "PRRSv Control Pig #26 Plus Strand Hippocampal RNA-seq Raw Signal",
@@ -1277,8 +1277,8 @@ Map {
     "track": "26_plus",
     "type": "bigWig 0 100",
   },
-  "nameKey" => "track",
-  "name" => "26_plus",
+  "name": "26_plus",
+  "nameKey": "track",
 }
 `;
 
