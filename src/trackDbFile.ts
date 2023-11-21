@@ -52,7 +52,6 @@ export default class TrackDbFile extends RaFile {
           }
         }
       }
-      let indent = ''
       let currentTrackName: string | undefined = trackName
       do {
         // @ts-expect-error
@@ -61,12 +60,10 @@ export default class TrackDbFile extends RaFile {
           | undefined
         if (currentTrackName) {
           ;[currentTrackName] = currentTrackName.split(' ')
-          indent += '    '
         }
       } while (currentTrackName)
       const currentTrack = this.data[trackName]
       if (currentTrack) {
-        currentTrack.indent = indent
         this.data[trackName] = currentTrack
       }
     }

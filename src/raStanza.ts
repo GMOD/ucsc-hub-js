@@ -1,39 +1,10 @@
 /**
  * Class representing an ra file stanza. Each stanza line is split into its key
  * and value and stored as a Map, so the usual Map methods can be used on the
- * stanza. An additional method `add()` is available to take a raw line of text
- * and break it up into a key and value and add them to the class. This should
- * be favored over `set()` when possible, as it performs more validity checks
- * than using `set()`.
- *
- * @extends Map
- * @property {undefined|string} nameKey - The key of the first line of the
- * stanza (`undefined` if the stanza has no lines yet).
- *
- * @property {undefined|string} name - The value of the first line of the
- * stanza, by which it is identified in an ra file  (`undefined` if the stanza
- * has no lines yet).
- *
- * @property {undefined|string} indent - The leading indent of the stanza,
- * which is the same for every line (`undefined` if the stanza has no lines
- * yet, `''` if there is no indent).
- *
- * @throws {Error} Throws if the stanza has blank lines, if the first line
- * doesn't have both a key and a value, if a key in the stanza is
- * duplicated, or if lines in the stanza have inconsistent indentation.
- * @param {(string|string[])} [stanza=[]] - An ra file stanza, either as a
- * string or a array of strings with one line per entry. Supports both LF and
- * CRLF line terminators.
- *
- * @param {object} options
- *
- * @param {boolean} options.checkIndent [true] - Check if a stanza is indented
- * consistently and keep track of the indentation
+ * stanza.
  */
 export default class RaStanza {
   data: Record<string, string> = {}
-
-  indent?: string
 
   name?: string
 
@@ -52,6 +23,8 @@ export default class RaStanza {
     } else {
       stanzaLines = []
     }
+
+    let currentIndent: string | undefined
 
     let continuedLine: string | undefined
     for (const line of stanzaLines) {
@@ -75,22 +48,22 @@ export default class RaStanza {
         combinedLine = continuedLine + combinedLine.trimStart()
         continuedLine = undefined
       }
-      if (this.indent ?? checkIndent) {
+      if (currentIndent ?? checkIndent) {
         const indent = combinedLine.match(/^([ \t]+)/)
-        if (this.indent === undefined) {
+        if (currentIndent === undefined) {
           if (indent) {
-            ;[, this.indent] = indent
+            ;[, currentIndent] = indent
           } else {
-            this.indent = ''
+            currentIndent = ''
           }
         } else if (
-          (this.indent === '' && indent !== null) ||
-          (this.indent && indent && this.indent !== indent[1])
+          (currentIndent === '' && indent !== null) ||
+          (currentIndent && indent && currentIndent !== indent[1])
         ) {
           throw new Error('Inconsistent indentation of stanza')
         }
       } else {
-        this.indent = ''
+        currentIndent = ''
       }
       const trimmedLine = combinedLine.trim()
       const sep = trimmedLine.indexOf(' ')

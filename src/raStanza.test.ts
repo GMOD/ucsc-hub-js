@@ -5,7 +5,6 @@ test('creates an empty stanza', () => {
   expect(stanza).toMatchSnapshot()
   expect(stanza.name).toBeUndefined()
   expect(stanza.nameKey).toBeUndefined()
-  expect(stanza.indent).toBeUndefined()
 })
 
 test('populates an empty stanza', () => {
@@ -15,7 +14,6 @@ test('populates an empty stanza', () => {
   expect(stanza).toMatchSnapshot()
   expect(stanza.name).toEqual('value1')
   expect(stanza.nameKey).toEqual('key1')
-  expect(stanza.indent).toEqual('')
 })
 
 test('parses a single line stanza', () => {
@@ -24,7 +22,6 @@ test('parses a single line stanza', () => {
   expect(stanza).toMatchSnapshot()
   expect(stanza.name).toEqual('value1')
   expect(stanza.nameKey).toEqual('key1')
-  expect(stanza.indent).toEqual('')
 })
 
 test('parses a multiple line stanza', () => {
@@ -33,7 +30,6 @@ test('parses a multiple line stanza', () => {
   expect(stanza).toMatchSnapshot()
   expect(stanza.name).toEqual('value1')
   expect(stanza.nameKey).toEqual('key1')
-  expect(stanza.indent).toEqual('')
 })
 
 test('handles CRLF newlines', () => {
@@ -42,7 +38,6 @@ test('handles CRLF newlines', () => {
   expect(stanza).toMatchSnapshot()
   expect(stanza.name).toEqual('value1')
   expect(stanza.nameKey).toEqual('key1')
-  expect(stanza.indent).toEqual('')
 })
 
 test('parses a list of strings', () => {
@@ -51,7 +46,6 @@ test('parses a list of strings', () => {
   expect(stanza).toMatchSnapshot()
   expect(stanza.name).toEqual('value1')
   expect(stanza.nameKey).toEqual('key1')
-  expect(stanza.indent).toEqual('')
 })
 
 test('handles commented lines', () => {
@@ -66,7 +60,6 @@ test('handles commented lines', () => {
 
   expect(stanza.name).toEqual('value1')
   expect(stanza.nameKey).toEqual('key1')
-  expect(stanza.indent).toEqual('')
 })
 
 test('handles indented lines', () => {
@@ -75,7 +68,6 @@ test('handles indented lines', () => {
   expect(stanza).toMatchSnapshot()
   expect(stanza.name).toEqual('value1')
   expect(stanza.nameKey).toEqual('key1')
-  expect(stanza.indent).toEqual('    ')
 })
 
 test('ignores indentation with checkIndent false', () => {
@@ -84,7 +76,6 @@ test('ignores indentation with checkIndent false', () => {
   expect(stanza).toMatchSnapshot()
   expect(stanza.name).toEqual('value1')
   expect(stanza.nameKey).toEqual('key1')
-  expect(stanza.indent).toEqual('')
 })
 
 test('handles continued lines', () => {
@@ -104,7 +95,6 @@ test('handles continued lines', () => {
 
   expect(stanza.name).toEqual('value1')
   expect(stanza.nameKey).toEqual('key1')
-  expect(stanza.indent).toEqual('  ')
 })
 
 test('throws with duplicate keys and different values', () => {

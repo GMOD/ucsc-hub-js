@@ -10,7 +10,6 @@ HubFile {
     "longLabel": "UCSC Genome Informatics Hub for human DNase and RNAseq data",
     "shortLabel": "UCSC Hub",
   },
-  "indent": "",
   "name": "UCSCHub",
   "nameKey": "hub",
 }

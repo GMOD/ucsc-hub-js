@@ -6,10 +6,6 @@ import { validateRequiredFieldsArePresent } from './util'
 /**
  * Class representing a "single-file" hub.txt file that contains all the sections
  * of a hub in a single file.
- * @extends RaFile
- * @param {(string|string[])} [hubText=[]] - A hub.txt file as a string
- * @throws {Error} Throws if the first line of the hub.txt file doesn't start
- * with "genome <genome_name>" or if it has invalid entries
  */
 export default class SingleFileHub extends HubFile {
   /** a GenomesFile object for the hub's genome section */
