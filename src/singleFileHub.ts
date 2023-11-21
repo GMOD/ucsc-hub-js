@@ -17,10 +17,10 @@ export default class SingleFileHub {
     const [hubSection, genomeSection, ...trackSections] = hubText
       .trimEnd()
       .split(/(?:[\t ]*\r?\n){2,}/)
-    this.hubData = new RaStanza(hubSection, { skipValidation: true })
+    this.hubData = new RaStanza(hubSection)
     this.validateHub()
 
-    this.genome = new RaStanza(genomeSection, { skipValidation: true })
+    this.genome = new RaStanza(genomeSection)
     this.validateGenomeSection()
 
     this.tracks = new TrackDbFile(trackSections.join('\n\n'), {
