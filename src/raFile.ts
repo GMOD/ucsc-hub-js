@@ -24,8 +24,6 @@ import RaStanza from './raStanza'
 export default class RaFile extends Map<string, RaStanza> {
   _checkIndent: boolean
 
-  _stanzaAndCommentOrder: string[]
-
   nameKey?: string
 
   constructor(
@@ -43,7 +41,6 @@ export default class RaFile extends Map<string, RaStanza> {
     } else {
       stanzas = []
     }
-    this._stanzaAndCommentOrder = []
     for (const stanza of stanzas) {
       this.add(stanza)
     }
@@ -70,7 +67,6 @@ export default class RaFile extends Map<string, RaStanza> {
         .split(/\r?\n/)
         .map(line => line.trim())
       if (stanzaLines.every(line => line.startsWith('#'))) {
-        this._stanzaAndCommentOrder.push(stanzaLines.join('\n'))
         return this
       }
     }
@@ -90,7 +86,6 @@ export default class RaFile extends Map<string, RaStanza> {
       throw new Error(`Got duplicate stanza name: ${raStanza.name}`)
     }
 
-    this._stanzaAndCommentOrder.push(raStanza.name)
     return super.set(raStanza.name, raStanza)
   }
 }

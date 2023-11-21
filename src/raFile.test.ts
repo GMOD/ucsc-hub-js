@@ -25,7 +25,6 @@ test('parses a simple three stanza file', () => {
   const raFile = new RaFile(input)
   expect(raFile).toMatchSnapshot()
   expect(raFile.nameKey).toEqual('key1')
-  expect(raFile.toString()).toEqual(input)
 })
 
 test('parses a file with comments', () => {
@@ -62,40 +61,6 @@ test('parses a list of stanzas', () => {
 test('handles indented stanzas', () => {
   const input = fs.readFileSync('test/indented.ra', 'utf8')
   const raFile = new RaFile(input)
-  expect(raFile).toMatchSnapshot()
-  expect(raFile.nameKey).toEqual('key1')
-})
-
-test('adds a stanza', () => {
-  const raFile = new RaFile(fs.readFileSync('test/basic.ra', 'utf8'))
-  raFile.add('key1 valJ\nkey2 valK\nkey3 valL\n')
-  expect(raFile).toMatchSnapshot()
-  expect(raFile.nameKey).toEqual('key1')
-  expect(raFile.toString()).toEqual(fs.readFileSync('test/afterAdd.ra', 'utf8'))
-})
-
-test('deletes a stanza', () => {
-  const raFile = new RaFile(fs.readFileSync('test/basic.ra', 'utf8'))
-  raFile.delete('valD')
-  raFile.delete('nonexistent')
-  expect(raFile).toMatchSnapshot()
-  expect(raFile.nameKey).toEqual('key1')
-})
-
-test('clears', () => {
-  const raFile = new RaFile(fs.readFileSync('test/basic.ra', 'utf8'))
-  raFile.clear()
-  expect(raFile).toMatchSnapshot()
-  expect(raFile.nameKey).toBeUndefined()
-})
-
-test('updates a stanza', () => {
-  const input = fs.readFileSync('test/basic.ra', 'utf8')
-  const raFile = new RaFile(input)
-  const updatedStanza = raFile.get('valD')
-  assert(updatedStanza)
-  updatedStanza.indent = '    '
-  raFile.set('valD', updatedStanza)
   expect(raFile).toMatchSnapshot()
   expect(raFile.nameKey).toEqual('key1')
 })

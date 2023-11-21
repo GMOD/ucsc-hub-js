@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TrackDbFile gets settings 1`] = `
+exports[`gets settings 1`] = `
 Map {
   "myFolder" => Map {
     "track" => "myFolder",
@@ -30,7 +30,7 @@ Map {
 }
 `;
 
-exports[`TrackDbFile gets settings 2`] = `
+exports[`gets settings 2`] = `
 Map {
   "track" => "myFirstTrack",
   "superTrack" => "on show",
@@ -44,7 +44,7 @@ Map {
 }
 `;
 
-exports[`TrackDbFile parses an extended trackDB.txt file 1`] = `
+exports[`parses an extended trackDB.txt file 1`] = `
 Map {
   "PRRSv_Control_26" => Map {
     "track" => "PRRSv_Control_26",
@@ -906,7 +906,7 @@ Map {
 }
 `;
 
-exports[`TrackDbFile parses an extended trackDB.txt file 2`] = `
+exports[`parses an extended trackDB.txt file 2`] = `
 Map {
   "track" => "26_plus",
   "superTrack" => "on",
@@ -927,7 +927,7 @@ Map {
 }
 `;
 
-exports[`TrackDbFile reads a basic trackDb.txt file 1`] = `
+exports[`reads a basic trackDb.txt file 1`] = `
 Map {
   "dnaseSignal" => Map {
     "track" => "dnaseSignal",

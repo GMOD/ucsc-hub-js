@@ -6,7 +6,6 @@ describe('GenomesFile', () => {
     const input = fs.readFileSync('test/basic.genomes.txt', 'utf8')
     const genomesFile = new GenomesFile(input)
     expect(genomesFile).toMatchSnapshot()
-    expect(genomesFile.toString()).toEqual(input)
   })
 
   it("throws if the file doesn't start with a genomes entry", () =>

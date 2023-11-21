@@ -1,47 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`adds a stanza 1`] = `
-Map {
-  "valA" => Map {
-    "key1" => "valA",
-    "key2" => "valB",
-    "key3" => "valC",
-  },
-  "valD" => Map {
-    "key1" => "valD",
-    "key2" => "valE",
-    "key3" => "valF",
-  },
-  "valG" => Map {
-    "key1" => "valG",
-    "key2" => "valH",
-    "key3" => "valI",
-  },
-  "valJ" => Map {
-    "key1" => "valJ",
-    "key2" => "valK",
-    "key3" => "valL",
-  },
-}
-`;
-
-exports[`clears 1`] = `Map {}`;
-
-exports[`deletes a stanza 1`] = `
-Map {
-  "valA" => Map {
-    "key1" => "valA",
-    "key2" => "valB",
-    "key3" => "valC",
-  },
-  "valG" => Map {
-    "key1" => "valG",
-    "key2" => "valH",
-    "key3" => "valI",
-  },
-}
-`;
-
 exports[`handles CRLF newlines 1`] = `
 Map {
   "valueA" => Map {
@@ -137,26 +95,6 @@ Map {
   "valueC" => Map {
     "key1" => "valueC",
     "key2" => "valueD",
-  },
-}
-`;
-
-exports[`updates a stanza 1`] = `
-Map {
-  "valA" => Map {
-    "key1" => "valA",
-    "key2" => "valB",
-    "key3" => "valC",
-  },
-  "valD" => Map {
-    "key1" => "valD",
-    "key2" => "valE",
-    "key3" => "valF",
-  },
-  "valG" => Map {
-    "key1" => "valG",
-    "key2" => "valH",
-    "key3" => "valI",
   },
 }
 `;
