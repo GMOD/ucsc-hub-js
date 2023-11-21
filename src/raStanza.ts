@@ -33,8 +33,6 @@
 export default class RaStanza {
   data: Record<string, string> = {}
 
-  _continuedLine?: string
-
   indent?: string
 
   name?: string
@@ -54,6 +52,8 @@ export default class RaStanza {
     } else {
       stanzaLines = []
     }
+
+    let continuedLine: string | undefined
     for (const line of stanzaLines) {
       if (line === '') {
         throw new Error('Invalid stanza, contained blank lines')
@@ -63,17 +63,17 @@ export default class RaStanza {
       }
       if (line.trimEnd().endsWith('\\')) {
         const trimmedLine = line.trimEnd().slice(0, -1)
-        if (this._continuedLine) {
-          this._continuedLine += trimmedLine.trimStart()
+        if (continuedLine) {
+          continuedLine += trimmedLine.trimStart()
         } else {
-          this._continuedLine = trimmedLine
+          continuedLine = trimmedLine
         }
         continue
       }
       let combinedLine = line
-      if (this._continuedLine) {
-        combinedLine = this._continuedLine + combinedLine.trimStart()
-        this._continuedLine = undefined
+      if (continuedLine) {
+        combinedLine = continuedLine + combinedLine.trimStart()
+        continuedLine = undefined
       }
       if (this.indent ?? checkIndent) {
         const indent = combinedLine.match(/^([ \t]+)/)

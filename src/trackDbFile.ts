@@ -1,4 +1,5 @@
 import RaFile from './raFile'
+import { validateRequiredFieldsArePresent } from './util'
 
 /**
  * Class representing a genomes.txt file.
@@ -22,21 +23,13 @@ export default class TrackDbFile extends RaFile {
       )
     }
     for (const [trackName, track] of Object.entries(this.data)) {
-      const trackKeys = Object.keys(track!)
-      const missingKeys = [] as string[]
-      const requiredKeys = ['track', 'shortLabel']
-      for (const key of requiredKeys) {
-        if (!trackKeys.includes(key)) {
-          missingKeys.push(key)
-        }
-      }
-      if (missingKeys.length > 0) {
-        throw new Error(
-          `Track ${trackName} is missing required key(s): ${missingKeys.join(
-            ', ',
-          )}`,
-        )
-      }
+      const trackKeys = Object.keys(track!.data)
+      validateRequiredFieldsArePresent(
+        track!,
+        ['track', 'shortLabel'],
+        `Track ${trackName}`,
+      )
+
       const parentTrackKeys = new Set([
         'superTrack',
         'compositeTrack',

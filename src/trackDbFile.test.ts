@@ -30,7 +30,7 @@ test("throws if each track doesn't start with track", () =>
 test('throws if a track is missing required keys', () =>
   expect(
     () => new TrackDbFile('track dnaseSignal\nbigDataUrl dnaseSignal.bigWig\n'),
-  ).toThrow(/Track .* is missing required key\(s\):/))
+  ).toThrow(/Track .* is missing required entry:/))
 
 test("throws if each track isn't a parent track and doesn't have bigDataUrl", () =>
   expect(

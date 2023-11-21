@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RaStanza reader creates an empty stanza 1`] = `
+exports[`creates an empty stanza 1`] = `
 RaStanza {
   "data": {},
 }
 `;
 
-exports[`RaStanza reader handles CRLF newlines 1`] = `
+exports[`handles CRLF newlines 1`] = `
 RaStanza {
   "data": {
     "key1": "value1",
@@ -18,7 +18,7 @@ RaStanza {
 }
 `;
 
-exports[`RaStanza reader handles commented lines 1`] = `
+exports[`handles commented lines 1`] = `
 RaStanza {
   "data": {
     "key1": "value1",
@@ -31,9 +31,8 @@ RaStanza {
 }
 `;
 
-exports[`RaStanza reader handles continued lines 1`] = `
+exports[`handles continued lines 1`] = `
 RaStanza {
-  "_continuedLine": undefined,
   "data": {
     "key1": "value1",
     "key2": "a really long value that continues",
@@ -46,7 +45,7 @@ RaStanza {
 }
 `;
 
-exports[`RaStanza reader handles indented lines 1`] = `
+exports[`handles indented lines 1`] = `
 RaStanza {
   "data": {
     "key1": "value1",
@@ -58,7 +57,7 @@ RaStanza {
 }
 `;
 
-exports[`RaStanza reader ignores indentation with checkIndent false 1`] = `
+exports[`ignores indentation with checkIndent false 1`] = `
 RaStanza {
   "data": {
     "key1": "value1",
@@ -70,7 +69,7 @@ RaStanza {
 }
 `;
 
-exports[`RaStanza reader parses a list of strings 1`] = `
+exports[`parses a list of strings 1`] = `
 RaStanza {
   "data": {
     "key1": "value1",
@@ -82,7 +81,7 @@ RaStanza {
 }
 `;
 
-exports[`RaStanza reader parses a multiple line stanza 1`] = `
+exports[`parses a multiple line stanza 1`] = `
 RaStanza {
   "data": {
     "key1": "value1",
@@ -95,7 +94,7 @@ RaStanza {
 }
 `;
 
-exports[`RaStanza reader parses a single line stanza 1`] = `
+exports[`parses a single line stanza 1`] = `
 RaStanza {
   "data": {
     "key1": "value1",
@@ -106,7 +105,7 @@ RaStanza {
 }
 `;
 
-exports[`RaStanza reader populates an empty stanza 1`] = `
+exports[`populates an empty stanza 1`] = `
 RaStanza {
   "data": {
     "key1": "value1",
