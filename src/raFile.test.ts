@@ -1,23 +1,9 @@
 import fs from 'fs'
 import RaFile from './raFile'
-import assert from 'assert'
 
 test('creates an empty ra file', () => {
   const raFile = new RaFile()
   expect(raFile.nameKey).toBeUndefined()
-})
-
-test('populates an empty ra file', () => {
-  const raFile = new RaFile()
-  const input1 = 'key1 valueA\nkey2 valueB\n'
-  const comment = '# A comment\n'
-  const input2 = 'key1 valueC\nkey2 valueD\n'
-  raFile.add(input1)
-  raFile.add(comment)
-  raFile.add(input2)
-  expect(raFile).toMatchSnapshot()
-
-  expect(raFile.nameKey).toEqual('key1')
 })
 
 test('parses a simple three stanza file', () => {
@@ -67,8 +53,6 @@ test('handles indented stanzas', () => {
 
 test('throws on an empty stanza', () => {
   expect(() => new RaFile('')).toThrow(/Invalid stanza, was empty/)
-  const raFile = new RaFile()
-  expect(() => raFile.add('')).toThrow(/Invalid stanza, was empty/)
 })
 
 test('throws if stanzas have mismatched keys', () => {

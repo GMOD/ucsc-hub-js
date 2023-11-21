@@ -42,7 +42,35 @@ export default class RaFile extends Map<string, RaStanza> {
       stanzas = []
     }
     for (const stanza of stanzas) {
-      this.add(stanza)
+      if (stanza === '') {
+        throw new Error('Invalid stanza, was empty')
+      }
+      if (stanza.trim().startsWith('#')) {
+        const stanzaLines = stanza
+          .trimEnd()
+          .split(/\r?\n/)
+          .map(line => line.trim())
+        if (stanzaLines.every(line => line.startsWith('#'))) {
+          continue
+        }
+      }
+      const raStanza = new RaStanza(stanza, { checkIndent: this._checkIndent })
+      if (!this.nameKey) {
+        this.nameKey = raStanza.nameKey
+      } else if (raStanza.nameKey !== this.nameKey) {
+        throw new Error(
+          'The first line in each stanza must have the same key. ' +
+            `Saw both ${this.nameKey} and ${raStanza.nameKey}`,
+        )
+      }
+      if (!raStanza.name) {
+        throw new Error(`No stanza name: ${raStanza.name}`)
+      }
+      if (this.has(raStanza.name)) {
+        throw new Error(`Got duplicate stanza name: ${raStanza.name}`)
+      }
+
+      super.set(raStanza.name, raStanza)
     }
 
     if (!skipValidation) {
@@ -51,41 +79,4 @@ export default class RaFile extends Map<string, RaStanza> {
   }
 
   protected validate() {}
-
-  /**
-   * Add a single stanza to the file
-   * @param {string} stanza A single stanza
-   * @returns {RaFile} The RaFile object
-   */
-  add(stanza: string) {
-    if (stanza === '') {
-      throw new Error('Invalid stanza, was empty')
-    }
-    if (stanza.trim().startsWith('#')) {
-      const stanzaLines = stanza
-        .trimEnd()
-        .split(/\r?\n/)
-        .map(line => line.trim())
-      if (stanzaLines.every(line => line.startsWith('#'))) {
-        return this
-      }
-    }
-    const raStanza = new RaStanza(stanza, { checkIndent: this._checkIndent })
-    if (!this.nameKey) {
-      this.nameKey = raStanza.nameKey
-    } else if (raStanza.nameKey !== this.nameKey) {
-      throw new Error(
-        'The first line in each stanza must have the same key. ' +
-          `Saw both ${this.nameKey} and ${raStanza.nameKey}`,
-      )
-    }
-    if (!raStanza.name) {
-      throw new Error(`No stanza name: ${raStanza.name}`)
-    }
-    if (this.has(raStanza.name)) {
-      throw new Error(`Got duplicate stanza name: ${raStanza.name}`)
-    }
-
-    return super.set(raStanza.name, raStanza)
-  }
 }

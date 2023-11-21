@@ -85,16 +85,3 @@ Map {
   },
 }
 `;
-
-exports[`populates an empty ra file 1`] = `
-Map {
-  "valueA" => Map {
-    "key1" => "valueA",
-    "key2" => "valueB",
-  },
-  "valueC" => Map {
-    "key1" => "valueC",
-    "key2" => "valueD",
-  },
-}
-`;
