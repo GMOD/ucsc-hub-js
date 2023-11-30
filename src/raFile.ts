@@ -21,10 +21,8 @@ import RaStanza from './raStanza'
  * @param {boolean} options.checkIndent [true] - Check if a the stanzas within
  * the file are indented consistently and keep track of the indentation
  */
-export default class RaFile extends Map<string, RaStanza> {
-  _checkIndent: boolean
-
-  _stanzaAndCommentOrder: string[]
+export default class RaFile {
+  data: Record<string, RaStanza | undefined> = {}
 
   nameKey?: string
 
@@ -32,9 +30,7 @@ export default class RaFile extends Map<string, RaStanza> {
     raFile: string | string[] = [],
     options?: { checkIndent?: boolean; skipValidation?: boolean },
   ) {
-    super()
     const { checkIndent = true, skipValidation = false } = options ?? {}
-    this._checkIndent = !!checkIndent
     let stanzas: string[]
     if (typeof raFile === 'string') {
       stanzas = raFile.trimEnd().split(/(?:[\t ]*\r?\n){2,}/)
@@ -43,9 +39,36 @@ export default class RaFile extends Map<string, RaStanza> {
     } else {
       stanzas = []
     }
-    this._stanzaAndCommentOrder = []
     for (const stanza of stanzas) {
-      this.add(stanza)
+      if (stanza === '') {
+        throw new Error('Invalid stanza, was empty')
+      }
+      if (stanza.trim().startsWith('#')) {
+        const stanzaLines = stanza
+          .trimEnd()
+          .split(/\r?\n/)
+          .map(line => line.trim())
+        if (stanzaLines.every(line => line.startsWith('#'))) {
+          continue
+        }
+      }
+      const raStanza = new RaStanza(stanza, { checkIndent })
+      if (!this.nameKey) {
+        this.nameKey = raStanza.nameKey
+      } else if (raStanza.nameKey !== this.nameKey) {
+        throw new Error(
+          'The first line in each stanza must have the same key. ' +
+            `Saw both ${this.nameKey} and ${raStanza.nameKey}`,
+        )
+      }
+      if (!raStanza.name) {
+        throw new Error(`No stanza name: ${raStanza.name}`)
+      }
+      if (this.data[raStanza.name]) {
+        throw new Error(`Got duplicate stanza name: ${raStanza.name}`)
+      }
+
+      this.data[raStanza.name] = raStanza
     }
 
     if (!skipValidation) {
@@ -54,106 +77,4 @@ export default class RaFile extends Map<string, RaStanza> {
   }
 
   protected validate() {}
-
-  /**
-   * Add a single stanza to the file
-   * @param {string} stanza A single stanza
-   * @returns {RaFile} The RaFile object
-   */
-  add(stanza: string) {
-    if (stanza === '') {
-      throw new Error('Invalid stanza, was empty')
-    }
-    if (stanza.trim().startsWith('#')) {
-      const stanzaLines = stanza
-        .trimEnd()
-        .split(/\r?\n/)
-        .map(line => line.trim())
-      if (stanzaLines.every(line => line.startsWith('#'))) {
-        this._stanzaAndCommentOrder.push(stanzaLines.join('\n'))
-        return this
-      }
-    }
-    const raStanza = new RaStanza(stanza, { checkIndent: this._checkIndent })
-    if (!this.nameKey) {
-      this.nameKey = raStanza.nameKey
-    } else if (raStanza.nameKey !== this.nameKey) {
-      throw new Error(
-        'The first line in each stanza must have the same key. ' +
-          `Saw both ${this.nameKey} and ${raStanza.nameKey}`,
-      )
-    }
-    if (!raStanza.name) {
-      throw new Error(`No stanza name: ${raStanza.name}`)
-    }
-    if (this.has(raStanza.name)) {
-      throw new Error(`Got duplicate stanza name: ${raStanza.name}`)
-    }
-
-    this._stanzaAndCommentOrder.push(raStanza.name)
-    return super.set(raStanza.name, raStanza)
-  }
-
-  /**
-   * Use `add()` if possible instead of this method. If using this, be aware
-   * that no checks are made for comments, empty stanzas, duplicate keys, etc.
-   * @param {string} key The key of the RaFile stanza
-   * @param {RaStanza} value The RaFile stanza used to replace the prior one
-   */
-  update(key: string, value: RaStanza) {
-    if (!(value instanceof RaStanza)) {
-      throw new TypeError(`Value of ${key} is not an RaStanza`)
-    }
-    super.set(key, value)
-  }
-
-  /**
-   * Delete a stanza
-   * @param {string} stanza The name of the stanza to delete (the value in its
-   * first key-value pair)
-   * @returns {boolean} true if the deleted stanza existed, false if it did not
-   */
-  delete(stanza: string) {
-    if (this._stanzaAndCommentOrder.includes(stanza)) {
-      this._stanzaAndCommentOrder = this._stanzaAndCommentOrder.filter(
-        value => value !== stanza,
-      )
-    }
-    return super.delete(stanza)
-  }
-
-  /**
-   * Clear all stanzas and comments
-   */
-  clear() {
-    this._stanzaAndCommentOrder.length = 0
-    this.nameKey = undefined
-    super.clear()
-  }
-
-  /**
-   * @returns {string} Returns the stanza as a string fit for writing to a ra
-   * file. Original leading indent is preserved. It may not be the same as the
-   * input stanza as lines that were joined with `\` in the input will be output
-   *  as a single line and all comments will have the same indentations as the
-   * rest of the stanza. Comments between joined lines will move before that
-   * line.
-   */
-  toString() {
-    if (this.size === 0) {
-      return ''
-    }
-    const stanzas = [] as string[]
-    for (const entry of this._stanzaAndCommentOrder) {
-      if (entry.startsWith('#')) {
-        stanzas.push(`${entry}\n`)
-      } else {
-        const e = this.get(entry)
-        if (e) {
-          stanzas.push(e.toString())
-        }
-      }
-    }
-    return stanzas.join('\n')
-  }
 }

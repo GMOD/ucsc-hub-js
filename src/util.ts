@@ -8,7 +8,7 @@ export function validateRequiredFieldsArePresent(
 ) {
   const missingFields: string[] = []
   for (const field of requiredFields) {
-    if (!map.get(field)) {
+    if (!map.data[field]) {
       missingFields.push(field)
     }
   }
