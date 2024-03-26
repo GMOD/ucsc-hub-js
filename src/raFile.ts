@@ -8,7 +8,6 @@ import RaStanza from './raStanza'
  * is available to take a raw line of text and break it up into a key and value
  * and add them to the class. This should be favored over `set()` when possible,
  * as it performs more validity checks than using `set()`.
- * @extends Map
  * @property {undefined|string} nameKey - The key of the first line of all the
  * stanzas (`undefined` if the stanza has no lines yet).
  * @throws {Error} Throws if an empty stanza is added, if the key in the first
