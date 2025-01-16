@@ -1,4 +1,5 @@
 import RaStanza from './raStanza'
+import { test, expect } from 'vitest'
 
 test('creates an empty stanza', () => {
   const stanza = new RaStanza()

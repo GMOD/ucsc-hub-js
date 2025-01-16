@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { test, expect } from 'vitest'
 import RaFile from './raFile'
 
 test('creates an empty ra file', () => {

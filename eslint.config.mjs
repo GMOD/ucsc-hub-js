@@ -6,7 +6,6 @@ export default tseslint.config(
   {
     ignores: [
       'webpack.config.js',
-      'jest.config.js',
       'dist/*',
       'esm/*',
       'example/*',

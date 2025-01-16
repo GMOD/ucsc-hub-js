@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { test, expect } from 'vitest'
 import SingleFileHub from './singleFileHub'
 
 // test that singleFileHub can parse singleFileAssemblyHub.txt

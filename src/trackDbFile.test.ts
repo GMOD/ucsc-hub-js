@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { test, expect } from 'vitest'
 import TrackDbFile from './trackDbFile'
 
 test('reads a basic trackDb.txt file', () => {

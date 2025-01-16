@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { describe, it, expect } from 'vitest'
 import GenomesFile from './genomesFile'
 
 describe('GenomesFile', () => {

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`GenomesFile reads a basic genomes.txt file 1`] = `
+exports[`GenomesFile > reads a basic genomes.txt file 1`] = `
 GenomesFile {
   "data": {
     "hg18": RaStanza {

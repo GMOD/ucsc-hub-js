@@ -1,10 +1,18 @@
 {
-  "include": ["src", "test"],
+  "include": [
+    "src",
+    "test"
+  ],
   "compilerOptions": {
     "outDir": "dist",
     "target": "es2018",
-    "types": ["node", "jest"],
-    "lib": ["dom", "esnext"],
+    "types": [
+      "node"
+    ],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "declaration": true,
     "moduleResolution": "node",
     "sourceMap": true,
