@@ -1,9 +1,9 @@
 {
   "include": [
-    "src",
-    "test"
+    "src"
   ],
   "compilerOptions": {
+    "skipLibCheck": true,
     "outDir": "dist",
     "target": "es2018",
     "types": [
