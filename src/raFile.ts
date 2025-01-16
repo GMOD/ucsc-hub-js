@@ -21,7 +21,7 @@ import RaStanza from './raStanza'
  * the file are indented consistently and keep track of the indentation
  */
 export default class RaFile {
-  data: Record<string, RaStanza | undefined> = {}
+  data: Record<string, RaStanza> = {}
 
   nameKey?: string
 
@@ -30,14 +30,10 @@ export default class RaFile {
     options?: { checkIndent?: boolean; skipValidation?: boolean },
   ) {
     const { checkIndent = true, skipValidation = false } = options ?? {}
-    let stanzas: string[]
-    if (typeof raFile === 'string') {
-      stanzas = raFile.trimEnd().split(/(?:[\t ]*\r?\n){2,}/)
-    } else if (raFile) {
-      stanzas = raFile
-    } else {
-      stanzas = []
-    }
+    const stanzas =
+      typeof raFile === 'string'
+        ? raFile.trimEnd().split(/(?:[\t ]*\r?\n){2,}/)
+        : raFile
     for (const stanza of stanzas) {
       if (stanza === '') {
         throw new Error('Invalid stanza, was empty')

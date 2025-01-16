@@ -104,15 +104,17 @@ test('throws with duplicate keys and different values', () => {
   expect(() => new RaStanza('key1 value1\nkey1 value1\n')).not.toThrow()
 })
 
-test('throws on encountering blank lines', () =>
+test('throws on encountering blank lines', () => {
   expect(() => new RaStanza('key1 value1\n\nkey2 value2')).toThrow(
     /contained blank lines/,
-  ))
+  )
+})
 
-test("throws if the first line doesn't have a value", () =>
+test("throws if the first line doesn't have a value", () => {
   expect(() => new RaStanza('key1\nkey2 value2\n')).toThrow(
     /must have both a key and a value/,
-  ))
+  )
+})
 
 test('throws on inconsistent indentation', () => {
   expect(() => new RaStanza('    key1 value1\n  key2 value2\n')).toThrow(

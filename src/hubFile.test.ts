@@ -8,13 +8,15 @@ describe('HubFile', () => {
     expect(hubFile).toMatchSnapshot()
   })
 
-  it("throws if the file doesn't start with a hub entry", () =>
+  it("throws if the file doesn't start with a hub entry", () => {
     expect(
       () => new HubFile('trackHub UCSCHub\nshortLabel UCSC Hub\n'),
-    ).toThrow(/missing required/))
+    ).toThrow(/missing required/)
+  })
 
-  it('throws if a hub is missing a required field', () =>
+  it('throws if a hub is missing a required field', () => {
     expect(() => new HubFile('hub UCSCHub\nshortLabel UCSC Hub\n')).toThrow(
       /file is missing required entr(y|ies):/,
-    ))
+    )
+  })
 })

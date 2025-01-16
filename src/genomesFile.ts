@@ -20,7 +20,7 @@ export default class GenomesFile extends RaFile {
 
     for (const [genomeName, genome] of Object.entries(this.data)) {
       validateRequiredFieldsArePresent(
-        genome!,
+        genome,
         requiredFields,
         `genome ${genomeName}`,
       )

@@ -5,8 +5,8 @@ read and write UCSC track and assembly hub files in node or the browser
 ## Status
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/GMOD/ucsc-hub-js/push.yml?branch=master)](https://github.com/GMOD/ucsc-hub-js/actions)
-[![NPM version](https://img.shields.io/npm/v/@gmod/ucsc-hub.svg?logo=npm\&style=flat-square)](https://npmjs.org/package/@gmod/ucsc-hub)
-[![Coverage Status](https://img.shields.io/codecov/c/github/GMOD/ucsc-hub-js/master.svg?logo=codecov\&style=flat-square)](https://codecov.io/gh/GMOD/ucsc-hub-js/branch/master)
+[![NPM version](https://img.shields.io/npm/v/@gmod/ucsc-hub.svg?logo=npm&style=flat-square)](https://npmjs.org/package/@gmod/ucsc-hub)
+[![Coverage Status](https://img.shields.io/codecov/c/github/GMOD/ucsc-hub-js/master.svg?logo=codecov&style=flat-square)](https://codecov.io/gh/GMOD/ucsc-hub-js/branch/master)
 
 ## Usage
 
@@ -19,21 +19,21 @@ Read about hub.txt, genomes.txt, and trackDb.txt files here:
 
 #### Table of Contents
 
-*   [GenomesFile](#genomesfile)
-    *   [Parameters](#parameters)
-*   [HubFile](#hubfile)
-    *   [Parameters](#parameters-1)
-*   [RaFile](#rafile)
-    *   [Parameters](#parameters-2)
-    *   [Properties](#properties)
-*   [RaStanza](#rastanza)
-    *   [Parameters](#parameters-3)
-*   [SingleFileHub](#singlefilehub)
-    *   [Parameters](#parameters-4)
-*   [TrackDbFile](#trackdbfile)
-    *   [Parameters](#parameters-5)
-    *   [settings](#settings)
-        *   [Parameters](#parameters-6)
+- [GenomesFile](#genomesfile)
+  - [Parameters](#parameters)
+- [HubFile](#hubfile)
+  - [Parameters](#parameters-1)
+- [RaFile](#rafile)
+  - [Parameters](#parameters-2)
+  - [Properties](#properties)
+- [RaStanza](#rastanza)
+  - [Parameters](#parameters-3)
+- [SingleFileHub](#singlefilehub)
+  - [Parameters](#parameters-4)
+- [TrackDbFile](#trackdbfile)
+  - [Parameters](#parameters-5)
+  - [settings](#settings)
+    - [Parameters](#parameters-6)
 
 ### GenomesFile
 
@@ -43,12 +43,18 @@ Class representing a genomes.txt file.
 
 #### Parameters
 
-*   `genomesFile` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** A genomes.txt file as a string (optional, default `[]`)
+- `genomesFile`
+  **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)
+  |
+  [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)**
+  A genomes.txt file as a string (optional, default `[]`)
 
 <!---->
 
-*   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** Throws if the first line of the hub.txt file doesn't start
-    with "genome \<genome\_name>" or if it has invalid entries
+- Throws
+  **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)**
+  Throws if the first line of the hub.txt file doesn't start with "genome
+  \<genome_name>" or if it has invalid entries
 
 ### HubFile
 
@@ -58,64 +64,89 @@ Class representing a hub.txt file.
 
 #### Parameters
 
-*   `hubFile` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** A hub.txt file as a string (optional, default `[]`)
+- `hubFile`
+  **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)
+  |
+  [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)**
+  A hub.txt file as a string (optional, default `[]`)
 
 <!---->
 
-*   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** Throws if the first line of the hub.txt file doesn't start
-    with "hub \<hub\_name>", if it has invalid entries, or is missing required
-    entries
+- Throws
+  **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)**
+  Throws if the first line of the hub.txt file doesn't start with "hub
+  \<hub_name>", if it has invalid entries, or is missing required entries
 
 ### RaFile
 
 Class representing an ra file. Each file is composed of multiple stanzas, and
-each stanza is separated by one or more blank lines. Each stanza is stored in
-a Map with the key being the value of the first key-value pair in the stanza.
-The usual Map methods can be used on the file. An additional method `add()`
-is available to take a raw line of text and break it up into a key and value
-and add them to the class. This should be favored over `set()` when possible,
-as it performs more validity checks than using `set()`.
+each stanza is separated by one or more blank lines. Each stanza is stored in a
+Map with the key being the value of the first key-value pair in the stanza. The
+usual Map methods can be used on the file. An additional method `add()` is
+available to take a raw line of text and break it up into a key and value and
+add them to the class. This should be favored over `set()` when possible, as it
+performs more validity checks than using `set()`.
 
 #### Parameters
 
-*   `raFile` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** An ra file, either as a single
-    string or an array of strings with one stanza per entry. Supports both LF
-    and CRLF line terminators. (optional, default `[]`)
-*   `options` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**&#x20;
+- `raFile`
+  **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)
+  |
+  [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)**
+  An ra file, either as a single string or an array of strings with one stanza
+  per entry. Supports both LF and CRLF line terminators. (optional, default
+  `[]`)
+- `options`
+  **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**&#x20;
 
-    *   `options.checkIndent` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** \[true] - Check if a the stanzas within
-        the file are indented consistently and keep track of the indentation
+  - `options.checkIndent`
+    **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
+    \[true] - Check if a the stanzas within the file are indented consistently
+    and keep track of the indentation
 
 #### Properties
 
-*   `nameKey` **([undefined](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined) | [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** The key of the first line of all the
-    stanzas (`undefined` if the stanza has no lines yet).
+- `nameKey`
+  **([undefined](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined)
+  |
+  [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))**
+  The key of the first line of all the stanzas (`undefined` if the stanza has no
+  lines yet).
 
 <!---->
 
-*   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** Throws if an empty stanza is added, if the key in the first
-    key-value pair of each stanze isn't the same, or if two stanzas have the same
-    value for the key-value pair in their first lines.
+- Throws
+  **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)**
+  Throws if an empty stanza is added, if the key in the first key-value pair of
+  each stanze isn't the same, or if two stanzas have the same value for the
+  key-value pair in their first lines.
 
 ### RaStanza
 
-Class representing an ra file stanza. Each stanza line is split into its key
-and value and stored as a Map, so the usual Map methods can be used on the
-stanza.
+Class representing an ra file stanza. Each stanza line is split into its key and
+value and stored as a Map, so the usual Map methods can be used on the stanza.
 
 #### Parameters
 
-*   `stanza` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)**  (optional, default `[]`)
-*   `options` **{checkIndent: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, skipValidation: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}?**&#x20;
+- `stanza`
+  **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)
+  |
+  [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)**
+  (optional, default `[]`)
+- `options` **{checkIndent:
+  [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?,
+  skipValidation:
+  [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}?**&#x20;
 
 ### SingleFileHub
 
-Class representing a "single-file" hub.txt file that contains all the
-sections of a hub in a single file.
+Class representing a "single-file" hub.txt file that contains all the sections
+of a hub in a single file.
 
 #### Parameters
 
-*   `hubText` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**&#x20;
+- `hubText`
+  **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**&#x20;
 
 ### TrackDbFile
 
@@ -125,26 +156,36 @@ Class representing a genomes.txt file.
 
 #### Parameters
 
-*   `trackDbFile` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** A trackDb.txt file as a string (optional, default `[]`)
-*   `options` **any?**&#x20;
+- `trackDbFile`
+  **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)
+  |
+  [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)**
+  A trackDb.txt file as a string (optional, default `[]`)
+- `options` **any?**&#x20;
 
 <!---->
 
-*   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** Throws if "track" is not the first key in each track or if a
-    track is missing required keys
+- Throws
+  **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)**
+  Throws if "track" is not the first key in each track or if a track is missing
+  required keys
 
 #### settings
 
-Gets all track entries including those of parent tracks, with closer
-entries overriding more distant ones
+Gets all track entries including those of parent tracks, with closer entries
+overriding more distant ones
 
 ##### Parameters
 
-*   `trackName` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of a track
+- `trackName`
+  **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+  The name of a track
 
 <!---->
 
-*   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** Throws if track name does not exist in the trackDb
+- Throws
+  **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)**
+  Throws if track name does not exist in the trackDb
 
 ## License
 

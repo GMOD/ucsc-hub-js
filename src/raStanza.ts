@@ -15,14 +15,8 @@ export default class RaStanza {
     options?: { checkIndent?: boolean; skipValidation?: boolean },
   ) {
     const { checkIndent = true, skipValidation = false } = options ?? {}
-    let stanzaLines: string[]
-    if (typeof stanza === 'string') {
-      stanzaLines = stanza.trimEnd().split(/\r?\n/)
-    } else if (stanza) {
-      stanzaLines = stanza
-    } else {
-      stanzaLines = []
-    }
+    const stanzaLines =
+      typeof stanza === 'string' ? stanza.trimEnd().split(/\r?\n/) : stanza
 
     let currentIndent: string | undefined
 
@@ -49,7 +43,7 @@ export default class RaStanza {
         continuedLine = undefined
       }
       if (currentIndent ?? checkIndent) {
-        const indent = combinedLine.match(/^([ \t]+)/)
+        const indent = /^([ \t]+)/.exec(combinedLine)
         if (currentIndent === undefined) {
           if (indent) {
             ;[, currentIndent] = indent

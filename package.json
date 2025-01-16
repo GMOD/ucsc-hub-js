@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "test": "jest --rootDir=./src",
-    "lint": "eslint --report-unused-disable-directives --max-warnings 0 --ext .js,.ts src",
+    "lint": "eslint --report-unused-disable-directives --max-warnings 0",
     "docs": "documentation readme src --section=API",
     "postdocs": "git add README.md",
     "clean": "rimraf dist esm",
@@ -37,19 +37,18 @@
   ],
   "devDependencies": {
     "@types/jest": "^29.2.4",
-    "@types/node": "^20.7.2",
-    "@typescript-eslint/eslint-plugin": "^7.4.0",
-    "@typescript-eslint/parser": "^7.4.0",
+    "@types/node": "^22.10.7",
+    "@typescript-eslint/eslint-plugin": "^8.20.0",
+    "@typescript-eslint/parser": "^8.20.0",
     "documentation": "^14.0.1",
-    "eslint": "^8.30.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^5.0.0",
-    "eslint-plugin-unicorn": "^51.0.1",
+    "eslint": "^9.18.0",
+    "eslint-plugin-unicorn": "^56.0.1",
     "jest": "^29.3.1",
     "prettier": "^3.0.3",
-    "rimraf": "^5.0.5",
+    "rimraf": "^6.0.1",
     "ts-jest": "^29.0.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "typescript-eslint": "^8.20.0"
   },
   "publishConfig": {
     "access": "public"

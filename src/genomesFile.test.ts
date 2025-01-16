@@ -8,16 +8,18 @@ describe('GenomesFile', () => {
     expect(genomesFile).toMatchSnapshot()
   })
 
-  it("throws if the file doesn't start with a genomes entry", () =>
+  it("throws if the file doesn't start with a genomes entry", () => {
     expect(
       () => new GenomesFile('assembly hg19\ntrackDb hg19/trackDb.txt'),
-    ).toThrow(/file must begin with a line like/))
+    ).toThrow(/file must begin with a line like/)
+  })
 
-  it('throws if a genome entry is missing a required field', () =>
+  it('throws if a genome entry is missing a required field', () => {
     expect(
       () =>
         new GenomesFile(
           'genome hg19\ntrackDb hg19/trackDb.txt\n\ngenome hg38\norganism Homo sapiens',
         ),
-    ).toThrow(/is missing required entry:/))
+    ).toThrow(/is missing required entry:/)
+  })
 })

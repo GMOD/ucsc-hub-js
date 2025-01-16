@@ -23,9 +23,9 @@ export default class TrackDbFile extends RaFile {
       )
     }
     for (const [trackName, track] of Object.entries(this.data)) {
-      const trackKeys = Object.keys(track!.data)
+      const trackKeys = Object.keys(track.data)
       validateRequiredFieldsArePresent(
-        track!,
+        track,
         ['track', 'shortLabel'],
         `Track ${trackName}`,
       )
