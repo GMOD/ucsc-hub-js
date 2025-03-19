@@ -38,6 +38,9 @@ export default class RaFile {
       if (stanza === '') {
         throw new Error('Invalid stanza, was empty')
       }
+      if (stanza.startsWith('include')) {
+        continue
+      }
       if (stanza.trim().startsWith('#')) {
         const stanzaLines = stanza
           .trimEnd()
