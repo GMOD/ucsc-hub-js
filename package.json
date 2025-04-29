@@ -4,8 +4,16 @@
   "description": "Read and write UCSC track and assembly hub files in node or the browser",
   "license": "MIT",
   "repository": "github:GMOD/ucsc-hub-js",
-  "main": "dist/index.js",
-  "module": "esm/index.js",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "import": {
+      "import": "./esm/index.js"
+    },
+    "require": {
+      "require": "./dist/index.js"
+    }
+  },
   "author": {
     "name": "Garrett Stevens",
     "email": "stevens.garrett.j@gmail.com",
@@ -23,8 +31,8 @@
     "postdocs": "git add README.md",
     "clean": "rimraf dist esm",
     "prebuild": "yarn docs && npm run clean",
-    "build:esm": "tsc --target es2018 --outDir esm",
-    "build:es5": "tsc --target es2018 --module commonjs --outDir dist",
+    "build:esm": "tsc --target es2020 --outDir esm",
+    "build:es5": "tsc --target es2020 --module commonjs --outDir dist",
     "build": "yarn build:esm && yarn build:es5",
     "preversion": "yarn lint && yarn test --run && yarn build",
     "postversion": "git push --follow-tags"
@@ -37,12 +45,10 @@
   ],
   "devDependencies": {
     "@types/node": "^22.10.7",
-    "@typescript-eslint/eslint-plugin": "^8.20.0",
-    "@typescript-eslint/parser": "^8.20.0",
     "@vitest/coverage-v8": "^3.0.0",
     "documentation": "^14.0.1",
     "eslint": "^9.18.0",
-    "eslint-plugin-unicorn": "^58.0.0",
+    "eslint-plugin-unicorn": "^59.0.0",
     "prettier": "^3.0.3",
     "rimraf": "^6.0.1",
     "typescript": "^5.2.2",
