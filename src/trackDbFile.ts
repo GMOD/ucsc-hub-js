@@ -1,5 +1,5 @@
-import RaFile from './raFile'
-import { validateRequiredFieldsArePresent } from './util'
+import RaFile from './raFile.ts'
+import { validateRequiredFieldsArePresent } from './util.ts'
 
 /**
  * Class representing a genomes.txt file.

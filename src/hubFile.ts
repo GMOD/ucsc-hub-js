@@ -1,5 +1,5 @@
-import RaStanza from './raStanza'
-import { validateRequiredFieldsArePresent } from './util'
+import RaStanza from './raStanza.ts'
+import { validateRequiredFieldsArePresent } from './util.ts'
 
 /**
  * Class representing a hub.txt file.

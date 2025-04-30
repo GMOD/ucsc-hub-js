@@ -1,9 +1,7 @@
-import { RaFile, RaStanza } from './index'
-import { describe, it, expect } from 'vitest'
+import { RaFile, RaStanza } from './index.ts'
+import { test, expect } from 'vitest'
 
-describe('ucsc-hub-js', () => {
-  it('imports modules', () => {
-    expect(RaFile).not.toBeNull()
-    expect(RaStanza).not.toBeNull()
-  })
+test('imports modules', () => {
+  expect(RaFile).not.toBeNull()
+  expect(RaStanza).not.toBeNull()
 })

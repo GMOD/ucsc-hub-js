@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { test, expect } from 'vitest'
-import SingleFileHub from './singleFileHub'
+import SingleFileHub from './singleFileHub.ts'
 
 // test that singleFileHub can parse singleFileAssemblyHub.txt
 test('single-file hub', () => {

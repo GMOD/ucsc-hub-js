@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`HubFile > reads a basic hub.txt file 1`] = `
+exports[`reads a basic hub.txt file 1`] = `
 HubFile {
   "data": {
     "descriptionUrl": "ucscHub.html",

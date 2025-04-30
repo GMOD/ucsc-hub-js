@@ -1,4 +1,4 @@
-import RaStanza from './raStanza'
+import RaStanza from './raStanza.ts'
 import { test, expect } from 'vitest'
 
 test('creates an empty stanza', () => {

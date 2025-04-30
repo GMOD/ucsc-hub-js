@@ -1,4 +1,4 @@
-import RaStanza from './raStanza'
+import RaStanza from './raStanza.ts'
 
 /**
  * Class representing an ra file. Each file is composed of multiple stanzas, and

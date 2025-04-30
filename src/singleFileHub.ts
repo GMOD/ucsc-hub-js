@@ -1,6 +1,6 @@
-import RaStanza from './raStanza'
-import TrackDbFile from './trackDbFile'
-import { validateRequiredFieldsArePresent } from './util'
+import RaStanza from './raStanza.ts'
+import TrackDbFile from './trackDbFile.ts'
+import { validateRequiredFieldsArePresent } from './util.ts'
 
 /**
  * Class representing a "single-file" hub.txt file that contains all the
