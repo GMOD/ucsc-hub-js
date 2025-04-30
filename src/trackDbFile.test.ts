@@ -1,5 +1,7 @@
 import fs from 'fs'
-import { test, expect } from 'vitest'
+
+import { expect, test } from 'vitest'
+
 import TrackDbFile from './trackDbFile.ts'
 
 test('reads a basic trackDb.txt file', () => {

@@ -1,5 +1,7 @@
 import fs from 'fs'
-import { test, expect } from 'vitest'
+
+import { expect, test } from 'vitest'
+
 import RaFile from './raFile.ts'
 
 test('creates an empty ra file', () => {

@@ -1,5 +1,7 @@
 import fs from 'fs'
-import { test, expect } from 'vitest'
+
+import { expect, test } from 'vitest'
+
 import GenomesFile from './genomesFile.ts'
 
 test('reads a basic genomes.txt file', () => {

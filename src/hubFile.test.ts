@@ -1,5 +1,7 @@
 import fs from 'fs'
-import { test, expect } from 'vitest'
+
+import { expect, test } from 'vitest'
+
 import HubFile from './hubFile.ts'
 
 test('reads a basic hub.txt file', () => {
