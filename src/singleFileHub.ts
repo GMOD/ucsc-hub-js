@@ -38,7 +38,7 @@ export default class SingleFileHub {
       'shortLabel',
       'longLabel',
       'email',
-      'descriptionUrl',
+      // 'descriptionUrl',
     ])
   }
 
