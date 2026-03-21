@@ -1,20 +1,15 @@
 {
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "compilerOptions": {
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "outDir": "dist",
     "target": "es2018",
-    "types": [
-      "node"
-    ],
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "types": ["node"],
+    "lib": ["dom", "esnext"],
     "declaration": true,
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
+    "rootDir": "./src",
     "sourceMap": true,
     "strict": true,
     "noImplicitReturns": true,

@@ -11,7 +11,7 @@ import RaStanza from './raStanza.ts'
  * @property {undefined|string} nameKey - The key of the first line of all the
  * stanzas (`undefined` if the stanza has no lines yet).
  * @throws {Error} Throws if an empty stanza is added, if the key in the first
- * key-value pair of each stanze isn't the same, or if two stanzas have the same
+ * key-value pair of each stanza isn't the same, or if two stanzas have the same
  * value for the key-value pair in their first lines.
  * @param {(string|string[])} [raFile=[]] - An ra file, either as a single
  * string or an array of strings with one stanza per entry. Supports both LF

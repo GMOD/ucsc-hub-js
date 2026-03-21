@@ -3,16 +3,15 @@
   "version": "2.0.3",
   "description": "Read and write UCSC track and assembly hub files in node or the browser",
   "license": "MIT",
-  "repository": "github:GMOD/ucsc-hub-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GMOD/ucsc-hub-js.git"
+  },
   "type": "module",
   "types": "./dist/index.d.ts",
   "exports": {
-    "import": {
-      "import": "./esm/index.js"
-    },
-    "require": {
-      "require": "./dist/index.js"
-    }
+    "import": "./esm/index.js",
+    "require": "./dist/index.js"
   },
   "author": {
     "name": "Garrett Stevens",
@@ -32,7 +31,7 @@
     "clean": "rimraf dist esm",
     "prebuild": "yarn docs && npm run clean",
     "build:esm": "tsc --target es2020 --outDir esm",
-    "build:es5": "tsc --target es2020 --module commonjs --outDir dist",
+    "build:es5": "tsc --target es2020 --module commonjs --moduleResolution bundler --outDir dist",
     "postbuild:es5": "echo '{\"type\": \"commonjs\"}' > dist/package.json",
     "build": "yarn build:esm && yarn build:es5",
     "preversion": "yarn lint && yarn test --run && yarn build",
@@ -45,17 +44,18 @@
     "biojs"
   ],
   "devDependencies": {
-    "@types/node": "^22.10.7",
-    "@vitest/coverage-v8": "^3.0.0",
-    "documentation": "^14.0.1",
-    "eslint": "^9.18.0",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-unicorn": "^59.0.0",
-    "prettier": "^3.0.3",
-    "rimraf": "^6.0.1",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.20.0",
-    "vitest": "^3.0.0"
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.6.0",
+    "@vitest/coverage-v8": "^4.1.5",
+    "documentation": "^14.0.3",
+    "eslint": "^10.2.1",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-unicorn": "^64.0.0",
+    "prettier": "^3.8.3",
+    "rimraf": "^6.1.3",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.0",
+    "vitest": "^4.1.5"
   },
   "publishConfig": {
     "access": "public"

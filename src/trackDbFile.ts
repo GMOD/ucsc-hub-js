@@ -2,7 +2,7 @@ import RaFile from './raFile.ts'
 import { validateRequiredFieldsArePresent } from './util.ts'
 
 /**
- * Class representing a genomes.txt file.
+ * Class representing a trackDb.txt file.
  * @extends RaFile
  * @param {(string|string[])} [trackDbFile=[]] - A trackDb.txt file as a string
  * @throws {Error} Throws if "track" is not the first key in each track or if a
@@ -51,20 +51,6 @@ export default class TrackDbFile extends RaFile {
           }
         }
       }
-      let currentTrackName: string | undefined = trackName
-      do {
-        // @ts-expect-error
-        currentTrackName = this.data[currentTrackName]?.parent as
-          | string
-          | undefined
-        if (currentTrackName) {
-          ;[currentTrackName] = currentTrackName.split(' ')
-        }
-      } while (currentTrackName)
-      const currentTrack = this.data[trackName]
-      if (currentTrack) {
-        this.data[trackName] = currentTrack
-      }
     }
   }
 
@@ -79,16 +65,13 @@ export default class TrackDbFile extends RaFile {
       throw new Error(`Track ${trackName} does not exist`)
     }
     const parentTracks = [trackName]
-    let currentTrackName: string | undefined = trackName
-    do {
-      // @ts-expect-error
-      currentTrackName = this.data[currentTrackName]?.parent as
-        | string
-        | undefined
-      if (currentTrackName) {
-        parentTracks.push(currentTrackName)
-      }
-    } while (currentTrackName)
+    let currentTrackName: string = trackName
+    let parent = this.data[currentTrackName]?.data.parent
+    while (parent) {
+      currentTrackName = parent.split(' ')[0] ?? currentTrackName
+      parentTracks.push(currentTrackName)
+      parent = this.data[currentTrackName]?.data.parent
+    }
     const settings = {} as Record<string, unknown>
     parentTracks.reverse()
     for (const parentTrack of parentTracks) {
