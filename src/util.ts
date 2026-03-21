@@ -1,4 +1,4 @@
-import RaStanza from './raStanza.ts'
+import type RaStanza from './raStanza.ts'
 
 // validate that all required fields are present in the map
 export function validateRequiredFieldsArePresent(
