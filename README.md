@@ -71,3 +71,11 @@ Parses a single-file hub (all sections in one file). Exposes `.hubData`,
 ## License
 
 MIT © [Generic Model Organism Database Project](http://gmod.org/wiki/Main_Page)
+
+## Publishing
+
+[Trusted publishing](https://docs.npmjs.com/about-trusted-publishing) via GitHub Actions.
+
+```bash
+npm version patch  # or minor/major
+```
