@@ -26,6 +26,7 @@
   "scripts": {
     "test": "vitest src",
     "lint": "eslint --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write .",
     "docs": "documentation readme src --section=API",
     "postdocs": "git add README.md",
     "clean": "rimraf dist esm",
