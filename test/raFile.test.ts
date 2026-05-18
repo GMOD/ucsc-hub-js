@@ -2,7 +2,7 @@ import fs from 'fs'
 
 import { expect, test } from 'vitest'
 
-import RaFile from './raFile.ts'
+import RaFile from '../src/raFile.ts'
 
 test('creates an empty ra file', () => {
   const raFile = new RaFile()

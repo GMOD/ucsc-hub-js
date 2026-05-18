@@ -2,7 +2,7 @@ import fs from 'fs'
 
 import { expect, test } from 'vitest'
 
-import HubFile from './hubFile.ts'
+import HubFile from '../src/hubFile.ts'
 
 test('reads a basic hub.txt file', () => {
   const input = fs.readFileSync('test/basic.hub.txt', 'utf8')

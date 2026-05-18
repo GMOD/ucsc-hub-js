@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import RaStanza from './raStanza.ts'
+import RaStanza from '../src/raStanza.ts'
 
 test('creates an empty stanza', () => {
   const stanza = new RaStanza()

@@ -2,7 +2,7 @@ import fs from 'fs'
 
 import { expect, test } from 'vitest'
 
-import TrackDbFile from './trackDbFile.ts'
+import TrackDbFile from '../src/trackDbFile.ts'
 
 test('reads a basic trackDb.txt file', () => {
   const input = fs.readFileSync('test/basic.trackDb.txt', 'utf8')

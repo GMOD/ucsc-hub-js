@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { RaFile, RaStanza } from './index.ts'
+import { RaFile, RaStanza } from '../src/index.ts'
 
 test('imports modules', () => {
   expect(RaFile).not.toBeNull()

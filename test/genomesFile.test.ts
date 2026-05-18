@@ -2,7 +2,7 @@ import fs from 'fs'
 
 import { expect, test } from 'vitest'
 
-import GenomesFile from './genomesFile.ts'
+import GenomesFile from '../src/genomesFile.ts'
 
 test('reads a basic genomes.txt file', () => {
   const input = fs.readFileSync('test/basic.genomes.txt', 'utf8')
