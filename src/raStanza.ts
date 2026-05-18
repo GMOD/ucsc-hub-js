@@ -42,22 +42,13 @@ export default class RaStanza {
         combinedLine = continuedLine + combinedLine.trimStart()
         continuedLine = undefined
       }
-      if (currentIndent ?? checkIndent) {
-        const indent = /^([ \t]+)/.exec(combinedLine)
+      if (checkIndent) {
+        const indent = /^([ \t]+)/.exec(combinedLine)?.[1] ?? ''
         if (currentIndent === undefined) {
-          if (indent) {
-            ;[, currentIndent] = indent
-          } else {
-            currentIndent = ''
-          }
-        } else if (
-          (currentIndent === '' && indent !== null) ||
-          (currentIndent && indent && currentIndent !== indent[1])
-        ) {
+          currentIndent = indent
+        } else if (currentIndent !== indent) {
           throw new Error('Inconsistent indentation of stanza')
         }
-      } else {
-        currentIndent = ''
       }
       const trimmedLine = combinedLine.trim()
       const sep = trimmedLine.indexOf(' ')
@@ -76,7 +67,7 @@ export default class RaStanza {
       }
       const key = trimmedLine.slice(0, sep)
       const value = trimmedLine.slice(sep + 1)
-      if (this.data[key] && value !== this.data[key]) {
+      if (key in this.data && this.data[key] !== value) {
         throw new Error(
           'Got duplicate key with a different value in stanza: ' +
             `"${key}" key has both ${this.data[key]} and ${value}`,
@@ -84,7 +75,7 @@ export default class RaStanza {
       }
       if (!this.nameKey) {
         this.nameKey = key
-        this.name = trimmedLine.slice(sep + 1)
+        this.name = value
       }
       this.data[key] = value
     }

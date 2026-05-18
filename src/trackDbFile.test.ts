@@ -57,6 +57,33 @@ test('throws if neither a track nor its parents have a type', () => {
   )
 })
 
+test('inherits type from a parent track', () => {
+  const input =
+    'track parent\ncompositeTrack on\nshortLabel parent\ntype bigBed\n\n' +
+    'track child\nparent parent\nshortLabel child\nbigDataUrl child.bb\n'
+  expect(() => new TrackDbFile(input)).not.toThrow()
+})
+
+test('settings() merges parent entries with child overriding', () => {
+  const input =
+    'track grandparent\nsuperTrack on\nshortLabel gp\nlongLabel from-gp\n\n' +
+    'track parent\nparent grandparent\ncontainer multiWig\n' +
+    'shortLabel p\nlongLabel from-parent\ntype bigWig\n\n' +
+    'track child\nparent parent\nshortLabel c\nbigDataUrl c.bw\n' +
+    'type bigWig 0 100\n'
+  const trackDb = new TrackDbFile(input)
+  expect(trackDb.settings('child')).toEqual({
+    track: 'child',
+    superTrack: 'on',
+    container: 'multiWig',
+    parent: 'parent',
+    shortLabel: 'c',
+    longLabel: 'from-parent',
+    bigDataUrl: 'c.bw',
+    type: 'bigWig 0 100',
+  })
+})
+
 test("throws if trying to get settings for a track that doesn't exist", () => {
   expect(() =>
     new TrackDbFile(fs.readFileSync('test/basic.trackDb.txt', 'utf8')).settings(

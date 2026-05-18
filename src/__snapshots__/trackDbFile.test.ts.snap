@@ -47,17 +47,15 @@ TrackDbFile {
 
 exports[`gets settings 2`] = `
 {
-  "data": {
-    "bigDataUrl": "data/first.bb",
-    "longLabel": "The first track in my subtrack",
-    "parent": "myFolder",
-    "shortLabel": "My first track",
-    "track": "myFirstTrack",
-    "type": "bigBed 3",
-    "visibility": "dense",
-  },
-  "name": "myFirstTrack",
-  "nameKey": "track",
+  "bigDataUrl": "data/first.bb",
+  "group": "regulation",
+  "longLabel": "The first track in my subtrack",
+  "parent": "myFolder",
+  "shortLabel": "My first track",
+  "superTrack": "on show",
+  "track": "myFirstTrack",
+  "type": "bigBed 3",
+  "visibility": "dense",
 }
 `;
 
@@ -1268,17 +1266,22 @@ TrackDbFile {
 
 exports[`parses an extended trackDB.txt file 2`] = `
 {
-  "data": {
-    "bigDataUrl": "PRRSv/26_plus.bigwig",
-    "color": "0,0,255",
-    "longLabel": "PRRSv Control Pig #26 Plus Strand Hippocampal RNA-seq Raw Signal",
-    "parent": "26_RNA-seq",
-    "shortLabel": "PRRSv Control Plus",
-    "track": "26_plus",
-    "type": "bigWig 0 100",
-  },
-  "name": "26_plus",
-  "nameKey": "track",
+  "aggregate": "solidOverlay",
+  "bigDataUrl": "PRRSv/26_plus.bigwig",
+  "color": "0,0,255",
+  "container": "multiWig",
+  "group": "regulation",
+  "html": "PRRSv/26_RNA-seq.html",
+  "longLabel": "PRRSv Control Pig #26 Plus Strand Hippocampal RNA-seq Raw Signal",
+  "parent": "26_RNA-seq",
+  "shortLabel": "PRRSv Control Plus",
+  "showSubtrackColorOnUi": "on",
+  "superTrack": "on",
+  "track": "26_plus",
+  "type": "bigWig 0 100",
+  "viewLimits": "-10:10",
+  "visibility": "full",
+  "windowingFunction": "mean+whiskers",
 }
 `;
 

@@ -23,9 +23,7 @@ export default class SingleFileHub {
     this.genome = new RaStanza(genomeSection)
     this.validateGenomeSection()
 
-    this.tracks = new TrackDbFile(trackSections.join('\n\n'), {
-      skipValidation: false,
-    })
+    this.tracks = new TrackDbFile(trackSections.join('\n\n'))
   }
 
   protected validateHub() {

@@ -69,3 +69,13 @@ test('throws if stanzas have duplicate names', () => {
     () => new RaFile(fs.readFileSync('test/duplicateName.ra', 'utf8')),
   ).toThrow(/duplicate stanza name/)
 })
+
+test('skips include directives but not keys that merely begin with "include"', () => {
+  const raFile = new RaFile(
+    'include other.ra\n\n' +
+      'key1 valueA\nkey2 valueB\n\n' +
+      'key1 valueC\nincludeExtras yes\n',
+  )
+  expect(Object.keys(raFile.data)).toEqual(['valueA', 'valueC'])
+  expect(raFile.data.valueC?.data.includeExtras).toEqual('yes')
+})

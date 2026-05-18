@@ -13,10 +13,9 @@ export function validateRequiredFieldsArePresent(
     }
   }
   if (missingFields.length > 0) {
+    const noun = missingFields.length === 1 ? 'entry' : 'entries'
     throw new Error(
-      `${description} is missing required entr${
-        missingFields.length === 1 ? 'y' : 'ies'
-      }: ${missingFields.join(', ')}`,
+      `${description} is missing required ${noun}: ${missingFields.join(', ')}`,
     )
   }
 }

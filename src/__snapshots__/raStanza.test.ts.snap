@@ -3,6 +3,8 @@
 exports[`creates an empty stanza 1`] = `
 RaStanza {
   "data": {},
+  "name": undefined,
+  "nameKey": undefined,
 }
 `;
 

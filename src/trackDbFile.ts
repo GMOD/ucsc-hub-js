@@ -1,6 +1,13 @@
 import RaFile from './raFile.ts'
 import { validateRequiredFieldsArePresent } from './util.ts'
 
+const PARENT_TRACK_KEYS = new Set([
+  'superTrack',
+  'compositeTrack',
+  'container',
+  'view',
+])
+
 /**
  * Class representing a trackDb.txt file.
  * @extends RaFile
@@ -30,25 +37,19 @@ export default class TrackDbFile extends RaFile {
         `Track ${trackName}`,
       )
 
-      const parentTrackKeys = new Set([
-        'superTrack',
-        'compositeTrack',
-        'container',
-        'view',
-      ])
-      if (!trackKeys.some(key => parentTrackKeys.has(key))) {
+      if (!trackKeys.some(key => PARENT_TRACK_KEYS.has(key))) {
         if (!trackKeys.includes('bigDataUrl')) {
           throw new Error(
             `Track ${trackName} is missing required key "bigDataUrl"`,
           )
         }
-        if (!trackKeys.includes('type')) {
-          const settingsKeys = Object.keys(this.settings(trackName))
-          if (!settingsKeys.includes('type')) {
-            throw new Error(
-              `Neither track ${trackName} nor any of its parent tracks have the required key "type"`,
-            )
-          }
+        if (
+          !trackKeys.includes('type') &&
+          !('type' in this.settings(trackName))
+        ) {
+          throw new Error(
+            `Neither track ${trackName} nor any of its parent tracks have the required key "type"`,
+          )
         }
       }
     }
@@ -72,12 +73,12 @@ export default class TrackDbFile extends RaFile {
       parentTracks.push(currentTrackName)
       parent = this.data[currentTrackName]?.data.parent
     }
-    const settings = {} as Record<string, unknown>
+    const settings: Record<string, string> = {}
     parentTracks.reverse()
     for (const parentTrack of parentTracks) {
       const ret = this.data[parentTrack]
       if (ret) {
-        for (const [key, value] of Object.entries(ret)) {
+        for (const [key, value] of Object.entries(ret.data)) {
           settings[key] = value
         }
       }

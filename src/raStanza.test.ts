@@ -106,6 +106,11 @@ test('throws with duplicate keys and different values', () => {
   expect(() => new RaStanza('key1 value1\nkey1 value1\n')).not.toThrow()
 })
 
+test('treats a repeated bare key as a no-op rather than overwriting', () => {
+  const stanza = new RaStanza('key1 value1\nkey2 value2\nkey2\n')
+  expect(stanza.data.key2).toEqual('value2')
+})
+
 test('throws on encountering blank lines', () => {
   expect(() => new RaStanza('key1 value1\n\nkey2 value2')).toThrow(
     /contained blank lines/,
