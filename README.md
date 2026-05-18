@@ -4,7 +4,7 @@ Read and write UCSC track and assembly hub files in Node or the browser.
 
 [![NPM version](https://img.shields.io/npm/v/@gmod/ucsc-hub.svg?logo=npm&style=flat-square)](https://npmjs.org/package/@gmod/ucsc-hub)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/GMOD/ucsc-hub-js/push.yml?branch=main)](https://github.com/GMOD/ucsc-hub-js/actions?query=branch%3Amain+workflow%3APush+)
-[![Coverage Status](https://img.shields.io/codecov/c/github/GMOD/ucsc-hub-js/master.svg?logo=codecov&style=flat-square)](https://codecov.io/gh/GMOD/ucsc-hub-js/branch/master)
+[![Coverage Status](https://img.shields.io/codecov/c/github/GMOD/ucsc-hub-js/main.svg?logo=codecov&style=flat-square)](https://codecov.io/gh/GMOD/ucsc-hub-js/branch/main)
 
 ## Install
 
@@ -222,5 +222,5 @@ MIT © [Generic Model Organism Database Project](http://gmod.org/wiki/Main_Page)
 Actions.
 
 ```bash
-npm version patch  # or minor/major
+pnpm version patch  # or minor/major
 ```
