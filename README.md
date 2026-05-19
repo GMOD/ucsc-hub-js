@@ -3,7 +3,7 @@
 Read and write UCSC track and assembly hub files in Node or the browser.
 
 [![NPM version](https://img.shields.io/npm/v/@gmod/ucsc-hub.svg?logo=npm&style=flat-square)](https://npmjs.org/package/@gmod/ucsc-hub)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/GMOD/ucsc-hub-js/publish.yml?branch=main)](https://github.com/GMOD/ucsc-hub-js/actions?query=branch%3Amain+workflow%3APush+)
+![Build Status](https://img.shields.io/github/actions/workflow/status/GMOD/ucsc-hub-js/publish.yml?branch=main)
 [![Coverage Status](https://img.shields.io/codecov/c/github/GMOD/ucsc-hub-js/main.svg?logo=codecov&style=flat-square)](https://codecov.io/gh/GMOD/ucsc-hub-js/branch/main)
 
 ## Install
