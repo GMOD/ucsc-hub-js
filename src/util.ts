@@ -1,5 +1,12 @@
 import type RaStanza from './raStanza.ts'
 
+// A prototype-free record, so keys that collide with Object.prototype members
+// ("__proto__", "constructor", "toString", ...) are stored as plain data
+// instead of being silently dropped or reparenting the object.
+export function nullProtoRecord<V>(): Record<string, V> {
+  return Object.create(null)
+}
+
 // validate that all required fields are present in the map
 export function validateRequiredFieldsArePresent(
   map: RaStanza,

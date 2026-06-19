@@ -1,27 +1,27 @@
 import RaStanza from './raStanza.ts'
+import { nullProtoRecord } from './util.ts'
 
 /**
- * Class representing an ra file. Each file is composed of multiple stanzas, and
- * each stanza is separated by one or more blank lines. Each stanza is stored in
- * a Map with the key being the value of the first key-value pair in the stanza.
- * The usual Map methods can be used on the file. An additional method `add()`
- * is available to take a raw line of text and break it up into a key and value
- * and add them to the class. This should be favored over `set()` when possible,
- * as it performs more validity checks than using `set()`.
+ * Class representing an ra file. Each file is composed of multiple stanzas,
+ * separated by one or more blank lines. Each stanza is stored in the `data`
+ * record, keyed by the value of the first key-value pair in the stanza. Lines
+ * that are entirely comments (`#`) and `include` directives are skipped.
  * @property {undefined|string} nameKey - The key of the first line of all the
- * stanzas (`undefined` if the stanza has no lines yet).
+ * stanzas (`undefined` if the file has no stanzas yet).
  * @throws {Error} Throws if an empty stanza is added, if the key in the first
  * key-value pair of each stanza isn't the same, or if two stanzas have the same
  * value for the key-value pair in their first lines.
  * @param {(string|string[])} [raFile=[]] - An ra file, either as a single
  * string or an array of strings with one stanza per entry. Supports both LF
  * and CRLF line terminators.
- * @param {object} options
- * @param {boolean} options.checkIndent [true] - Check if a the stanzas within
+ * @param {object} [options]
+ * @param {boolean} [options.checkIndent=true] - Check that the stanzas within
  * the file are indented consistently and keep track of the indentation
+ * @param {boolean} [options.skipValidation=false] - Skip the subclass
+ * validation step
  */
 export default class RaFile {
-  data: Record<string, RaStanza> = {}
+  data: Record<string, RaStanza> = nullProtoRecord()
 
   nameKey?: string
 
@@ -62,7 +62,7 @@ export default class RaFile {
       if (!raStanza.name) {
         throw new Error(`No stanza name: ${raStanza.name}`)
       }
-      if (this.data[raStanza.name]) {
+      if (Object.hasOwn(this.data, raStanza.name)) {
         throw new Error(`Got duplicate stanza name: ${raStanza.name}`)
       }
 

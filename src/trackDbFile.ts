@@ -62,14 +62,19 @@ export default class TrackDbFile extends RaFile {
    * @throws {Error} Throws if track name does not exist in the trackDb
    */
   settings(trackName: string) {
-    if (!this.data[trackName]) {
+    if (!Object.hasOwn(this.data, trackName)) {
       throw new Error(`Track ${trackName} does not exist`)
     }
     const parentTracks = [trackName]
-    let currentTrackName: string = trackName
+    const seen = new Set([trackName])
+    let currentTrackName = trackName
     let parent = this.data[currentTrackName]?.data.parent
     while (parent) {
       currentTrackName = parent.split(' ')[0] ?? currentTrackName
+      if (seen.has(currentTrackName)) {
+        break
+      }
+      seen.add(currentTrackName)
       parentTracks.push(currentTrackName)
       parent = this.data[currentTrackName]?.data.parent
     }
