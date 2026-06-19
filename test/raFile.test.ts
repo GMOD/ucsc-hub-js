@@ -54,6 +54,14 @@ test('handles indented stanzas', () => {
   expect(raFile.nameKey).toEqual('key1')
 })
 
+test('stores a stanza whose name collides with Object.prototype', () => {
+  const raFile = new RaFile(
+    'key1 __proto__\nkey2 b\n\nkey1 constructor\nkey2 c\n',
+  )
+  expect(Object.keys(raFile.data)).toEqual(['__proto__', 'constructor'])
+  expect(raFile.data.__proto__?.data.key2).toEqual('b')
+})
+
 test('throws on an empty stanza', () => {
   expect(() => new RaFile('')).toThrow(/Invalid stanza, was empty/)
 })

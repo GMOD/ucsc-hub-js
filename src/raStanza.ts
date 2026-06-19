@@ -1,10 +1,12 @@
+import { nullProtoRecord } from './util.ts'
+
 /**
  * Class representing an ra file stanza. Each line is split into its key and
  * value and stored in the `data` record. The key and value of the first line
  * are also exposed as `nameKey` and `name`.
  */
 export default class RaStanza {
-  data: Record<string, string> = {}
+  data: Record<string, string> = nullProtoRecord()
 
   name?: string
 

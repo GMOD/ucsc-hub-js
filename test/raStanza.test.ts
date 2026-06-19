@@ -112,8 +112,17 @@ test('treats a repeated bare key as a no-op rather than overwriting', () => {
 })
 
 test('handles keys that collide with Object.prototype members', () => {
-  const stanza = new RaStanza('key1 value1\ntoString custom\nconstructor ctor\n')
-  expect(stanza.data).toMatchObject({ toString: 'custom', constructor: 'ctor' })
+  const stanza = new RaStanza(
+    'key1 value1\ntoString custom\nconstructor ctor\n__proto__ p\n',
+  )
+  expect(Object.hasOwn(stanza.data, 'toString')).toBe(true)
+  expect(Object.hasOwn(stanza.data, 'constructor')).toBe(true)
+  expect(Object.hasOwn(stanza.data, '__proto__')).toBe(true)
+  expect(stanza.data).toMatchObject({
+    toString: 'custom',
+    constructor: 'ctor',
+    ['__proto__']: 'p',
+  })
 })
 
 test('throws on encountering blank lines', () => {

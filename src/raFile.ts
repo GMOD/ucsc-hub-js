@@ -1,4 +1,5 @@
 import RaStanza from './raStanza.ts'
+import { nullProtoRecord } from './util.ts'
 
 /**
  * Class representing an ra file. Each file is composed of multiple stanzas,
@@ -20,7 +21,7 @@ import RaStanza from './raStanza.ts'
  * validation step
  */
 export default class RaFile {
-  data: Record<string, RaStanza> = {}
+  data: Record<string, RaStanza> = nullProtoRecord()
 
   nameKey?: string
 
