@@ -1,7 +1,7 @@
 /**
- * Class representing an ra file stanza. Each stanza line is split into its key
- * and value and stored as a Map, so the usual Map methods can be used on the
- * stanza.
+ * Class representing an ra file stanza. Each line is split into its key and
+ * value and stored in the `data` record. The key and value of the first line
+ * are also exposed as `nameKey` and `name`.
  */
 export default class RaStanza {
   data: Record<string, string> = {}
@@ -59,7 +59,7 @@ export default class RaStanza {
           )
         }
         // Adding a key that already exists and has no value is a no-op
-        if (this.data[trimmedLine]) {
+        if (Object.hasOwn(this.data, trimmedLine)) {
           continue
         }
         this.data[trimmedLine] = ''
@@ -67,7 +67,7 @@ export default class RaStanza {
       }
       const key = trimmedLine.slice(0, sep)
       const value = trimmedLine.slice(sep + 1)
-      if (key in this.data && this.data[key] !== value) {
+      if (Object.hasOwn(this.data, key) && this.data[key] !== value) {
         throw new Error(
           'Got duplicate key with a different value in stanza: ' +
             `"${key}" key has both ${this.data[key]} and ${value}`,

@@ -111,6 +111,11 @@ test('treats a repeated bare key as a no-op rather than overwriting', () => {
   expect(stanza.data.key2).toEqual('value2')
 })
 
+test('handles keys that collide with Object.prototype members', () => {
+  const stanza = new RaStanza('key1 value1\ntoString custom\nconstructor ctor\n')
+  expect(stanza.data).toMatchObject({ toString: 'custom', constructor: 'ctor' })
+})
+
 test('throws on encountering blank lines', () => {
   expect(() => new RaStanza('key1 value1\n\nkey2 value2')).toThrow(
     /contained blank lines/,

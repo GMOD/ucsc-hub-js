@@ -84,6 +84,14 @@ test('settings() merges parent entries with child overriding', () => {
   })
 })
 
+test('settings() terminates on a cyclic parent chain', () => {
+  const input =
+    'track a\nsuperTrack on\nshortLabel a\ntype bigBed\nparent b\n\n' +
+    'track b\nsuperTrack on\nshortLabel b\ntype bigBed\nparent a\n'
+  const trackDb = new TrackDbFile(input)
+  expect(trackDb.settings('a')).toMatchObject({ track: 'a' })
+})
+
 test("throws if trying to get settings for a track that doesn't exist", () => {
   expect(() =>
     new TrackDbFile(fs.readFileSync('test/basic.trackDb.txt', 'utf8')).settings(
