@@ -1,6 +1,6 @@
 import RaStanza from './raStanza.ts'
 import TrackDbFile from './trackDbFile.ts'
-import { validateRequiredFieldsArePresent } from './util.ts'
+import { splitStanzas, validateRequiredFieldsArePresent } from './util.ts'
 
 /**
  * Class representing a "single-file" hub.txt file that contains all the
@@ -14,9 +14,7 @@ export default class SingleFileHub {
   public hubData: RaStanza
 
   constructor(hubText: string) {
-    const [hubSection, genomeSection, ...trackSections] = hubText
-      .trimEnd()
-      .split(/(?:[\t ]*\r?\n){2,}/)
+    const [hubSection, genomeSection, ...trackSections] = splitStanzas(hubText)
     this.hubData = new RaStanza(hubSection)
     this.validateHub()
 

@@ -1,4 +1,4 @@
-import { nullProtoRecord } from './util.ts'
+import { isComment, nullProtoRecord, splitLines } from './util.ts'
 
 /**
  * Class representing an ra file stanza. Each line is split into its key and
@@ -18,7 +18,7 @@ export default class RaStanza {
   ) {
     const { checkIndent = true, skipValidation = false } = options ?? {}
     const stanzaLines =
-      typeof stanza === 'string' ? stanza.trimEnd().split(/\r?\n/) : stanza
+      typeof stanza === 'string' ? splitLines(stanza) : stanza
 
     let currentIndent: string | undefined
 
@@ -27,7 +27,7 @@ export default class RaStanza {
       if (line === '') {
         throw new Error('Invalid stanza, contained blank lines')
       }
-      if (line.trim().startsWith('#')) {
+      if (isComment(line)) {
         continue
       }
       if (line.trimEnd().endsWith('\\')) {

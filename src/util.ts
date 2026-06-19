@@ -7,6 +7,21 @@ export function nullProtoRecord<V>(): Record<string, V> {
   return Object.create(null)
 }
 
+// Split a file into stanzas on runs of one or more blank lines (trailing
+// whitespace on the blank lines is tolerated). Handles both LF and CRLF.
+export function splitStanzas(text: string) {
+  return text.trimEnd().split(/(?:[\t ]*\r?\n){2,}/)
+}
+
+// Split a stanza into its lines, handling both LF and CRLF.
+export function splitLines(stanza: string) {
+  return stanza.trimEnd().split(/\r?\n/)
+}
+
+export function isComment(line: string) {
+  return line.trim().startsWith('#')
+}
+
 // validate that all required fields are present in the map
 export function validateRequiredFieldsArePresent(
   map: RaStanza,

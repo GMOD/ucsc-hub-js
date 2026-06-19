@@ -1,5 +1,5 @@
 import RaStanza from './raStanza.ts'
-import { nullProtoRecord } from './util.ts'
+import { isComment, nullProtoRecord, splitLines, splitStanzas } from './util.ts'
 
 /**
  * Class representing an ra file. Each file is composed of multiple stanzas,
@@ -31,9 +31,7 @@ export default class RaFile {
   ) {
     const { checkIndent = true, skipValidation = false } = options ?? {}
     const stanzas =
-      typeof raFile === 'string'
-        ? raFile.trimEnd().split(/(?:[\t ]*\r?\n){2,}/)
-        : raFile
+      typeof raFile === 'string' ? splitStanzas(raFile) : raFile
     for (const stanza of stanzas) {
       if (stanza === '') {
         throw new Error('Invalid stanza, was empty')
@@ -41,14 +39,8 @@ export default class RaFile {
       if (/^include\s/.test(stanza)) {
         continue
       }
-      if (stanza.trim().startsWith('#')) {
-        const stanzaLines = stanza
-          .trimEnd()
-          .split(/\r?\n/)
-          .map(line => line.trim())
-        if (stanzaLines.every(line => line.startsWith('#'))) {
-          continue
-        }
+      if (isComment(stanza) && splitLines(stanza).every(isComment)) {
+        continue
       }
       const raStanza = new RaStanza(stanza, { checkIndent })
       if (!this.nameKey) {

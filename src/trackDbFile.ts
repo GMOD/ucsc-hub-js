@@ -1,6 +1,8 @@
 import RaFile from './raFile.ts'
 import { validateRequiredFieldsArePresent } from './util.ts'
 
+import type RaStanza from './raStanza.ts'
+
 const PARENT_TRACK_KEYS = new Set([
   'superTrack',
   'compositeTrack',
@@ -65,28 +67,23 @@ export default class TrackDbFile extends RaFile {
     if (!Object.hasOwn(this.data, trackName)) {
       throw new Error(`Track ${trackName} does not exist`)
     }
-    const parentTracks = [trackName]
-    const seen = new Set([trackName])
-    let currentTrackName = trackName
-    let parent = this.data[currentTrackName]?.data.parent
-    while (parent) {
-      currentTrackName = parent.split(' ')[0] ?? currentTrackName
-      if (seen.has(currentTrackName)) {
-        break
+    const chain: RaStanza[] = []
+    const seen = new Set<string>()
+    let name: string | undefined = trackName
+    while (name && !seen.has(name)) {
+      seen.add(name)
+      const stanza: RaStanza | undefined = this.data[name]
+      if (stanza) {
+        chain.push(stanza)
+        name = stanza.data.parent?.split(' ')[0]
+      } else {
+        name = undefined
       }
-      seen.add(currentTrackName)
-      parentTracks.push(currentTrackName)
-      parent = this.data[currentTrackName]?.data.parent
     }
+    // Merge root-first so closer (child) entries override more distant ones
     const settings: Record<string, string> = {}
-    parentTracks.reverse()
-    for (const parentTrack of parentTracks) {
-      const ret = this.data[parentTrack]
-      if (ret) {
-        for (const [key, value] of Object.entries(ret.data)) {
-          settings[key] = value
-        }
-      }
+    for (const stanza of chain.reverse()) {
+      Object.assign(settings, stanza.data)
     }
     return settings
   }
