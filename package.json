@@ -1,6 +1,7 @@
 {
   "name": "@gmod/ucsc-hub",
   "version": "2.0.11",
+  "packageManager": "pnpm@11.15.1",
   "description": "Read and write UCSC track and assembly hub files in node or the browser",
   "license": "MIT",
   "repository": {
@@ -8,6 +9,7 @@
     "url": "https://github.com/GMOD/ucsc-hub-js.git"
   },
   "type": "module",
+  "sideEffects": false,
   "main": "dist/index.js",
   "exports": {
     "import": "./esm/index.js",
