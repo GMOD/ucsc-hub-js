@@ -1,5 +1,5 @@
 import RaStanza from './raStanza.ts'
-import { isComment, nullProtoRecord, splitLines, splitStanzas } from './util.ts'
+import { dataLines, nullProtoRecord, splitStanzas } from './util.ts'
 
 /**
  * Class representing an ra file. Each file is composed of multiple stanzas,
@@ -30,35 +30,32 @@ export default class RaFile {
     options?: { checkIndent?: boolean; skipValidation?: boolean },
   ) {
     const { checkIndent = true, skipValidation = false } = options ?? {}
-    const stanzas =
-      typeof raFile === 'string' ? splitStanzas(raFile) : raFile
+    const stanzas = typeof raFile === 'string' ? splitStanzas(raFile) : raFile
     for (const stanza of stanzas) {
       if (stanza === '') {
         throw new Error('Invalid stanza, was empty')
       }
-      if (/^include\s/.test(stanza)) {
-        continue
-      }
-      if (isComment(stanza) && splitLines(stanza).every(isComment)) {
-        continue
-      }
-      const raStanza = new RaStanza(stanza, { checkIndent })
-      if (!this.nameKey) {
-        this.nameKey = raStanza.nameKey
-      } else if (raStanza.nameKey !== this.nameKey) {
-        throw new Error(
-          'The first line in each stanza must have the same key. ' +
-            `Saw both ${this.nameKey} and ${raStanza.nameKey}`,
-        )
-      }
-      if (!raStanza.name) {
-        throw new Error(`No stanza name: ${raStanza.name}`)
-      }
-      if (Object.hasOwn(this.data, raStanza.name)) {
-        throw new Error(`Got duplicate stanza name: ${raStanza.name}`)
-      }
+      // stanzas of nothing but comments and/or include directives hold no data
+      const lines = dataLines(stanza)
+      if (lines.length > 0) {
+        const raStanza = new RaStanza(lines, { checkIndent })
+        if (this.nameKey === undefined) {
+          this.nameKey = raStanza.nameKey
+        } else if (raStanza.nameKey !== this.nameKey) {
+          throw new Error(
+            'The first line in each stanza must have the same key. ' +
+              `Saw both ${this.nameKey} and ${raStanza.nameKey}`,
+          )
+        }
+        if (raStanza.name === undefined) {
+          throw new Error(`No stanza name: ${lines[0]}`)
+        }
+        if (Object.hasOwn(this.data, raStanza.name)) {
+          throw new Error(`Got duplicate stanza name: ${raStanza.name}`)
+        }
 
-      this.data[raStanza.name] = raStanza
+        this.data[raStanza.name] = raStanza
+      }
     }
 
     if (!skipValidation) {

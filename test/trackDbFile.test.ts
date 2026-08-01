@@ -99,3 +99,11 @@ test("throws if trying to get settings for a track that doesn't exist", () => {
     ),
   ).toThrow(/Track nonexistent does not exist/)
 })
+
+test('settings() keeps entries that collide with Object.prototype', () => {
+  const input =
+    'track a\nsuperTrack on\nshortLabel a\n__proto__ polluted\ntoString custom\n'
+  const settings = new TrackDbFile(input).settings('a')
+  expect(Object.hasOwn(settings, '__proto__')).toBe(true)
+  expect(settings).toMatchObject({ toString: 'custom' })
+})

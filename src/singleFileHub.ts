@@ -1,6 +1,10 @@
 import RaStanza from './raStanza.ts'
 import TrackDbFile from './trackDbFile.ts'
-import { splitStanzas, validateRequiredFieldsArePresent } from './util.ts'
+import {
+  dataLines,
+  splitStanzas,
+  validateRequiredFieldsArePresent,
+} from './util.ts'
 
 /**
  * Class representing a "single-file" hub.txt file that contains all the
@@ -14,14 +18,18 @@ export default class SingleFileHub {
   public hubData: RaStanza
 
   constructor(hubText: string) {
-    const [hubSection, genomeSection, ...trackSections] = splitStanzas(hubText)
+    // sections of nothing but comments carry no data and would otherwise be
+    // mistaken for the hub or genome section
+    const [hubSection, genomeSection, ...trackSections] = splitStanzas(
+      hubText,
+    ).filter(section => dataLines(section).length > 0)
     this.hubData = new RaStanza(hubSection)
     this.validateHub()
 
     this.genome = new RaStanza(genomeSection)
     this.validateGenomeSection()
 
-    this.tracks = new TrackDbFile(trackSections.join('\n\n'))
+    this.tracks = new TrackDbFile(trackSections)
   }
 
   protected validateHub() {
@@ -29,13 +37,17 @@ export default class SingleFileHub {
       throw new Error('Hub file must begin with a line like "hub <hub_name>"')
     }
 
-    validateRequiredFieldsArePresent(this.hubData, [
-      'hub',
-      'shortLabel',
-      'longLabel',
-      'email',
-      // 'descriptionUrl', mpxvRivers has a typo
-    ])
+    validateRequiredFieldsArePresent(
+      this.hubData,
+      [
+        'hub',
+        'shortLabel',
+        'longLabel',
+        'email',
+        // 'descriptionUrl', mpxvRivers has a typo
+      ],
+      'Hub file',
+    )
   }
 
   protected validateGenomeSection() {

@@ -1,5 +1,5 @@
 import RaFile from './raFile.ts'
-import { validateRequiredFieldsArePresent } from './util.ts'
+import { nullProtoRecord, validateRequiredFieldsArePresent } from './util.ts'
 
 import type RaStanza from './raStanza.ts'
 
@@ -10,6 +10,11 @@ const PARENT_TRACK_KEYS = new Set([
   'view',
 ])
 
+// a track's container name, dropping the trailing `on`/`off` visibility flag
+function parentName(stanza: RaStanza) {
+  return stanza.data.parent?.split(' ')[0]
+}
+
 /**
  * Class representing a trackDb.txt file.
  * @extends RaFile
@@ -19,14 +24,15 @@ const PARENT_TRACK_KEYS = new Set([
  */
 export default class TrackDbFile extends RaFile {
   constructor(
-    trackDbFile: string,
+    trackDbFile: string | string[],
     options?: ConstructorParameters<typeof RaFile>[1],
   ) {
     super(trackDbFile, { ...options, checkIndent: false })
   }
 
   protected validate() {
-    if (this.nameKey !== 'track') {
+    // an undefined nameKey means the file has no tracks at all, which is valid
+    if (this.nameKey !== undefined && this.nameKey !== 'track') {
       throw new Error(
         `trackDb has "${this.nameKey}" instead of "track" as the first line in each track`,
       )
@@ -75,13 +81,13 @@ export default class TrackDbFile extends RaFile {
       const stanza: RaStanza | undefined = this.data[name]
       if (stanza) {
         chain.push(stanza)
-        name = stanza.data.parent?.split(' ')[0]
+        name = parentName(stanza)
       } else {
         name = undefined
       }
     }
     // Merge root-first so closer (child) entries override more distant ones
-    const settings: Record<string, string> = {}
+    const settings = nullProtoRecord<string>()
     for (const stanza of chain.reverse()) {
       Object.assign(settings, stanza.data)
     }

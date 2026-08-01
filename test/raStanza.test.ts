@@ -148,3 +148,17 @@ test('throws on inconsistent indentation', () => {
       }),
   ).not.toThrow()
 })
+
+test('keeps a line left unterminated by a trailing backslash', () => {
+  const stanza = new RaStanza('key1 value1\nkey2 a value that continues \\\n')
+  expect(stanza.data.key2).toEqual('a value that continues')
+})
+
+test('splits keys from values on tabs and on runs of spaces', () => {
+  const stanza = new RaStanza('key1\tvalue1\nkey2   value2\n', {
+    checkIndent: false,
+  })
+  expect(stanza.nameKey).toEqual('key1')
+  expect(stanza.name).toEqual('value1')
+  expect(stanza.data.key2).toEqual('value2')
+})

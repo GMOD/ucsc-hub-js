@@ -8,9 +8,13 @@ export function nullProtoRecord<V>(): Record<string, V> {
 }
 
 // Split a file into stanzas on runs of one or more blank lines (trailing
-// whitespace on the blank lines is tolerated). Handles both LF and CRLF.
+// whitespace on the blank lines is tolerated). Leading and trailing blank
+// lines are dropped. Handles both LF and CRLF.
 export function splitStanzas(text: string) {
-  return text.trimEnd().split(/(?:[\t ]*\r?\n){2,}/)
+  return text
+    .replace(/^(?:[\t ]*\r?\n)+/, '')
+    .trimEnd()
+    .split(/(?:[\t ]*\r?\n){2,}/)
 }
 
 // Split a stanza into its lines, handling both LF and CRLF.
@@ -22,18 +26,25 @@ export function isComment(line: string) {
   return line.trim().startsWith('#')
 }
 
-// validate that all required fields are present in the map
+// An `include` directive points at another file, which this parser does not
+// fetch. Note "includeSomething value" is a normal key, not a directive.
+function isInclude(line: string) {
+  return /^[\t ]*include\s/.test(line)
+}
+
+// The lines of a stanza that carry data: comments and include directives don't
+export function dataLines(stanza: string | string[]) {
+  const lines = typeof stanza === 'string' ? splitLines(stanza) : stanza
+  return lines.filter(line => !isComment(line) && !isInclude(line))
+}
+
+// validate that all required fields are present in the stanza
 export function validateRequiredFieldsArePresent(
-  map: RaStanza,
+  stanza: RaStanza,
   requiredFields: string[],
   description = '',
 ) {
-  const missingFields: string[] = []
-  for (const field of requiredFields) {
-    if (!map.data[field]) {
-      missingFields.push(field)
-    }
-  }
+  const missingFields = requiredFields.filter(field => !stanza.data[field])
   if (missingFields.length > 0) {
     const noun = missingFields.length === 1 ? 'entry' : 'entries'
     throw new Error(

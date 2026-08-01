@@ -87,3 +87,14 @@ test('skips include directives but not keys that merely begin with "include"', (
   expect(Object.keys(raFile.data)).toEqual(['valueA', 'valueC'])
   expect(raFile.data.valueC?.data.includeExtras).toEqual('yes')
 })
+
+test('ignores blank lines at the start and end of a file', () => {
+  const raFile = new RaFile('\n\nkey1 valueA\nkey2 valueB\n\n\n')
+  expect(Object.keys(raFile.data)).toEqual(['valueA'])
+})
+
+test('skips include directives sharing a stanza with data lines', () => {
+  const raFile = new RaFile('include other.ra\nkey1 valueA\nkey2 valueB\n')
+  expect(Object.keys(raFile.data)).toEqual(['valueA'])
+  expect(raFile.data.valueA?.data.key2).toEqual('valueB')
+})
