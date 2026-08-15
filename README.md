@@ -44,8 +44,8 @@ Every class parses in its constructor and throws on invalid input, so a
 successfully constructed object is a valid one. This library reads hub files; it
 does not write them.
 
-Text may be passed as a single string or as an array of strings with one stanza
-(for a file) or one line (for a stanza) per entry.
+Pass text as a single string, or as an array of strings holding one stanza (for
+a file) or one line (for a stanza) per entry.
 
 ### `RaStanza`
 
@@ -88,15 +88,15 @@ A hub.txt file. Requires `hub`, `shortLabel`, `longLabel`, `genomesFile`, and
 ### `GenomesFile` extends `RaFile`
 
 A genomes.txt file. Every stanza must key on `genome`, and requires `genome` and
-`trackDb`. Pass a different list to `validate()` to change what is required.
+`trackDb`. Pass a different list to `validate()` to require other keys.
 
 ### `TrackDbFile` extends `RaFile`
 
 A trackDb.txt file. Every stanza must key on `track` and requires `track` and
 `shortLabel`. A track that is not a container (`superTrack`, `compositeTrack`,
 `container`, or `view`) also requires `bigDataUrl`, plus a `type` of its own or
-inherited from a parent. Indentation is not checked, since subtracks are
-conventionally indented under their parent.
+one inherited from a parent. This class skips the indentation check, since
+subtracks conventionally sit indented under their parent.
 
 - **`settings(trackName)`** — the track's entries merged with those of its
   parents, closer entries winning. Throws if the track does not exist.
@@ -118,17 +118,18 @@ new SingleFileHub(hubText)
 
 ### Parsing notes
 
-- `include` directives are recognized but **not** followed — this library does
-  no I/O, so it never fetches the included file. (`includeSomething value` is an
-  ordinary key, not a directive.)
+- The parser recognizes `include` directives but does **not** follow them — this
+  library does no I/O, so it never fetches the included file.
+  (`includeSomething value` is an ordinary key, not a directive.)
 - Lines beginning with `#` are comments. A stanza of nothing but comments and
-  `include` directives holds no data and is dropped.
-- A line ending in `\` continues onto the next one, and the two are joined.
+  `include` directives holds no data, and the parser drops it.
+- A line ending in `\` continues onto the next one, and the parser joins the
+  two.
 - Both LF and CRLF line endings work.
-- A key and its value are separated by any run of whitespace, tabs included.
-- Repeating a key is allowed if the value matches; a conflicting value throws.
+- Any run of whitespace separates a key from its value, tabs included.
+- Repeating a key is fine if the value matches; a conflicting value throws.
 - `data` objects have a null prototype, so keys like `constructor` and
-  `toString` are stored as ordinary data rather than colliding with
+  `toString` land as ordinary data rather than colliding with
   `Object.prototype`.
 
 ## License
