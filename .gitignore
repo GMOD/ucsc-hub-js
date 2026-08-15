@@ -65,3 +65,5 @@ typings/
 .next
 *.swp
 esm
+.claude/settings.local.json
+.claude/worktrees/
