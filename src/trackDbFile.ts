@@ -16,11 +16,8 @@ function parentName(stanza: RaStanza) {
 }
 
 /**
- * Class representing a trackDb.txt file.
- * @extends RaFile
- * @param {(string|string[])} [trackDbFile=[]] - A trackDb.txt file as a string
- * @throws {Error} Throws if "track" is not the first key in each track or if a
- * track is missing required keys
+ * Class representing a trackDb.txt file. Throws unless every stanza keys on
+ * "track" and carries the required entries.
  */
 export default class TrackDbFile extends RaFile {
   constructor(
@@ -65,9 +62,7 @@ export default class TrackDbFile extends RaFile {
 
   /**
    * Gets all track entries including those of parent tracks, with closer
-   * entries overriding more distant ones
-   * @param {string} trackName The name of a track
-   * @throws {Error} Throws if track name does not exist in the trackDb
+   * entries overriding more distant ones. Throws if the track does not exist.
    */
   settings(trackName: string) {
     if (!Object.hasOwn(this.data, trackName)) {

@@ -2,11 +2,8 @@ import RaFile from './raFile.ts'
 import { validateRequiredFieldsArePresent } from './util.ts'
 
 /**
- * Class representing a genomes.txt file.
- * @extends RaFile
- * @param {(string|string[])} [genomesFile=[]] - A genomes.txt file as a string
- * @throws {Error} Throws if the first line of the genomes.txt file doesn't start
- * with "genome <genome_name>" or if it has invalid entries
+ * Class representing a genomes.txt file. Throws unless every stanza keys on
+ * "genome" and carries the required entries.
  */
 export default class GenomesFile extends RaFile {
   public validate(requiredFields = ['genome', 'trackDb']) {

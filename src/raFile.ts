@@ -6,19 +6,10 @@ import { dataLines, nullProtoRecord, splitStanzas } from './util.ts'
  * separated by one or more blank lines. Each stanza is stored in the `data`
  * record, keyed by the value of the first key-value pair in the stanza. Lines
  * that are entirely comments (`#`) and `include` directives are skipped.
- * @property {undefined|string} nameKey - The key of the first line of all the
- * stanzas (`undefined` if the file has no stanzas yet).
- * @throws {Error} Throws if an empty stanza is added, if the key in the first
- * key-value pair of each stanza isn't the same, or if two stanzas have the same
- * value for the key-value pair in their first lines.
- * @param {(string|string[])} [raFile=[]] - An ra file, either as a single
- * string or an array of strings with one stanza per entry. Supports both LF
- * and CRLF line terminators.
- * @param {object} [options]
- * @param {boolean} [options.checkIndent=true] - Check that the stanzas within
- * the file are indented consistently and keep track of the indentation
- * @param {boolean} [options.skipValidation=false] - Skip the subclass
- * validation step
+ *
+ * Accepts a single string or an array of strings with one stanza per entry,
+ * with either LF or CRLF line terminators. Throws if a stanza is empty, if the
+ * stanzas disagree on their first-line key, or if two stanzas share a name.
  */
 export default class RaFile {
   data: Record<string, RaStanza> = nullProtoRecord()
