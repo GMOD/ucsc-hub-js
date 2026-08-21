@@ -134,12 +134,14 @@ new SingleFileHub(hubText)
 
 ## See also
 
-A hub only names its data files. Read the ones it points at with
-[@gmod/bbi](https://github.com/GMOD/bbi-js),
+A hub file only names its data files; something else has to read them. Depending
+on the format that is [@gmod/bbi](https://github.com/GMOD/bbi-js),
 [@gmod/bam](https://github.com/GMOD/bam-js) or
-[@gmod/tabix](https://github.com/GMOD/tabix-js) — over a
-[`@gmod/range-cache-filehandle`](https://github.com/GMOD/range-cache-filehandle)
-filehandle when they are remote, which is the usual case for a hub.
+[@gmod/tabix](https://github.com/GMOD/tabix-js). A hub's files are almost always
+remote, so it is worth having whichever one you use read through a filehandle
+from
+[`@gmod/range-cache-filehandle`](https://github.com/GMOD/range-cache-filehandle),
+which caches the byte ranges it fetches.
 
 ## License
 
