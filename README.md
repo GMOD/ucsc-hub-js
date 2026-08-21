@@ -132,6 +132,15 @@ new SingleFileHub(hubText)
   `toString` land as ordinary data rather than colliding with
   `Object.prototype`.
 
+## See also
+
+A hub only names its data files. Read the ones it points at with
+[@gmod/bbi](https://github.com/GMOD/bbi-js),
+[@gmod/bam](https://github.com/GMOD/bam-js) or
+[@gmod/tabix](https://github.com/GMOD/tabix-js) — over a
+[`@gmod/range-cache-filehandle`](https://github.com/GMOD/range-cache-filehandle)
+filehandle when they are remote, which is the usual case for a hub.
+
 ## License
 
 MIT © [Generic Model Organism Database Project](http://gmod.org/wiki/Main_Page)
