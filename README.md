@@ -129,7 +129,7 @@ new SingleFileHub(hubText)
 - Any run of whitespace separates a key from its value, tabs included.
 - Repeating a key is fine if the value matches; a conflicting value throws.
 - `data` objects have a null prototype, so keys like `constructor` and
-  `toString` land as ordinary data rather than colliding with
+  `toString` are stored as ordinary data rather than colliding with
   `Object.prototype`.
 
 ## See also
