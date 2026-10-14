@@ -49,8 +49,8 @@ a file) or one line (for a stanza) per entry.
 
 ### `RaStanza`
 
-One stanza — a run of `key value` lines. The base class for hub.txt files, and
-for each stanza of an ra file.
+`RaStanza` parses one stanza, which is a run of `key value` lines. `HubFile`
+extends it, and `RaFile` holds one per stanza.
 
 ```js
 new RaStanza(text, { checkIndent = true, skipValidation = false })
@@ -67,7 +67,8 @@ new RaStanza(text, { checkIndent = true, skipValidation = false })
 
 ### `RaFile`
 
-A whole ra file: stanzas separated by one or more blank lines.
+`RaFile` parses a whole ra file, whose stanzas are separated by one or more
+blank lines.
 
 ```js
 new RaFile(text, { checkIndent = true, skipValidation = false })
@@ -82,29 +83,32 @@ Throws if the stanzas disagree on their first-line key, or if two share a name.
 
 ### `HubFile` extends `RaStanza`
 
-A hub.txt file. Requires `hub`, `shortLabel`, `longLabel`, `genomesFile`, and
-`email`.
+`HubFile` parses a hub.txt file and requires `hub`, `shortLabel`, `longLabel`,
+`genomesFile`, and `email`.
 
 ### `GenomesFile` extends `RaFile`
 
-A genomes.txt file. Every stanza must key on `genome`, and requires `genome` and
-`trackDb`. Pass a different list to `validate()` to require other keys.
+`GenomesFile` parses a genomes.txt file. Every stanza must key on `genome` and
+requires `genome` and `trackDb`. Pass a different list to `validate()` to
+require other keys.
 
 ### `TrackDbFile` extends `RaFile`
 
-A trackDb.txt file. Every stanza must key on `track` and requires `track` and
-`shortLabel`. A track that is not a container (`superTrack`, `compositeTrack`,
-`container`, or `view`) also requires `bigDataUrl`, plus a `type` of its own or
-one inherited from a parent. This class skips the indentation check, since
-subtracks conventionally sit indented under their parent.
+`TrackDbFile` parses a trackDb.txt file. Every stanza must key on `track` and
+requires `track` and `shortLabel`. A track that is not a container
+(`superTrack`, `compositeTrack`, `container`, or `view`) also requires
+`bigDataUrl`, plus a `type` set on the track itself or inherited from a parent.
+`TrackDbFile` skips the indentation check, since subtracks are conventionally
+indented under their parent.
 
-- **`settings(trackName)`** — the track's entries merged with those of its
-  parents, closer entries winning. Throws if the track does not exist.
+- **`settings(trackName)`** — returns the track's entries merged with those of
+  its parents, where a closer entry overrides a more distant one. Throws if the
+  track does not exist.
 
 ### `SingleFileHub`
 
-A hub.txt holding every section of a hub in one file. The first section is the
-hub, the second the genome, and the rest are tracks.
+`SingleFileHub` parses a hub.txt that holds every section of a hub in one file.
+The first section is the hub, the second the genome, and the rest are tracks.
 
 ```js
 new SingleFileHub(hubText)
@@ -118,11 +122,11 @@ new SingleFileHub(hubText)
 
 ### Parsing notes
 
-- The parser recognizes `include` directives but does **not** follow them — this
-  library does no I/O, so it never fetches the included file.
+- The parser recognizes `include` directives but does not follow them, because
+  this library does no I/O and so never fetches the included file.
   (`includeSomething value` is an ordinary key, not a directive.)
-- Lines beginning with `#` are comments. A stanza of nothing but comments and
-  `include` directives holds no data, and the parser drops it.
+- Lines beginning with `#` are comments. The parser drops a stanza that contains
+  only comments and `include` directives.
 - A line ending in `\` continues onto the next one, and the parser joins the
   two.
 - Both LF and CRLF line endings work.
@@ -134,12 +138,12 @@ new SingleFileHub(hubText)
 
 ## See also
 
-A hub file only names its data files; something else has to read them. Depending
-on the format that is [@gmod/bbi](https://github.com/GMOD/bbi-js),
+A hub file lists its data files, and a separate parser reads each one:
+[@gmod/bbi](https://github.com/GMOD/bbi-js),
 [@gmod/bam](https://github.com/GMOD/bam-js) or
-[@gmod/tabix](https://github.com/GMOD/tabix-js). A hub's files are almost always
-remote, so it is worth having whichever one you use read through a filehandle
-from
+[@gmod/tabix](https://github.com/GMOD/tabix-js), depending on the format. A
+hub's files are almost always remote, so it is worth having whichever one you
+use read through a filehandle from
 [`@gmod/range-cache-filehandle`](https://github.com/GMOD/range-cache-filehandle),
 which caches the byte ranges it fetches.
 
