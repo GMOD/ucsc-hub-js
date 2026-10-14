@@ -125,8 +125,8 @@ new SingleFileHub(hubText)
 - The parser recognizes `include` directives but does not follow them, because
   this library does no I/O and so never fetches the included file.
   (`includeSomething value` is an ordinary key, not a directive.)
-- Lines beginning with `#` are comments. The parser drops a stanza that contains
-  only comments and `include` directives.
+- Lines beginning with `#` are comments. A stanza of nothing but comments and
+  `include` directives holds no data, and the parser drops it.
 - A line ending in `\` continues onto the next one, and the parser joins the
   two.
 - Both LF and CRLF line endings work.
