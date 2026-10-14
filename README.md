@@ -122,9 +122,8 @@ new SingleFileHub(hubText)
 
 ### Parsing notes
 
-- The parser recognizes `include` directives but does not follow them, because
-  this library does no I/O and so never fetches the included file.
-  (`includeSomething value` is an ordinary key, not a directive.)
+- The parser recognizes `include` directives but does not follow them, since the
+  library does no I/O.
 - Lines beginning with `#` are comments. A stanza of nothing but comments and
   `include` directives holds no data, and the parser drops it.
 - A line ending in `\` continues onto the next one, and the parser joins the
@@ -132,20 +131,15 @@ new SingleFileHub(hubText)
 - Both LF and CRLF line endings work.
 - Any run of whitespace separates a key from its value, tabs included.
 - Repeating a key is fine if the value matches; a conflicting value throws.
-- `data` objects have a null prototype, so keys like `constructor` and
-  `toString` are stored as ordinary data rather than colliding with
-  `Object.prototype`.
+- `data` objects have a null prototype, so a key like `constructor` is ordinary
+  data.
 
 ## See also
 
 A hub file lists its data files, and a separate parser reads each one:
 [@gmod/bbi](https://github.com/GMOD/bbi-js),
 [@gmod/bam](https://github.com/GMOD/bam-js) or
-[@gmod/tabix](https://github.com/GMOD/tabix-js), depending on the format. A
-hub's files are almost always remote, so it is worth having whichever one you
-use read through a filehandle from
-[`@gmod/range-cache-filehandle`](https://github.com/GMOD/range-cache-filehandle),
-which caches the byte ranges it fetches.
+[@gmod/tabix](https://github.com/GMOD/tabix-js), depending on the format.
 
 ## License
 
