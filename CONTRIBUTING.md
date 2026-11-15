@@ -15,8 +15,8 @@ version tag which triggers the publish workflow.
 ## Publishing
 
 GitHub Actions publishes each release to npm with trusted publishing (OIDC, no
-stored token). The workflow requires `--provenance` and `id-token: write`
-permissions.
+stored token). The publish job needs `id-token: write`; trusted publishing
+attaches provenance without a `--provenance` flag.
 
 ucsc-hub-js is already configured for trusted publishing. To set up a new
 package, run `npm trust github <pkg> --file publish.yml --repo GMOD/<repo>`
