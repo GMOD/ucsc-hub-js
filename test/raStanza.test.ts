@@ -99,7 +99,15 @@ test('handles continued lines', () => {
   expect(stanza.nameKey).toEqual('key1')
 })
 
-test('throws with duplicate keys and different values', () => {
+test('a repeated key takes its later value', () => {
+  const stanza = new RaStanza(
+    'track liftOver\nshortLabel hg38 loChain\nshortLabel UCSC hg38 liftOver\n',
+  )
+  expect(stanza.data.shortLabel).toEqual('UCSC hg38 liftOver')
+  expect(stanza.name).toEqual('liftOver')
+})
+
+test('throws when the key naming the stanza repeats with a different value', () => {
   expect(() => new RaStanza('key1 value1\nkey1 value2\n')).toThrow(
     /duplicate key with a different value/,
   )

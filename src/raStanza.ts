@@ -77,7 +77,10 @@ export default class RaStanza {
     } else {
       const key = trimmedLine.slice(0, sep)
       const value = trimmedLine.slice(sep + 1).trimStart()
-      if (Object.hasOwn(this.data, key) && this.data[key] !== value) {
+      // a repeated setting takes its later value, as UCSC loads hubs that
+      // repeat one (T2T-CHM13's GenArk liftOver stanza sets shortLabel twice);
+      // the key naming the stanza still may not change
+      if (key === this.nameKey && this.data[key] !== value) {
         throw new Error(
           'Got duplicate key with a different value in stanza: ' +
             `"${key}" key has both ${this.data[key]} and ${value}`,
