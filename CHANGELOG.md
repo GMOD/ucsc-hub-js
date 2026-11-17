@@ -1,3 +1,33 @@
+## [2.1.0](https://github.com/GMOD/ucsc-hub-js/compare/v2.0.13...v2.1.0) (2026-11-17)
+
+### Chores
+
+- Render only the commit subject, and link the commit ([1aa099d](https://github.com/GMOD/ucsc-hub-js/commit/1aa099dc359e810996e815c1082261c614018df4))
+- Create a GitHub release for each published tag ([7905e57](https://github.com/GMOD/ucsc-hub-js/commit/7905e575d9599f3b38991bad905535b12e90ff05))
+- Enforce type strippability in tsconfig ([c767ceb](https://github.com/GMOD/ucsc-hub-js/commit/c767ceb7e02300a9603012f93de1eeef3df222d0))
+- Keep agent worktrees out of the toolchain's way ([9c0a5a8](https://github.com/GMOD/ucsc-hub-js/commit/9c0a5a8ae6ebf02f0091e2000d4b56e41f1ea518))
+- Drop persisted checkout credentials and the publish job's cache ([36d5ea9](https://github.com/GMOD/ucsc-hub-js/commit/36d5ea9193f04ab6e1c01fde6eb93adfad367291))
+
+### Documentation
+
+- Rewrite the API section by hand and drop documentation.js ([9c48388](https://github.com/GMOD/ucsc-hub-js/commit/9c483882b660b53199bf1b919c12dd72f74e837c))
+- Correct the release command and what it runs ([86c9f4f](https://github.com/GMOD/ucsc-hub-js/commit/86c9f4ff382013ad5c0b301e881f05d9c710c2bd))
+- Put the README in the active voice ([7c756e6](https://github.com/GMOD/ucsc-hub-js/commit/7c756e683bc34d5fe4e80080e3be443c28fa7695))
+- Correct the release command in CONTRIBUTING, and its voice ([7d80ce9](https://github.com/GMOD/ucsc-hub-js/commit/7d80ce936e3c3a4020c88c533d18e4ea1e80b0b2))
+- Describe the release gate CONTRIBUTING actually runs ([d3bd851](https://github.com/GMOD/ucsc-hub-js/commit/d3bd8516c8021a87e9c6be70dfcb6d4e454a4581))
+- Point remote readers at @gmod/range-cache-filehandle ([b5959cc](https://github.com/GMOD/ucsc-hub-js/commit/b5959cc9cdd5cac78763f8ab971e9148fce4598c))
+- Say it in full sentences ([e9afe81](https://github.com/GMOD/ucsc-hub-js/commit/e9afe81f9bbf185bd0c447dbc3bb51d541121e92))
+- Literal verbs for data (lands, says, tells, live on) ([2a1b102](https://github.com/GMOD/ucsc-hub-js/commit/2a1b1023e2dab25b37bd434f1039dc618a7067da))
+- Trusted publishing adds provenance without a --provenance flag ([fa7a462](https://github.com/GMOD/ucsc-hub-js/commit/fa7a462a4e183b8584fc1c23b54b37de0831a3eb))
+
+### Other Changes
+
+- Rewrite AI-writing tropes in README and CONTRIBUTING ([75c691b](https://github.com/GMOD/ucsc-hub-js/commit/75c691b4472ba2a86041e5b742aa63c04a8f1b74))
+- Restore wording the tropes rewrite changed without a trope ([9c6e52f](https://github.com/GMOD/ucsc-hub-js/commit/9c6e52fbfe6db7d909e51674b7632f00a1edde35))
+- Trim README parsing notes and see-also ([6094330](https://github.com/GMOD/ucsc-hub-js/commit/6094330caed8d2e3961ced7becd4f89fdff5f67e))
+- Bump deps, drop unused dev deps and stale ignores ([1408c73](https://github.com/GMOD/ucsc-hub-js/commit/1408c735c0ea69d13c12f8792fb37e178c19e867))
+- A repeated stanza key takes its later value instead of throwing ([fdf050d](https://github.com/GMOD/ucsc-hub-js/commit/fdf050d9bd93610e231b220f9ab010f2ace61bc1))
+
 ## [2.0.13](https://github.com/GMOD/ucsc-hub-js/compare/v2.0.12...v2.0.13) (2026-08-10)
 
 ### Bug Fixes
